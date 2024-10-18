@@ -1,0 +1,11 @@
+{% set multiple = true %}
+{% extends HCoreFormSelectLayout %}
+
+{% block options %}
+  {% set value = value is iterable ? value : [] %}
+  {% set options = definition.options is defined ? definition.options : (configOptions is defined ? configOptions : []) %}
+  {% for option in options %}
+    <option value="{{ option.value }}" {%if option.value in value%}selected{%endif%}>{{ option.key }}</option>
+  {% endfor %}
+{% endblock %}
+

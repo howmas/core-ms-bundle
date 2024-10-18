@@ -1,0 +1,59 @@
+{% set isGallery = isGallery is defined ? isGallery : false %}
+
+{% set isImage = value is instanceof('\\Pimcore\\Model\\Asset\\Image') %}
+{% set imageId = isImage ? value.id : '' %}
+{% set defaultImage = HCoreAssets ~ '/svg/illustrations/browse.svg' %}
+{% set image = isImage ? value.fullPath : defaultImage %}
+
+{% set labelId = isGallery ? labelId ~ galleryIndex : labelId %}
+
+<div class="card card-sm" style="max-width: 300px;">
+  {% if not noteditable %}
+    <input type="hidden" class="{{ isGallery ? hcoreImageGalleryCls : hcoreImageCls }}" id="{{ labelId }}" name="{{ isGallery ? name ~ '[]' : name }}" value="{{ imageId }}">
+  {% endif %}
+
+  {# <div class="card-header text-center">
+    {% if not noteditable %}
+      <button class="btn btn-sm btn-white {{ hCoreAssetOpenModal }}" data-input="{{ labelId }}">
+        {{ placeholder }}
+      </button>
+    {% endif %}
+
+    {{ include('/asset/component/setting.html.twig'|hcore_fullpath, {item: value}) }}
+  </div> #}
+
+  {% if noteditable %}
+    <img class="card-img-top" src="{{ image }}">
+  {% else %}
+    <img class="card-img-top {{ hCoreAssetOpenModal }}" src="{{ image }}" data-id="{{ imageId }}" data-input="{{ labelId }}" data-toggle="tooltip" data-placement="bottom" title="Chọn từ thư viện" data-asset-options='{
+      "type": "image",
+      "assetId": "{{ imageId }}"
+    }'>
+  {% endif %}
+
+  {% if not noteditable %}
+  <div class="card-body {{ isGallery ? 'gallery-action' : 'image-action' }}">
+    <div class="row text-center">
+      <div class="col">
+        <a class="text-danger delete-button" href="javascript:;" title="Xóa" data-value="" data-src="{{ defaultImage }}">
+          <i class="tio-delete-outlined"></i>
+        </a>
+      </div>
+
+      <div class="col column-divider">
+        <a class="text-body undo-button" href="javascript:;" title="Hoàn tác" data-value="{{ imageId }}" data-src="{{ image }}">
+          <i class="tio-undo"></i>
+        </a>
+      </div>
+
+      {% if isGallery %}
+        <div class="col column-divider">
+          <a class="text-primary move-button" href="javascript:;" title="Di chuyển">
+            <i class="tio-move-page"></i>
+          </a>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+  {% endif %}
+</div>

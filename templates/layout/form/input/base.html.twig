@@ -1,0 +1,3 @@
+{% set hcoreCls = class is defined ? class : hcoreInputCls %}
+
+<input type="text" {%if noteditable%}disabled{%else%}name="{{ name }}" placeholder="{{ placeholder }}"{%endif%} id="{{ labelId }}" class="form-control {{ hcoreCls }}" value="{{ value }}">

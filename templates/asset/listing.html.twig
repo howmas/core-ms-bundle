@@ -1,0 +1,172 @@
+{% extends HCoreLayout %}
+
+{% block header %}
+<div class="row align-items-end">
+  <div class="col-sm mb-2 mb-sm-0 font-weight-bold">
+    {{ include('/asset/breadcrumb.html.twig'|hcore_fullpath) }}
+  </div>
+
+  <div class="col-sm-auto">
+  </div>
+</div>
+{% endblock %}
+
+{% block content %}
+  {{ include('/asset/library.html.twig'|hcore_fullpath) }}
+
+  {# modal #}
+  <div class="modal fade" id="assetCreateNewFolder" tabindex="-1" role="dialog" aria-labelledby="assetCreateNewFolderTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 id="assetCreateNewFolderTitle" class="modal-title">Nhập tên thư mục</h4>
+          <button type="button" class="btn btn-icon btn-sm btn-ghost-secondary" data-dismiss="modal" aria-label="Close">
+            <i class="tio-clear tio-lg"></i>
+          </button>
+        </div>
+
+        <div class="modal-body">
+          {# <input type="text" class="js-masked-input form-control" placeholder="Tên thư mục"
+            data-hs-mask-options='{
+              "template": "0#",
+              "translation": {
+                "#": {"pattern": "[A-Za-z0-9-_.]"}
+              },
+              "reverse": "true"
+            }'> #}
+
+          <input type="text" class="form-control" placeholder="Tên thư mục" id="create-new-folder-input">
+        </div>
+
+        <div class="modal-footer justify-content-start">
+          <div class="row align-items-sm-center flex-grow-1 mx-n1">
+            <div class="col-sm mb-2 mb-sm-0">
+              <p class="modal-footer-text">Đường dẫn video Youtube là gì? <i class="tio-help-outlined" data-toggle="tooltip" data-placement="top" data-html="true" title="Là đường dẫn có dạng <b class='text-danger'>https://www.youtube.com/watch?v=kdyoENBduMM</b>, có thể sao chép trực tiếp từ trình duyệt khi đang xem video"></i></p>
+            </div>
+
+            <div class="col-sm-auto text-sm-right">
+              <button type="button" class="btn btn-white mr-2" data-dismiss="modal" aria-label="Close">Hủy</button>
+              <button disabled type="button" class="btn btn-primary" id="create-new-folder">Tạo</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="assetCreateFromFile" tabindex="-1" role="dialog" aria-labelledby="assetCreateFromFileLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title" id="assetCreateFromFileLabel">Chọn tệp từ thiết bị</h4>
+          <button type="button" class="btn btn-icon btn-sm btn-ghost-secondary" data-dismiss="modal" aria-label="Close">
+            <i class="tio-clear tio-lg" aria-hidden="true"></i>
+          </button>
+        </div>
+
+        <div class="modal-body">
+          <form>
+            <label class="custom-file-boxed" for="create-new-from-file-input">
+              <span class="text-primary" id="create-new-from-file-preview"></span>
+              <small class="d-block text-muted">Có thể chọn nhiều tệp cùng lúc</small>
+              <input type="file" class="custom-file-boxed-input" id="create-new-from-file-input" name="files" multiple>
+            </label>
+          </form>
+        </div>
+
+        <div class="modal-footer justify-content-start">
+          <div class="row align-items-sm-center flex-grow-1 mx-n1">
+            <div class="col-sm mb-2 mb-sm-0">
+              <p class="modal-footer-text">Đường dẫn video Youtube là gì? <i class="tio-help-outlined" data-toggle="tooltip" data-placement="top" data-html="true" title="Là đường dẫn có dạng <b class='text-danger'>https://www.youtube.com/watch?v=kdyoENBduMM</b>, có thể sao chép trực tiếp từ trình duyệt khi đang xem video"></i></p>
+            </div>
+
+            <div class="col-sm-auto text-sm-right">
+              <button type="button" class="btn btn-white mr-2" data-dismiss="modal" aria-label="Close">Hủy</button>
+              <button disabled type="button" class="btn btn-primary" id="create-new-from-file">Tạo</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="assetCreateFromUrl" tabindex="-1" role="dialog" aria-labelledby="assetCreateFromUrlTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 id="assetCreateFromUrlTitle" class="modal-title">Nhập đường dẫn tệp</h4>
+          <button type="button" class="btn btn-icon btn-sm btn-ghost-secondary" data-dismiss="modal" aria-label="Close">
+            <i class="tio-clear tio-lg"></i>
+          </button>
+        </div>
+
+        <div class="modal-body">
+          {# <input type="text" class="js-masked-input form-control" placeholder="Tên thư mục"
+            data-hs-mask-options='{
+              "template": "0#",
+              "translation": {
+                "#": {"pattern": "[A-Za-z0-9-_.]"}
+              },
+              "reverse": "true"
+            }'> #}
+
+          <input type="text" class="form-control" placeholder="Đường dẫn" id="create-new-from-url-input">
+        </div>
+
+        <div class="modal-footer justify-content-start">
+          <div class="row align-items-sm-center flex-grow-1 mx-n1">
+            <div class="col-sm mb-2 mb-sm-0">
+              <p class="modal-footer-text">Đường dẫn video Youtube là gì? <i class="tio-help-outlined" data-toggle="tooltip" data-placement="top" data-html="true" title="Là đường dẫn có dạng <b class='text-danger'>https://www.youtube.com/watch?v=kdyoENBduMM</b>, có thể sao chép trực tiếp từ trình duyệt khi đang xem video"></i></p>
+            </div>
+
+            <div class="col-sm-auto text-sm-right">
+              <button type="button" class="btn btn-white mr-2" data-dismiss="modal" aria-label="Close">Hủy</button>
+              <button disabled type="button" class="btn btn-primary" id="create-new-from-url">Tạo</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="position-fixed bottom-0 content-centered-x w-100 z-index-99 mb-3" style="max-width: 40rem;">
+    <div class="card card-sm bg-dark border-dark mx-2">
+      <div class="card-body">
+        <div class="row justify-content-center justify-content-sm-between">
+          <div class="col">
+            <button id="reloadButton" type="button" class="btn btn-ghost-success">Tải lại</button>
+          </div>
+          <div class="col-auto">
+            {# <button type="button" class="btn btn-ghost-primary mr-2">Ẩn</button>
+            <button id="" class="btn btn-success">Lưu</button> #}
+
+            <div class="hs-unfold">
+              <a class="js-hs-unfold-invoker btn btn-primary dropdown-toggle" href="javascript:;"
+                data-hs-unfold-options='{
+                  "target": "#uploadGroupDropdown",
+                  "type": "css-animation",
+                  "event": "hover"
+              }'>
+                <i class="tio-upload-on-cloud mr-1"></i>Tải lên
+              </a>
+              <div id="uploadGroupDropdown" class="hs-unfold-content dropdown-unfold dropdown-menu dropdown-menu-right" data-parent="{{ parent.id }}" data-url="{{ hcore_layout_path('asset-create') }}" >
+                <a class="dropdown-item" href="javascript:;" data-toggle="modal" data-target="#assetCreateNewFolder">
+                  <i class="tio-folder-add dropdown-item-icon mr-1"></i>Thư mục mới
+                </a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="javascript:;" data-toggle="modal" data-target="#assetCreateFromFile">
+                  <i class="tio-file-add dropdown-item-icon mr-1"></i>Tải tệp từ thiết bị
+                </a>
+                <a class="dropdown-item" href="javascript:;" data-toggle="modal" data-target="#assetCreateFromUrl">
+                  <i class="tio-link dropdown-item-icon mr-1"></i>Tải tệp từ đường dẫn
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {% do pimcore_head_script().appendFile(asset('/js/asset-listing.js'|hcore_asset), 'text/javascript') %}
+{% endblock %}

@@ -1,0 +1,43 @@
+{% set item = item is defined ? item : null %}
+
+{% if item %}
+  <div class="col mb-2 mb-lg-3" id="cardAsset{{ item.id }}">
+    {% set name = item.key %}
+    {% set id = item.id %}
+    {% set fileKey = 'assetFile' ~ id %}
+    {% set showSetting = showSetting is defined ? showSetting : false %}
+    {% set checked = selectedAsset.id is defined and id == selectedAsset.id %}
+
+    {% if showSetting %}
+    <div class="card card-sm card-hover-shadow card-header-borderless h-100 text-center">
+    {% else %}
+    <div class="js-custom-checkbox-card card card-sm card-hover-shadow card-header-borderless h-100 text-center custom-checkbox-card custom-checkbox-card-lg {{ checked ? 'checked' : '' }}">
+    {% endif %}
+      <div class="card-header {{ showSetting ? '' : 'd-block text-center' }}">
+      {% if not showSetting %}
+        <input type="radio" id="checkboxCardFile{{ id }}" name="assetFile" class="js-custom-checkbox-card-input custom-checkbox-card-input" data-id="{{ fileKey }}" {%if checked%}checked{%endif%}>
+        <label class="custom-checkbox-card-label custom-checkbox-card-label-stretched" for="checkboxCardFile{{ id }}"></label>
+      {% endif %}
+
+        <small>{{ item.getFileSize(true) }}</small>
+
+        {% if showSetting %}
+          {{ include('/asset/component/setting.html.twig'|hcore_fullpath) }}
+        {% endif %}
+      </div>
+
+      <div class="card-body">
+        <img id="{{ fileKey }}" data-id={{ id }} data-type="{{ item|hcore_asset_type }}" data-src="{{ item.fullpath }}" class="avatar avatar-xl avatar-4by3" src="{{ item|hcore_asset_preview }}" alt="{{ name }}" title="{{ name }}">
+
+        {% if showSetting %}
+          <a class="stretched-link" href="#"></a>
+        {% endif %}
+      </div>
+
+      <div class="card-body">
+        <h5 class="card-title">{{ name }}</h5>
+        <p class="small">{{ item.creationDate | date('Y/m/d H:i') }}</p>
+      </div>
+    </div>
+  </div>
+{% endif %}

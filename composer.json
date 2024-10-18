@@ -1,0 +1,25 @@
+{
+  "name":"howmas/core-ms-bundle",
+  "description":"",
+  "keywords":[
+    "howmas", "CoreMS", "CMS", "Admin"
+  ],
+  "homepage":"https://github.com/howmas/core-ms-bundle",
+  "license":"MIT",
+  "authors":[
+    {
+      "name":"HowMAS",
+      "email":"contact.howmas@gmail.com",
+      "role":"Developer"
+    }
+  ],
+  "require": {
+  },
+  "suggest":{
+  },
+  "autoload": {
+    "psr-4": {
+      "HowMAS\\CoreMSBundle\\": "src/"
+    }
+  }
+}

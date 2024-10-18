@@ -1,0 +1,84 @@
+{% extends HCoreFormLayout %}
+
+{% block content %}
+  {% set allowedTypes = definition.allowedTypes %}
+  {% set allowedType = allowedTypes is not empty ? allowedTypes[0] : null %}
+
+  {% if allowedType %}
+    {% set namePrefix = definition.name %}
+    {% set fieldLayout = hcore_form_fieldcollection(definition) %}
+    {% set fieldValue = attribute(item, name) is defined ? attribute(item, name) : null %}
+    {% set fieldItems = fieldValue ? fieldValue.items : [] %}
+
+    {# insert d-none item for add button #}
+    {% set fieldItems = fieldItems|merge([hcore_form_fieldcollection_init(allowedType)]) %}
+
+    {% if fieldLayout is not empty and fieldItems is not empty  %}
+      <div id="{{ labelId }}" class="js-sortable sortablejs-custom {{ hcoreFieldCollectionCls }}" data-name="{{ namePrefix }}" data-type="{{ allowedType }}"
+        data-hs-sortable-options='{
+          "animation": 150,
+          "ghostClass": "sortablejs-custom-chosen-child",
+          "handle": ".move-button"
+        }'>
+        {% for fieldKey, fieldItem in fieldItems %}
+          {% set collapseKey = namePrefix ~ (loop.last ? '' : loop.index) %}
+          <div class="{{ loop.last ? 'd-none' : 'field-collection-items' }}">
+            <div class="card">
+              <a class="card-header card-btn btn-block bg-primary justify-content-center" data-toggle="collapse" href="#collapse{{ collapseKey }}" aria-expanded="true" aria-controls="collapse{{ collapseKey }}">
+                <span class="card-btn-toggle text-white">
+                  <span class="card-btn-toggle-default">
+                    <i class="tio-down-ui tio-lg" title="Mở rộng"></i>
+                  </span>
+                  <span class="card-btn-toggle-active">
+                    <i class="tio-up-ui tio-lg" title="Thu gọn"></i>
+                  </span>
+                </span>
+              </a>
+
+              <div id="collapse{{ collapseKey }}" class="collapse multi-collapse show">
+                <div class="card-body row">
+                  <div class="col-md-11">
+                    {% for fieldLayoutItem in fieldLayout %}
+                      {{ include('/layout/form/render.html.twig'|hcore_fullpath, {
+                        item: fieldItem,
+                        definition: fieldLayoutItem,
+                        placeholder: null,
+                        namePrefix: namePrefix,
+                        isFC: true,
+                        fcItemKey: fieldKey
+                      }) }}
+                    {% endfor %}
+                  </div>
+                  <div class="col-md-1 column-divider">
+                    <a class="remove-button mt-3 avatar avatar-sm avatar-centered avatar-circle avatar-border-dashed border-danger" href="javascript:;" title="Xóa">
+                      <span class="avatar-initials text-danger">
+                        <i class="tio-delete-outlined"></i>
+                      </span>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="mt-2 mb-3">
+              <span class="divider">
+                <a class="move-button avatar avatar-sm avatar-centered avatar-circle avatar-border-dashed border-primary" href="javascript:;" title="Di chuyển">
+                  <span class="avatar-initials text-primary">
+                    <i class="tio-move-page"></i>
+                  </span>
+                </a>
+              </span>
+            </div>
+          </div>
+        {% endfor %}
+
+        <span class="divider">
+          <a class="add-button avatar avatar-centered avatar-circle avatar-border-dashed border-success" href="javascript:;" title="Thêm" data-collapse="{{ namePrefix }}">
+            <span class="avatar-initials text-success">
+              <i class="tio-add font-weight-bold"></i>
+            </span>
+          </a>
+        </span>
+      </div>
+    {% endif %}
+  {% endif %}
+{% endblock %}

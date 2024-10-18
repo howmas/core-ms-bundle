@@ -1,0 +1,9 @@
+{% extends HCoreFormLayout %}
+
+{% block content %}
+  <input type="text" {%if noteditable%}disabled{%else%}name="{{ name }}"{%endif%} id="{{ labelId }}" class="js-masked-input form-control {{ hcoreNumberCls }}" placeholder="{{ placeholder }}" value="{{ value }}"
+  data-hs-mask-options='{
+    "template": "#,##0",
+    "reverse": "true"
+  }'>
+{% endblock %}

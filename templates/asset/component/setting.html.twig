@@ -1,0 +1,44 @@
+{% set isFolder = isFolder is defined ? isFolder : false %}
+
+<div class="hs-unfold ml-auto">
+  <a class="js-hs-unfold-invoker btn btn-icon btn-sm btn-ghost-secondary card-unfold rounded-circle" href="javascript:;"
+     data-hs-unfold-options='{
+       "target": "#asset{{ item.id }}",
+       "type": "css-animation"
+     }'>
+    <i class="tio-more-vertical"></i>
+    {# <i class="tio-settings"></i> #}
+  </a>
+
+  <div id="asset{{ item.id }}" class="hs-unfold-content dropdown-unfold dropdown-menu dropdown-menu-right" style="min-width: 13rem;" data-url="{{ hcore_layout_path('asset-detail', {id:item.id}) }}">
+    {# <span class="dropdown-header">Cài đặt</span> #}
+
+    {% if not isFolder %}
+    <input id="assetCopyLink{{ item.id }}" class="form-control d-none" value="{{ domain ~ item.fullpath }}">
+    <a class="dropdown-item js-clipboard" href="javascript:;" data-hs-clipboard-options='{
+      "contentTarget": "#assetCopyLink{{ item.id }}",
+      "classChangeTarget": "#assetCopyIcon{{ item.id }}",
+      "defaultClass": "tio-copy",
+      "successClass": "tio-done"
+    }'>
+      <i id="assetCopyIcon{{ item.id }}" class="tio-copy dropdown-item-icon mr-1"></i>Sao chép đường dẫn
+    </a>
+    {% endif %}
+
+    <a class="dropdown-item" href="#">
+      <i class="tio-folder-add dropdown-item-icon mr-1"></i>Chuyển tới
+    </a>
+    <a class="dropdown-item" href="#">
+      <i class="tio-edit dropdown-item-icon mr-1"></i>Đổi tên
+    </a>
+    <a class="dropdown-item" href="{{ item.fullpath }}" download="">
+      <i class="tio-download-to dropdown-item-icon mr-1"></i>Tải xuống
+    </a>
+
+    <div class="dropdown-divider"></div>
+
+    <a class="dropdown-item text-danger asset-listing-delete" href="javascript:;">
+      <i class="tio-delete-outlined dropdown-item-icon text-danger mr-1"></i>Xóa
+    </a>
+  </div>
+</div>

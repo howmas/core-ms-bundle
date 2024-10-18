@@ -1,0 +1,7 @@
+{% extends HCoreFormLayout %}
+
+{% block content %}
+  {% set value = value is empty ? '' : value[0].slug %}
+
+  <input type="text" {%if noteditable%}disabled{%else%}name="{{ name }}" placeholder="{{ placeholder }}"{%endif%} id="{{ labelId }}" class="form-control" value="{{ value }}">
+{% endblock %}

@@ -1,0 +1,5 @@
+{% extends HCoreFormLayout %}
+
+{% block content %}
+  <textarea {%if noteditable%}disabled style="resize: none;"{%else%}name="{{ name }}" placeholder="{{ placeholder }}"{%endif%} id="{{ labelId }}" class="form-control {{ hcoreTextareaCls }}" >{{ value|raw }}</textarea>
+{% endblock %}

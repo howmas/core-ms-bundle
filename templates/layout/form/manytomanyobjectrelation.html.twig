@@ -1,0 +1,27 @@
+{% set multiple = true %}
+{% set class = hcoreRelationsCls %}
+{% extends HCoreFormSelectLayout %}
+
+{% block options %}
+  {% set value = value is iterable ? value|map(e => e.id) : [] %}
+  
+  {% set classes = [] %}
+  {% if definition is defined %}
+    {% set classes = definition.classes %}
+    {% set classes = definition.classes is defined and definition.classes is iterable ? classes|map(e => e.classes) : [] %}
+  {% elseif config is defined %}
+    {% set classes = config.params.classes is defined ? config.params.classes : [] %}
+  {% endif %}
+
+  {% set optionClasses = hcore_form_relation_option_class(classes) %}
+  {% for optionClass in optionClasses %}
+    {% set label = optionClass.class.title %}
+    {% set options = optionClass.data %}
+
+    <optgroup label="{{ label }}">
+      {% for option in options %}
+        <option value="{{ option.id }}" {%if option.id in value%}selected{%endif%}>{{ option.key }}</option>
+      {% endfor %}
+    </optgroup>
+  {% endfor %}
+{% endblock %}

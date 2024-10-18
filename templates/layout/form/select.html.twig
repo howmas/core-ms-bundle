@@ -1,0 +1,9 @@
+{% extends HCoreFormSelectLayout %}
+
+{% block options %}
+  <option value=""></option>
+  {% set options = definition.options is defined ? definition.options : (configOptions is defined ? configOptions : []) %}
+  {% for option in options %}
+    <option value="{{ option.value }}" {%if option.value == value%}selected{%endif%}>{{ option.key }}</option>
+  {% endfor %}
+{% endblock %}

@@ -1,0 +1,17 @@
+<div class="modal-header border-bottom">
+  <h5 class="modal-title">
+    {{ include('/asset/breadcrumb.html.twig'|hcore_fullpath) }}
+  </h5>
+  <button type="button" class="btn btn-xs btn-icon btn-ghost-secondary" data-dismiss="modal" aria-label="Close">
+    <i class="tio-clear tio-lg"></i>
+  </button>
+</div>
+<div class="modal-body" id="assetLibraryModalBody" style="padding-top: 1rem !important; padding-bottom: 1rem !important;">
+  {{ include('/asset/library.html.twig'|hcore_fullpath) }}
+</div>
+
+{% if fileCount > 0 %}
+  <div class="modal-footer">
+    <button type="button" class="btn btn-primary asset-modal-select-button">Chọn</button>
+  </div>
+{% endif %}

@@ -1,0 +1,25 @@
+{% extends HCoreFormLayout %}
+
+{% block content %}
+  {% set multiple = multiple is defined ? multiple : false %}
+  {% set class = class is defined ? class : (multiple ? hcoreMultiSelectCls : hcoreSelectCls) %}
+
+  {% set select2Options = multiple
+    ? {
+        "language": "vi",
+        "minimumResultsForSearch": "Infinity",
+        "placeholder": placeholder,
+        "searchInputPlaceholder": placeholder
+      }
+    : {
+        "language": "vi",
+        "allowClear": "true",
+        "placeholder": placeholder
+      }
+  %}
+
+  <select class="js-select2-custom custom-select {{ class }}" {%if multiple%}multiple{%endif%} id="{{ labelId }}" {%if noteditable%}disabled{%else%}name="{{ name }}"{%endif%} size="1" style="opacity: 0;"
+    data-hs-select2-options='{{ select2Options|json_encode }}'>
+      {{ block('options') }}
+  </select>
+{% endblock %}

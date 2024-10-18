@@ -1,0 +1,36 @@
+{% set parentRowCls = 'row row-cols-1 row-cols-sm-3 row-cols-md-4 row-cols-lg-4' %}
+
+{% if folderCount > 0 %}
+  <div class="{{ parentRowCls }}" id="cardFolders">
+    {% for item in folders %}
+      {{ include('/asset/component/folder.html.twig'|hcore_fullpath) }}
+    {% endfor %}
+  </div>
+{% endif %}
+
+{% if fileCount > 0 %}
+  <div class="row align-items-center mb-2">
+    <div class="col">
+      <div class="input-group input-group-merge input-group-flush">
+        <div class="input-group-prepend">
+          <div class="input-group-text">
+            <i class="tio-search"></i>
+          </div>
+        </div>
+        <input type="search" class="form-control" placeholder="Tìm kiếm trong {{ fileCount }} tệp">
+      </div>
+    </div>
+
+    <div class="col-auto">
+    </div>
+
+    <div class="col-auto">
+    </div>
+  </div>
+
+  <div class="{{ parentRowCls }}" id="cardFiles">
+    {% for item in files %}
+      {{ include('/asset/component/file.html.twig'|hcore_fullpath) }}
+    {% endfor %}
+  </div>
+{% endif %}

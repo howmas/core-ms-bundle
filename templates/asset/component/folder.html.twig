@@ -1,0 +1,30 @@
+{% set item = item is defined ? item : null %}
+
+{% if item %}
+  <div class="col mb-2 mb-lg-3" id="cardAsset{{ item.id }}">
+    {% set showSetting = showSetting is defined ? showSetting : false %}
+    {% set name = item.key ~ ' (' ~ item.children|length ~ ')' %}
+    <div class="card card-sm card-hover-shadow h-100" title="{{ name }}">
+      <div class="card-body">
+        <div class="d-flex align-items-center">
+
+          <i class="tio-folders text-body mr-2"></i>
+          <h5 class="card-title text-truncate mr-2">{{ name }}</h5>
+
+          {% if showSetting %}
+            {{ include('/asset/component/setting.html.twig'|hcore_fullpath, {isFolder:true}) }}
+          {% endif %}
+        </div>
+      </div>
+
+      {% if showSetting %}
+        <a href="{{ hcore_layout_path('asset-listing', {parentId: item.id}) }}" class="stretched-link"></a>
+      {% else %}
+        <a href="javascript:;" class="stretched-link {{ hCoreAssetListing }}" data-asset-options='{
+          "parentId": "{{ item.id }}",
+          "type": "{{ type is defined ? type : null }}"
+        }'></a>
+      {% endif %}
+    </div>
+  </div>
+{% endif %}

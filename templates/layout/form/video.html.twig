@@ -1,0 +1,124 @@
+{% extends HCoreFormLayout %}
+
+{% block content %}
+  {% set defaultImage = HCoreAssets ~ '/svg/illustrations/browse.svg' %}
+
+  {% set videoType = videoType is defined ? videoType : null %}
+  {% set value = value is defined ? value : null %}
+  {% if value is instanceof('\\Pimcore\\Model\\DataObject\\Data\\Video') %}
+    {% set videoType = value.type %}
+    {% set value = value.data %}
+  {% endif %}
+
+  {% set videoId = value %}
+  {% set videoIframe = videoType == 'youtube' ? "https://www.youtube.com/embed/" ~ videoId : defaultImage %}
+  {% if value is instanceof('\\Pimcore\\Model\\Asset\\Video') %}
+    {% set videoId = value.id %}
+    {% set videoIframe = value.fullPath %}
+  {% endif %}
+
+  {% set videoInputValue = hcore_form_video_convert(videoType, videoId) %}
+
+  <div class="card card-sm" style="max-width: 500px;">
+    {% if not noteditable %}
+      <input type="hidden" data-default-prefix="{{ hcore_form_video_convert('asset') }}" class="{{ hcoreVideoCls }}" id="{{ labelId }}" name="{{ name }}" value="{{ videoInputValue }}">
+    {% endif %}
+
+    {# <div class="card-header text-center">
+      {% if not noteditable %}
+        <button class="btn btn-sm btn-white {{ hCoreAssetOpenModal }}" data-input="{{ labelId }}">
+          {{ placeholder }}
+        </button>
+      {% endif %}
+
+      {{ include('/asset/component/setting.html.twig'|hcore_fullpath, {item: value}) }}
+    </div> #}
+
+    <iframe src="{{ videoIframe }}" data-id="{{ videoId }}" height="300px" frameborder="0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+    {% if not noteditable %}
+    <div class="card-body video-action">
+      <div class="row text-center">
+        <div class="col">
+          <div class="hs-unfold ml-auto">
+            <a class="js-hs-unfold-invoker btn btn-icon btn-sm btn-ghost-primary card-unfold rounded-circle" href="javascript:;" title="Thêm video" 
+               data-hs-unfold-options='{
+                 "target": "#selectVideo{{ name }}",
+                 "type": "css-animation"
+               }'>
+              <i class="tio-video-add"></i>
+            </a>
+
+            <div id="selectVideo{{ name }}" class="hs-unfold-content dropdown-unfold dropdown-menu dropdown-menu-right">
+              <span class="dropdown-header">Chọn từ</span>
+
+              <a class="dropdown-item {{ hCoreAssetVideoOpenModal }}" href="javascript:;"
+                data-asset-options='{
+                  "type": "video",
+                  "assetId": "{{ videoId }}"
+                }'>
+                <i class="tio-folders-outlined text-primary dropdown-item-icon mr-1"></i>Thư viện
+              </a>
+
+              <div class="dropdown-divider"></div>
+
+              <a class="dropdown-item" href="javascript:;" data-toggle="modal" data-target="#selectVideoModal{{ name }}">
+                <i class="tio-youtube text-danger dropdown-item-icon mr-1"></i>Youtube
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="col column-divider">
+          <a class="text-body undo-button" href="javascript:;" title="Hoàn tác" data-value="{{ videoInputValue }}" data-src="{{ videoIframe }}">
+            <i class="tio-undo"></i>
+          </a>
+        </div>
+
+        <div class="col column-divider">
+          <a class="text-danger delete-button" href="javascript:;" title="Xóa" data-value="" data-src="{{ defaultImage }}">
+            <i class="tio-delete-outlined"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" id="selectVideoModal{{ name }}" tabindex="-1" role="dialog" aria-labelledby="selectVideoModal{{ name }}Title" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 id="selectVideoModal{{ name }}Title" class="modal-title">Nhập đường dẫn video Youtube</h4>
+
+            <button type="button" class="btn btn-icon btn-sm btn-ghost-secondary" data-dismiss="modal" aria-label="Close">
+              <i class="tio-clear tio-lg"></i>
+            </button>
+          </div>
+
+          <div class="modal-body">
+            <input type="text" data-prefix="{{ hcore_form_video_convert('youtube') }}" class="js-masked-input form-control insert-youtube-input" placeholder="https://www.youtube.com/watch?v=kdyoENBduMM"
+              data-hs-mask-options='{
+                "template": "https://www.youtube.com/watch?v=***********",
+                "translation": {
+                  "*": {"pattern": "[a-zA-Z0-9_-]"}
+                }
+              }'>
+          </div>
+
+          <div class="modal-footer justify-content-start">
+            <div class="row align-items-sm-center flex-grow-1 mx-n1">
+              <div class="col-sm mb-2 mb-sm-0">
+                <p class="modal-footer-text">Đường dẫn video Youtube là gì? <i class="tio-help-outlined" data-toggle="tooltip" data-placement="top" data-html="true" title="Là đường dẫn có dạng <b class='text-danger'>https://www.youtube.com/watch?v=kdyoENBduMM</b>, có thể sao chép trực tiếp từ trình duyệt khi đang xem video"></i></p>
+              </div>
+
+              <div class="col-sm-auto text-sm-right">
+                <button type="button" class="btn btn-white mr-2" data-dismiss="modal" aria-label="Close">Đóng</button>
+                <button disabled type="button" class="btn btn-primary insert-youtube-button">Thêm</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endif %}
+  </div>
+{% endblock %}

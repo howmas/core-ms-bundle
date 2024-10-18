@@ -1,0 +1,10 @@
+{% set type = definition.fieldtype %}
+{% set type = type ?: hcore_form_check_type(definition) %}
+
+{% if type %}
+  {% set typePath = ('/layout/form/' ~ (type|lower) ~ '.html.twig')|hcore_fullpath %}
+
+  {# {% if include(typePath) is defined %} #}
+    {{ include(typePath, {item: item, definition: definition}) }}
+  {# {% endif %} #}
+{% endif %}

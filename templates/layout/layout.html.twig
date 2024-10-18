@@ -1,0 +1,61 @@
+{% extends '/layout/app.html.twig'|hcore_fullpath %}
+
+{% block layout_head %}
+  {{ include('/layout/head.html.twig'|hcore_fullpath) }}
+{% endblock %}
+
+{% block layout_body %}
+  {% set useScrollspy = useScrollspy is defined ? useScrollspy : false %}
+
+  <body class="has-navbar-vertical-aside navbar-vertical-aside-show-xl footer-offset" {%if useScrollspy%}
+        data-offset="80"
+        data-hs-scrollspy-options='{
+          "target": "#navbarSettings"
+        }'{%endif%}>
+
+    <div class="njLoading" id="njLoading"></div>
+
+    <script src="{{ HCoreAssets }}/vendor/hs-navbar-vertical-aside/hs-navbar-vertical-aside-mini-cache.js"></script>
+
+    {{ include('/layout/component/header.html.twig'|hcore_fullpath) }}
+
+    {{ include('/layout/component/sidebar.html.twig'|hcore_fullpath) }}
+
+    <main id="content" role="main" class="main">
+
+      <div class="content container-fluid">
+        <div class="page-header">
+            {{ block('header') }}
+        </div>
+
+        {{ block('content') }}
+      </div>
+
+      {{ include('/layout/component/footer.html.twig'|hcore_fullpath) }}
+    </main>
+
+    {# {{ include('/layout/component/modals.html.twig' |hcore_fullpath) }} #}
+
+    {{ include('/asset/modal.html.twig'|hcore_fullpath) }}
+
+    <a class="js-go-to go-to position-fixed avatar avatar-xl avatar-centered avatar-circle avatar-border-dashed border-primary" href="javascript:;" style="visibility: hidden;" title="Lên đầu"
+      data-hs-go-to-options='{
+         "offsetTop": 500,
+         "position": {
+           "init": {
+             "right": 10
+           },
+           "show": {
+             "bottom": 80
+           },
+           "hide": {
+             "bottom": -32
+           }
+         }
+       }'>
+      <i class="tio-navigate"></i>
+    </a>
+
+    {{ include('/layout/scripts.html.twig'|hcore_fullpath) }}
+  </body>
+{% endblock %}

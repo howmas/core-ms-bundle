@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <!-- Meta Tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Title -->
+    <title>CMS</title>
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="/bundles/howmascorems/img/logo1x1.png">
+
+    <!-- Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+
+    <!-- All links -->
+    {{ block('layout_head') }}
+  </head>
+
+  {% do pimcore_inline_script().appendScript("
+    var hCoreAssetListing = '." ~ hCoreAssetListing ~ "';
+    var hCoreAssetOpenModal = '." ~ hCoreAssetOpenModal ~ "';
+    var hCoreAssetVideoOpenModal = '." ~ hCoreAssetVideoOpenModal ~ "';
+  ") %}
+
+  {# class name of data type #}
+  {% do pimcore_inline_script().appendScript(formClassScript) %}
+
+  {{ block('layout_body') }}
+</html>

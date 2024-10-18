@@ -1,0 +1,10 @@
+{% extends '/layout/form/layout.html.twig'|hcore_fullpath %}
+
+{% block content %}
+  {% set value = value ? true : false %}
+
+  <div class="custom-control custom-checkbox align-self-center">
+    <input type="checkbox" {%if noteditable%}disabled{%else%}name="{{ name }}"{%endif%} id="{{ labelId }}" class="custom-control-input {{ hcoreCheckboxCls }}" {%if value%}checked{%endif%}>
+    <label class="custom-control-label" for="{{ labelId }}"></label>
+  </div>
+{% endblock %}

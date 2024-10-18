@@ -1,0 +1,29 @@
+{# document: https://flatpickr.js.org/options/ #}
+
+{% set format = format is defined ? format : 'd/m/Y' %}
+{% set value = formatValue is defined ? formatValue : (value ? value|date(format) : (noteditable ? null : "now"|date(format))) %}
+
+{% set dateClass = dateClass is defined ? dateClass : hcoreDateCls %}
+
+{% if noteditable %}
+  {{ include(inputBasePath, {class:dateClass}) }}
+{% else %}
+  {# mode = single | multile | range #}
+  {% set mode = mode is defined ? mode : 'single' %}
+  {% set enableTime = enableTime is defined ? enableTime : "false" %}
+  {% set enableSeconds = enableSeconds is defined ? enableSeconds : "false" %}
+  {% set time_24hr = time_24hr is defined ? time_24hr : "true" %}
+
+  <input type="text" name="{{ name }}" id="{{ labelId }}" class="js-flatpickr form-control flatpickr-custom {{ dateClass }}" placeholder="{{ placeholder }}" value="{{ value }}" data-hs-flatpickr-options='{
+    "mode": "{{ mode }}",
+    "dateFormat": "{{ format }}",
+    "locale": {
+      "weekdays": {
+        "shorthand": ["CN", "T2", "T3", "T4", "T5", "T6", "T7"]
+      }
+    },
+    "enableTime": "{{ enableTime }}",
+    "enableSeconds": "{{ enableSeconds }}",
+    "time_24hr": "{{ time_24hr }}"
+  }'>
+{% endif %}

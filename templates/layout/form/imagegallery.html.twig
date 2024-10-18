@@ -1,0 +1,31 @@
+{% extends HCoreFormLayout %}
+  
+{% block content %}
+  {% set imageGallery = value is instanceof('\\Pimcore\\Model\\DataObject\\Data\\ImageGallery') ? value.items : [] %}
+  <div class="js-sortable row"
+    data-hs-sortable-options='{
+      "animation": 150,
+      "ghostClass": "sortablejs-custom-chosen-child",
+      "handle": ".move-button"
+    }'>
+    {% for imageItem in imageGallery %}
+      <div class="col-md-4 mb-2">
+        {{ include(imageBasePath, {value: imageItem.image, isGallery: true, galleryIndex: loop.index}) }}
+      </div>
+    {% endfor %}
+
+    <div class="col-md-4 mb-2 mt-2 align-self-center gallery-add-button">
+      <a class="avatar avatar-xl avatar-centered avatar-circle avatar-border-dashed border-primary" href="javascript:;" title="Thêm ảnh">
+        <span class="avatar-initials text-primary">
+          <i class="tio-add-photo"></i>
+        </span>
+      </a>
+
+      <div class="empty-gallery-item d-none">
+        <div class="col-md-4 mb-2">
+          {{ include(imageBasePath, {value: null, isGallery: true, galleryIndex: 0}) }}
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

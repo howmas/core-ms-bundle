@@ -1,0 +1,28 @@
+{% if item %}
+  {% set typeMapping = {
+    relations: 'manytomanyobjectrelation',
+    relation: 'manytoonerelation',
+  } %}
+  {% set type = config.editable %}
+  {% set type = attribute(typeMapping, type) is defined ? attribute(typeMapping, type) : type %}
+  {% set typePath = ('/layout/form/' ~ (type|lower) ~ '.html.twig')|hcore_fullpath %}
+
+  {# format value #}
+  {% set name = config.params.name %}
+  {% set value = hcore_form_editable_data(item, name) %}
+
+  {% if type == 'video' %}
+    {% set videoType = value.videoType %}
+    {% set value = value.video %}
+  {% endif %}
+
+  {% if type == 'select' or type == 'multiselect' %}
+    {% set configStores = config.params.store is defined and config.params.store is iterable ? config.params.store : [] %}
+    
+    {% set configOptions = configStores is empty ? [] : configStores|map((storeValue) => {value: storeValue[0], key: storeValue[1]}) %}
+  {% endif %}
+
+{# {% if include(typePath) is defined %} #}
+  {{ include(typePath, {item: item, config: config}) }}
+{# {% endif %} #}
+{% endif %}

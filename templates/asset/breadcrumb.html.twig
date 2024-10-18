@@ -1,0 +1,43 @@
+{% set showSetting = showSetting is defined ? showSetting : false %}
+
+<nav aria-label="breadcrumb" id="assetLibraryBreadcrumbNav">
+  <ol class="breadcrumb breadcrumb-no-gutter">
+    {% set breadcrumbType = type is defined ? type : null %}
+
+    {% if breadcrumbs is empty %}
+      <li class="breadcrumb-item active" aria-current="page">Thư viện</li>
+    {% else %}
+      <li class="breadcrumb-item">
+        {% if showSetting %}
+        <a href="{{ path('hcore-asset-listing') }}" class="breadcrumb-link">
+        {% else %}
+        <a href="javascript:;" class="breadcrumb-link {{ hCoreAssetListing }}" data-asset-options='{
+          "parentId": "1",
+          "type": "{{ breadcrumbType }}"
+        }'>
+        {% endif %}
+          Thư viện
+        </a>
+      </li>
+
+      {% for breadcrumb in breadcrumbs %}
+        {% if loop.last %}
+          <li class="breadcrumb-item active" aria-current="page">{{ breadcrumb.name }}</li>
+        {% else %}
+          <li class="breadcrumb-item">
+            {% if showSetting %}
+            <a href="{{ path('hcore-asset-listing', {parentId: breadcrumb.id}) }}" class="breadcrumb-link">
+            {% else %}
+            <a href="javascript:;" class="breadcrumb-link {{ hCoreAssetListing }}" data-asset-options='{
+              "parentId": "{{ breadcrumb.id }}",
+              "type": "{{ breadcrumbType }}"
+            }'>
+            {% endif %}
+              {{ breadcrumb.name }}
+            </a>
+          </li>
+        {% endif %}
+      {% endfor %}
+    {% endif %}
+  </ol>
+</nav>

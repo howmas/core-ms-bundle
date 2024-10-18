@@ -1,0 +1,51 @@
+{% set invisible = true %}
+{% if definition is defined %}
+  {% set language = language is defined ? language : null %}
+  {% set name = definition.name %}
+  {% set label = definition.title ?: name %}
+  {% set labelId = language ? name ~ '_' ~ language : name %}
+  {% set placeholder = placeholder is defined ? placeholder : label %}
+  {% set value = attribute(item, name, {0:language}) is defined ? attribute(item, name, {0:language}) : null %}
+
+  {# multiple languages #}
+  {% set name = language ? name ~ '_' ~ language : name %}
+
+  {# more config #}
+  {% set tooltip = definition.tooltip %}
+  {% set invisible = definition.invisible %}
+  {% set noteditable = definition.noteditable %}
+{% elseif config is defined %}
+  {# value + name: render from render-editable.html.twig #}
+  {% set label = config.params.title is defined ? config.params.title : name %}
+  {% set labelId = name %}
+  {% set placeholder = config.params.placeholder is defined ? config.params.placeholder : label %}
+
+  {# more config #}
+  {% set tooltip = null %}
+  {% set invisible = false %}
+  {% set noteditable = false %}
+{% endif %}
+
+{% if not invisible %}
+  {# field collection #}
+  {% if namePrefix is defined and namePrefix %}
+    {% set labelId = namePrefix ~ hcoreFieldCollectionDelimiter ~ name ~ '-' ~ fcItemKey %}
+    {% set name = namePrefix ~ hcoreFieldCollectionDelimiter ~ name ~ '[]' %}
+  {% endif %}
+
+<div class="row form-group">
+  <label class="col-sm-2 col-form-label input-label" {# for="{{ labelId }}" #}>
+    {{ label }} {%if tooltip%}<i class="tio-help-outlined text-body ml-1" data-toggle="tooltip" data-placement="top" title="{{ tooltip }}"></i>{%endif%}
+    {%if noteditable%}<i class="tio-lock-outlined text-body ml-1" data-toggle="tooltip" data-placement="top" title="Không được sửa"></i>{%endif%}
+
+    {% if type == 'wysiwyg' %}
+      {# count characters and words #}
+      <div class="font-size-sm font-italic" id="{{ labelId ~ 'WordCount' }}"></div>
+    {% endif %}
+  </label>
+
+  <div class="col-sm-10 {{ type == 'checkbox' ? 'd-flex' : '' }}">
+    {{ block('content') }}
+  </div>
+</div>
+{% endif %}

@@ -1,0 +1,10 @@
+{% extends '/layout/form/layout.html.twig'|hcore_fullpath %}
+
+{% block content %}
+{% set wordCountId = labelId ~ 'WordCount' %}
+
+{# <div id="{{ wordCountId }}"></div> #}
+<div class="{{ hcoreWysiwygCls }}" id="{{ labelId }}" data-wordcount="{{ wordCountId }}" {%if noteditable%}disabled{%else%}name="{{ name }}"{%endif%}>
+  {{ value | raw }}
+</div>
+{% endblock %}

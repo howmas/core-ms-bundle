@@ -1,0 +1,6 @@
+how_mas_core_ms_default:
+    resource: "@HowMASCoreMSBundle/src/Controller/*"
+    type: annotation
+    prefix: /hcore
+    name_prefix: 'hcore-'
+

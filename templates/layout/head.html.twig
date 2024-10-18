@@ -1,0 +1,34 @@
+<!-- CSS Implementing Plugins -->
+<link rel="stylesheet" href="{{ HCoreAssets }}/vendor/icon-set/style.css">
+<link rel="stylesheet" href="{{ HCoreAssets }}/vendor/select2/dist/css/select2.min.css">
+<link rel="stylesheet" href="{{ HCoreAssets }}/vendor/chart.js/dist/Chart.min.css">
+<link rel="stylesheet" href="{{ HCoreAssets }}/vendor/daterangepicker/daterangepicker.css">
+<link rel="stylesheet" href="{{ HCoreAssets }}/vendor/quill/dist/quill.snow.css">
+<link rel="stylesheet" href="{{ HCoreAssets }}/vendor/@yaireo/tagify/dist/tagify.css">
+<link rel="stylesheet" href="{{ HCoreAssets }}/vendor/@fancyapps/fancybox/dist/jquery.fancybox.min.css">
+
+<link rel="stylesheet" href="{{ HCoreAssets }}/vendor/@yaireo/tagify/dist/tagify.css">
+<link rel="stylesheet" href="{{ HCoreAssets }}/vendor/flatpickr/dist/flatpickr.min.css">
+
+<!-- CSS Front Template -->
+<link rel="stylesheet" href="{{ HCoreAssets }}/css/theme.min.css">
+<link rel="stylesheet" href="https://cdn.ckeditor.com/ckeditor5/43.2.0/ckeditor5.css" />
+
+{{ include('/layout/loading.html.twig'|hcore_fullpath) }}
+
+<style type="text/css">
+    #assetLibraryBreadcrumbNav .breadcrumb .breadcrumb-item {
+        font-size: .98438rem !important;
+    }
+
+    span.select2-selection__clear {
+        margin-right: .5rem !important;
+        color: #ff0000;
+    }
+
+    /* Custom CSS for making font list scrollable */
+    .ck.ck-dropdown__panel .ck-list {
+        max-height: 200px;
+        overflow-y: auto;
+    }
+</style>

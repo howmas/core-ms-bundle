@@ -1,0 +1,13 @@
+{% extends HCoreFormLayout %}
+
+{% block content %}
+  {% set dateClass = hcoreDaterangeCls %}
+  {% set format ='d/m/Y' %}
+
+  {% set formatValue = value
+    ? (value.startDate|date(format) ~ ' - ' ~ value.endDate|date(format))
+    : (noteditable ? null : ("now"|date(format) ~ ' - ' ~ "now"|date_modify("+1 day")|date(format)))
+  %}
+  {% set mode = "range" %}
+  {{ include(dateBasePath) }}
+{% endblock %}

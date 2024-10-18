@@ -1,0 +1,32 @@
+{% set languages = hcore_languages_list() %}
+
+{% set isFC = isFC is defined and isFC ? isFC : false %}
+
+{# <div class="text-center"> #}
+  <ul class="nav nav-tabs mb-3" role="tablist">
+    {% for language in languages %}
+      {% set keyNav = (isFC ? 'nav' ~ namePrefix ~ fcItemKey : 'nav') ~ language %}
+      {% set keyTab = (isFC ? 'nav-tab' ~ namePrefix ~ fcItemKey : 'nav-tab') ~ language %}
+      <li class="nav-item">
+        <a title="{{ language }}" class="nav-link {{ loop.first ? 'active' : '' }}" id="{{ keyTab }}" data-toggle="pill" href="#{{ keyNav }}" role="tab" aria-controls="{{ keyNav }}" aria-selected="true">
+          {# <img src="{{ builder_language_flag(language) }}" height="24px"> #}
+          <span class="avatar avatar-xs avatar-4by3">
+            <img class="avatar-img" src="{{ builder_language_flag(language) }}">
+          </span>
+        </a>
+      </li>
+    {% endfor %}
+  </ul>
+{# </div> #}
+
+<div class="tab-content">
+  {% for language in languages %}
+    {% set keyNav = (isFC ? 'nav' ~ namePrefix ~ fcItemKey : 'nav') ~ language %}
+    {% set keyTab = (isFC ? 'nav-tab' ~ namePrefix ~ fcItemKey : 'nav-tab') ~ language %}
+    <div class="tab-pane fade {{ loop.first ? 'show active' : '' }}" id="{{ keyNav }}" role="tabpanel" aria-labelledby="{{ keyTab }}">
+      {% for child in definition.children %}
+        {{ include('/layout/form/render.html.twig'|hcore_fullpath, {item: item, definition: child, language:language}) }}
+      {% endfor %}
+    </div>
+  {% endfor %}
+</div>

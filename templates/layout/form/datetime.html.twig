@@ -1,0 +1,10 @@
+{% extends HCoreFormLayout %}
+
+{% block content %}
+  {% set dateClass = hcoreDatetimeCls %}
+  {% set format = 'd/m/Y H:i' %}
+  {% set enableTime = "true" %}
+  {% set time_24hr = "true" %}
+
+  {{ include(dateBasePath) }}
+{% endblock %}
