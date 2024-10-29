@@ -16,4 +16,9 @@ class DefaultController extends BaseController
         $listing = ClassService::listing();
         return $this->view();
     }
+
+    public function redirectAction()
+    {
+        return $this->redirectToRoute('hcore-index');
+    }
 }
