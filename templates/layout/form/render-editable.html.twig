@@ -8,8 +8,9 @@
   {% set typePath = ('/layout/form/' ~ (type|lower) ~ '.html.twig')|hcore_fullpath %}
 
   {# format value #}
-  {% set name = config.params.name %}
-  {% set value = hcore_form_editable_data(item, name) %}
+  {% set name = config.params.name is defined ? config.params.name : config.params.prefix ~ 'List' %}
+  {% set nameEditable = isFC is defined and isFC ? namePrefix ~':'~ fcItemKey ~'.'~ name : name %} {# check if is block #}
+  {% set value = hcore_form_editable_data(item, nameEditable) %}
 
   {% if type == 'video' %}
     {% set videoType = value.videoType %}

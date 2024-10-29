@@ -48,27 +48,6 @@ class FieldCollection extends Input
             $items->add($item);
         }
 
-
         return $items;
     }
-
-    // public function formatEditable()
-    // {
-    //     $values = $this->format();
-
-    //     if (empty($values)) {
-    //         return null;
-    //     }
-
-    //     $newValues = [];
-    //     foreach ($values as $value) {
-    //         $newValues[] = [
-    //             'id' => $value->getId(),
-    //             'type' => $value->getType(),
-    //             'subtype' => $value->getClassName()
-    //         ];
-    //     }
-
-    //     return $newValues;
-    // }
 }

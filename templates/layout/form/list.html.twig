@@ -1,0 +1,81 @@
+
+{% extends HCoreFormLayout %}
+
+{% block content %}
+  {% set namePrefix = name %}
+  {% set listFields = config.params.fields %}
+  {% set count = value|length %}
+
+  {# insert d-none item for add button #}
+  {% set count = count + 1 %}
+
+  {% if listFields is not empty %}
+    <div id="{{ labelId }}" class="js-sortable sortablejs-custom {{ hcoreFieldCollectionCls }}" data-name="{{ namePrefix }}" data-type="{{ namePrefix }}"
+      data-hs-sortable-options='{
+        "animation": 150,
+        "ghostClass": "sortablejs-custom-chosen-child",
+        "handle": ".move-button"
+      }'>
+      {% for fieldKey in 1..count %}
+        {% set collapseKey = namePrefix ~ (loop.last ? '' : loop.index) %}
+        <div class="{{ loop.last ? 'd-none' : 'field-collection-items' }}">
+          <div class="card">
+            <a class="card-header card-btn btn-block bg-primary justify-content-center" data-toggle="collapse" href="#collapse{{ collapseKey }}" aria-expanded="true" aria-controls="collapse{{ collapseKey }}">
+              <span class="card-btn-toggle text-white">
+                <span class="card-btn-toggle-default">
+                  <i class="tio-down-ui tio-lg" title="Mở rộng"></i>
+                </span>
+                <span class="card-btn-toggle-active">
+                  <i class="tio-up-ui tio-lg" title="Thu gọn"></i>
+                </span>
+              </span>
+            </a>
+
+            <div id="collapse{{ collapseKey }}" class="collapse multi-collapse show">
+              <div class="card-body row">
+                <div class="col-md-11">
+                  {% for fieldParam in listFields %}
+                    {% set config = {
+                      editable: fieldParam.type,
+                      params: fieldParam
+                    } %}
+                    {{ include('/layout/form/render-editable.html.twig'|hcore_fullpath, {
+                      placeholder: null,
+                      namePrefix: namePrefix,
+                      isFC: true,
+                      fcItemKey: fieldKey
+                    }) }}
+                  {% endfor %}
+                </div>
+                <div class="col-md-1 column-divider">
+                  <a class="remove-button mt-3 avatar avatar-sm avatar-centered avatar-circle avatar-border-dashed border-danger" href="javascript:;" title="Xóa">
+                    <span class="avatar-initials text-danger">
+                      <i class="tio-delete-outlined"></i>
+                    </span>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="mt-2 mb-3">
+            <span class="divider">
+              <a class="move-button avatar avatar-sm avatar-centered avatar-circle avatar-border-dashed border-primary" href="javascript:;" title="Di chuyển">
+                <span class="avatar-initials text-primary">
+                  <i class="tio-move-page"></i>
+                </span>
+              </a>
+            </span>
+          </div>
+        </div>
+      {% endfor %}
+
+      <span class="divider">
+        <a class="add-button avatar avatar-centered avatar-circle avatar-border-dashed border-success" href="javascript:;" title="Thêm" data-collapse="{{ namePrefix }}">
+          <span class="avatar-initials text-success">
+            <i class="tio-add font-weight-bold"></i>
+          </span>
+        </a>
+      </span>
+    </div>
+  {% endif %}
+{% endblock %}

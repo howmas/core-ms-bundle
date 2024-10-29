@@ -41,7 +41,8 @@
 <script src="{{ asset('/js/asset.js'|hcore_asset) }}"></script>
 <script src="{{ asset('/js/layout-form.js'|hcore_asset) }}"></script>
 
-<script src="https://cdn.ckeditor.com/ckeditor5/43.2.0/ckeditor5.umd.js"></script>
+<script src="{{ HCoreAssets }}/custom/ckeditor5.js"></script>
+{# <script src="https://cdn.ckeditor.com/ckeditor5/43.2.0/ckeditor5.umd.js"></script> #}
 {# <script src="https://cdn.ckeditor.com/ckeditor5/43.2.0/translations/vi.js"></script> #}
 
 {% block inlinescripts deferred %}

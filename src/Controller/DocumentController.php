@@ -66,7 +66,34 @@ class DocumentController extends BaseController
             $data = $this->request->get('data');
             $data = json_decode($data, true);
 
-            $editables = $item->getEditables();
+            // convert block type to single editable type
+            $dataOfBlock = [];
+            $block = !empty($data['fieldCollection']) ? $data['fieldCollection'] : [];
+            if (!empty($block)) {
+                foreach ($block as $blockField => $typeValues) {
+                    $blockData = [];
+
+                    $fieldName = $typeValues['allowType'];
+                    $itemCount = $typeValues['itemCount'];
+                    unset($typeValues['allowType']);
+                    unset($typeValues['itemCount']);
+
+                    for ($i = 0; $i < $itemCount; $i++) {
+                        $key = $i + 1;
+                        $blockData[] = (string) $key;
+                        foreach ($typeValues as $type => $fieldValues) {
+                            foreach ($fieldValues as $field => $values) {
+                                $data[$type][$blockField .':'. $key .'.'. $field] = $values[$i];
+                            }
+                        }
+                    }
+
+                    $dataOfBlock[$blockField] = $blockData;
+                }
+            }
+
+            $data['block'] = $dataOfBlock;
+            unset($data['fieldCollection']);
 
             if (!empty($data)) {
                 foreach ($data as $type => $params) {
@@ -75,23 +102,14 @@ class DocumentController extends BaseController
                             $component = "\\HowMAS\\CoreMSBundle\\Component\\Form\\" . ucfirst($type);
                             if (class_exists($component)) {
                                 $editable = $item->getEditable($field);
-                                if (!$editable) {
-                                    $editable = new call_user_func("\\Pimcore\\Model\\Document\\Editable\\" . ucfirst($type));
-                                    $editable->setDocument($item);
-                                    $editable->setName($field);
-                                }
-
                                 $form = new $component($value);
-                                $editable->setDataFromEditmode($form->formatEditable($editable));
-
-                                $editables = array_merge($editables, [$field => $editable]);
+                                $item->setRawEditable($field, $type, $form->formatEditable($editable));
                             }
                         }
                     }
                 }  
             }
 
-            $item->setEditables($editables);
             $item->save();
             return $this->sendResponse();
         } elseif ($method == $this->request::METHOD_PUT) {

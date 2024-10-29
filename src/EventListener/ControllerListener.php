@@ -44,7 +44,7 @@ class ControllerListener
         $appData = [
             'appName' => 'HowMAS',
             'appBundle' => '@HowMASCoreMS',
-            'appLogo' => '/bundles/howmascorems/img/logo1x1.png',
+            'appLogo' => '/bundles/howmascorems/img/logo.jpg',
             'appLogoMini' => '/bundles/howmascorems/img/logo1x1.png',
         ];
 

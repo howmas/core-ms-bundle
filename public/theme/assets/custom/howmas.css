@@ -1,0 +1,63 @@
+:root {
+  --howmas: #0f0218;
+  --howmas-bg: #f6e9fe;
+  --howmas-btn-bg: #340e4f;
+  --howmas-txt: #f6e9fe;
+}
+
+.text-howmas {
+  color: var(--howmas); !important;
+}
+
+a.text-howmas:hover, a.text-howmas:focus {
+  color: var(--howmas) !important;
+}
+
+.btn-howmas {
+  color: var(--howmas-txt);
+  background-color: var(--howmas);
+  border-color: var(--howmas);
+}
+
+.btn-howmas:hover {
+  color: var(--howmas-txt);
+  background-color: var(--howmas-btn-bg);
+  border-color: var(--howmas);
+}
+
+.btn-howmas:focus, .btn-howmas.focus {
+  color: var(--howmas-txt);
+  background-color: var(--howmas-btn-bg);
+  border-color: var(--howmas);
+  box-shadow: 0 0 0 0.2rem rgba(240, 103, 140, 0.5);
+}
+
+.btn-howmas.disabled, .btn-howmas:disabled {
+  color: var(--howmas-txt);
+  background-color: var(--howmas);
+  border-color: var(--howmas);
+}
+
+.btn-howmas:not(:disabled):not(.disabled):active, .btn-howmas:not(:disabled):not(.disabled).active,
+.show > .btn-howmas.dropdown-toggle {
+  color: var(--howmas);
+  background-color: var(--howmas-txt);
+  border-color: var(--howmas);
+}
+
+.btn-howmas:not(:disabled):not(.disabled):active:focus, .btn-howmas:not(:disabled):not(.disabled).active:focus,
+.show > .btn-howmas.dropdown-toggle:focus {
+  box-shadow: 0 0 0 0.2rem rgba(240, 103, 140, 0.5);
+}
+
+.alert-howmas {
+  color: var(--howmas);
+  background-color: var(--howmas-bg);
+  border-color: var(--howmas-bg);
+}
+.alert-howmas hr {
+  border-top-color: var(--howmas);
+}
+.alert-howmas .alert-link {
+  color: var(--howmas-txt);
+}

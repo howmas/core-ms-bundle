@@ -130,5 +130,5 @@
 {# {{ include('/layout/ckeditor.html.twig'|hcore_fullpath) }} #}
 
 {% do pimcore_head_script().appendFile(asset('/js/ckeditor.js'|hcore_asset), 'text/javascript') %}
-{% do pimcore_head_script().appendFile(asset('/js/document.js'|hcore_asset), 'text/javascript') %}
+{% do pimcore_head_script().appendFile(asset('/js/object.js'|hcore_asset), 'text/javascript') %}
 {% endblock %}
