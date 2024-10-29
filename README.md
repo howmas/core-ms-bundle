@@ -13,5 +13,8 @@ return [
 ];
 ```
 
+# Requirements
+[Follow requirements and ready for bundle](docs/REQUIREMENTS.md)
+
 # Documents
 [docs](docs)
