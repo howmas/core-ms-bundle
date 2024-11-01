@@ -140,6 +140,6 @@ class DocumentService
 
     public static function getName($document)
     {
-        return $document->getProperties()['navigation_name']->getData();
+        return $document->getKey();
     }
 }

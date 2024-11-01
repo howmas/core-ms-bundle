@@ -35,8 +35,8 @@ class DocumentController extends BaseController
         foreach ($langDocuments as $langDocument) {
             // only Page or Link
             if (!(
-                $langDocument instanceof Document\Page ||
-                $langDocument instanceof Document\Link
+                $langDocument instanceof Document\Page
+                || $langDocument instanceof Document\Link
             )) {
                 continue;
             }
@@ -73,8 +73,8 @@ class DocumentController extends BaseController
             foreach ($documentOfLangs as $documentOfLang) {
                 // only Page or Snippet
                 if (!(
-                    $documentOfLang instanceof Document\Page ||
-                    $documentOfLang instanceof Document\Snippet
+                    $documentOfLang instanceof Document\Page
+                    || $documentOfLang instanceof Document\Snippet
                 )) {
                     continue;
                 }
