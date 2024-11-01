@@ -14,6 +14,19 @@ class ControllerListener
 
     public function onKernelController(ControllerEvent $event): void
     {
+        try {
+            $isHcoreRequest = isset($event->getController()[0])
+                && $event->getController()[0] instanceof \HowMAS\CoreMSBundle\Controller\BaseController;
+            if (!$isHcoreRequest) {
+                return;
+            }
+        } catch (\Throwable $e) {
+            return;
+        }
+
+        $hcoreUser = \Pimcore\Tool\Admin::getCurrentUser();
+        $this->twig->addGlobal('hcoreUser', $hcoreUser);
+
         $this->twig->addGlobal('HCoreLayout', "@HowMASCoreMS/layout/layout.html.twig");
         $this->twig->addGlobal('HCoreFormLayout', "@HowMASCoreMS/layout/form/layout.html.twig");
         $this->twig->addGlobal('HCoreFormSelectLayout', "@HowMASCoreMS/layout/form/select/layout.html.twig");

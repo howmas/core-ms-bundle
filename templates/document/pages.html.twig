@@ -1,0 +1,52 @@
+{% extends '/layout/layout-listing.html.twig'|hcore_fullpath %}
+
+{% block tbody %}
+{% for item in data %}
+  <tr>
+    <td class="table-column-pr-0">
+      <div class="custom-control custom-checkbox">
+        <input type="checkbox" class="custom-control-input" id="datatableCheck{{ loop.index }}">
+        <label class="custom-control-label" for="datatableCheck{{ loop.index }}"></label>
+      </div>
+    </td>
+
+    {% for header in headers %}
+    <td class="{{ loop.first ? 'table-column-pl-0' : '' }}">
+      {% set value = attribute(item, header.name) is defined ? attribute(item, header.name) : '' %}
+      {{ value }}
+    </td>
+    {% endfor %}
+    <td>
+      <div class="btn-group" role="group">
+        <a class="btn btn-sm btn-white" href="{{ hcore_layout_path('document-detail', {id: item.id}) }}">
+          <i class="tio-edit"></i>
+        </a>
+        
+        <div class="hs-unfold btn-group">
+          <a class="js-hs-unfold-invoker btn btn-icon btn-sm btn-white dropdown-toggle dropdown-toggle-empty" href="javascript:;"
+             data-hs-unfold-options='{
+               "target": "#productsEditDropdown1",
+               "type": "css-animation",
+               "smartPositionOffEl": "#datatable"
+             }'></a>
+
+          <div id="productsEditDropdown1" class="hs-unfold-content dropdown-unfold dropdown-menu dropdown-menu-right mt-1">
+            <a class="dropdown-item" href="#">
+              <i class="tio-delete-outlined dropdown-item-icon"></i> Delete
+            </a>
+            <a class="dropdown-item" href="#">
+              <i class="tio-archive dropdown-item-icon"></i> Archive
+            </a>
+            <a class="dropdown-item" href="#">
+              <i class="tio-publish dropdown-item-icon"></i> Publish
+            </a>
+            <a class="dropdown-item" href="#">
+              <i class="tio-clear dropdown-item-icon"></i> Unpublish
+            </a>
+          </div>
+        </div>
+      </div>
+    </td>
+  </tr>
+{% endfor %}
+{% endblock %}

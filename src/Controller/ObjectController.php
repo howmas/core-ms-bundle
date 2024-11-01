@@ -49,13 +49,13 @@ class ObjectController extends BaseController
         $hClass = HClass::getById($classId);
 
         if (!$hClass?->getActive()) {
-            return null;
+            return $this->goView('object-listing', compact('classId'));
         }
 
         $item = ClassService::getById($hClass, $id);
 
         if (!$item) {
-            return null;
+            return $this->goView('object-listing', compact('classId'));
         }
 
         $data['classId'] = $classId;

@@ -9,7 +9,7 @@ class Link extends Item
     public function __construct(
         protected string $name,
         protected ?string $link = null,
-         protected ?string $icon = null
+        protected ?string $icon = null
     )
     {
         $this->name = $name;

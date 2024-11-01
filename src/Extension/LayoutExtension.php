@@ -10,6 +10,7 @@ use HowMAS\CoreMSBundle\Component\Sidebar\Item;
 use HowMAS\CoreMSBundle\Component\Sidebar\Form;
 use HowMAS\CoreMSBundle\Service\ClassService;
 use HowMAS\CoreMSBundle\Service\CoreService;
+use HowMAS\CoreMSBundle\Service\DocumentService;
 
 class LayoutExtension extends AbstractExtension
 {
@@ -31,17 +32,12 @@ class LayoutExtension extends AbstractExtension
 
     public function getSidebarMenu()
     {
+        $documentMenu = DocumentService::getSidebarMenu($this->router);
+
         $sidebarMenu = [
             new Item\Link('Tổng quan', $this->getRoute('index'), 'tio-home-vs-1-outlined'),
-            new Item\Title('Trang'),
-            new Item\Link('Trang chủ', null, 'tio-pages-outlined'),
-            new Item\Menu('Thông tin', [
-                new Item\SubLink('Chính sách'),
-                new Item\SubMenu('Điều khoản', [
-                    new Item\SubLink('Điều khoản bảo mật'),
-                    new Item\SubLink('Cookie'),
-                ])
-            ]),
+            new Item\Title('Quản trị dữ liệu'),
+            $documentMenu,
             new Item\Link('Thư viện', $this->getRoute('asset-listing'), 'tio-folders-outlined'),
         ];
 
@@ -54,7 +50,7 @@ class LayoutExtension extends AbstractExtension
                 'tio-cube'
             );
         }
-        $sidebarMenu[] = new Item\Menu('Quản trị dữ liệu', $classItems, 'tio-cube');
+        $sidebarMenu[] = new Item\Menu('Dữ liệu', $classItems, 'tio-cube');
 
         $sidebarMenu[] = new Item\Title();
 

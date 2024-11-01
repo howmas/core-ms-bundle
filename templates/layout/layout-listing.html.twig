@@ -3,24 +3,26 @@
 {% block header %}
 <div class="row align-items-center mb-3">
   <div class="col-sm mb-2 mb-sm-0">
-    <h1 class="page-header-title">{{ title }} <span class="badge badge-soft-dark ml-2">{{ count }}</span></h1>
+    <h1 class="page-header-title">{{ title }}
+      {%if count is defined%}<span class="badge badge-soft-dark ml-2">{{ count }}</span>{%endif%}
+    </h1>
 
-    <div class="mt-2">
+    {# <div class="mt-2">
       <a class="text-body mr-3" href="javascript:;" data-toggle="modal" data-target="#exportProductsModal">
         <i class="tio-download-to mr-1"></i> Export
       </a>
       <a class="text-body" href="javascript:;" data-toggle="modal" data-target="#importProductsModal">
         <i class="tio-publish mr-1"></i> Import
       </a>
-    </div>
+    </div> #}
   </div>
 
-  <div class="col-sm-auto">
+  {# <div class="col-sm-auto">
     <a class="btn btn-primary" href="./ecommerce-add-product.html">Add product</a>
   </div>
   <div class="col-sm-auto">
     <a class="btn btn-primary" href="./ecommerce-add-product.html">Add product</a>
-  </div>
+  </div> #}
 </div>
 
 <div class="js-nav-scroller hs-nav-scroller-horizontal">
@@ -263,7 +265,7 @@
             </div>
           </th>
           {% for header in headers %}
-            <th class="{{ loop.first ? 'table-column-pl-0' : '' }}">{{ header.title }}</th>
+            <th class="{{ loop.first ? 'table-column-pl-0' : '' }}">{{ header.title is defined ? header.title : header }}</th>
           {% endfor %}
           <th></th>
         </tr>
@@ -291,7 +293,9 @@
             <option value="10" selected>10</option>
             <option value="20">20</option>
             <option value="50">50</option>
-            <option value="{{ count }}">Tất cả</option>
+            {% if count is defined %}
+              <option value="{{ count }}">Tất cả</option>
+            {% endif %}
           </select>
 
           <span class="text-secondary mr-2">/</span>

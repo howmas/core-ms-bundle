@@ -4,8 +4,7 @@ namespace HowMAS\CoreMSBundle\Controller;
 
 use Symfony\Component\Routing\Annotation\Route;
 use Pimcore\Model\Document;
-use Pimcore\Model\Document\Page;
-use Starfruit\BuilderBundle\Controller\Document\EditableBaseController;
+use HowMAS\CoreMSBundle\Service\DocumentService;
 
 /**
  * @Route("/document", name="document-")
@@ -13,30 +12,82 @@ use Starfruit\BuilderBundle\Controller\Document\EditableBaseController;
 class DocumentController extends BaseController
 {
     /**
-     * @Route("/listing/page", name="listing", methods={"POST", "GET"})
+     * @Route("/pages", name="pages", methods={"GET"})
      */
-    public function listingPage()
+    public function pages()
     {
-        $hClass = HClass::getById($classId);
+        $data['title'] = 'Trang';
+        $data['headers'] = [
+            [
+                'title' => 'Name',
+                'name' => 'name',
+            ],
+            [
+                'title' => 'Language',
+                'name' => 'language',
+            ],
+        ];
 
-        if (!$hClass?->getActive()) {
-            return null;
+        $root = Document::getById(1);
+        $langDocuments = $root->getChildren();
+
+        $items = [];
+        foreach ($langDocuments as $langDocument) {
+            // only Page or Link
+            if (!(
+                $langDocument instanceof Document\Page ||
+                $langDocument instanceof Document\Link
+            )) {
+                continue;
+            }
+
+            // publish
+            if (!$langDocument->getPublished()) {
+                continue;
+            }
+
+            // has children
+            if (!$langDocument->hasChildren()) {
+                continue;
+            }
+
+            // hompage (Root)
+            $hompage = $langDocument instanceof Document\Link ? Document::getByPath($langDocument->getHref()) : $langDocument;
+            if (!$hompage) {
+                continue;
+            }
+
+            // main language
+            $userLocale = 'vi';
+            $language = $langDocument->getProperties()['language']->getData();
+            $languageName = \Locale::getDisplayName($language, $userLocale);
+
+            $items[] = [
+                'id' => $hompage->getId(),
+                'name' => DocumentService::getName($hompage),
+                'language' => $language,
+                'languageName' => $languageName,
+            ];
+
+            $documentOfLangs = $langDocument->getChildren();
+            foreach ($documentOfLangs as $documentOfLang) {
+                // only Page or Snippet
+                if (!(
+                    $documentOfLang instanceof Document\Page ||
+                    $documentOfLang instanceof Document\Snippet
+                )) {
+                    continue;
+                }
+
+                $items[] = [
+                    'id' => $documentOfLang->getId(),
+                    'name' => DocumentService::getName($documentOfLang),
+                    'language' => $language,
+                    'languageName' => $languageName,
+                ];
+            }
         }
-
-        $data['classId'] = $classId;
-        $data['title'] = $hClass->getTitle();
-        $data['headers'] = json_decode($hClass->getGridFields(), true);
-
-        $listing = ClassService::getList($hClass);
-        // $listing->setLocale($request->get('_locale', \Pimcore\Tool::getDefaultLanguage()));
-        $listing->setUnpublished(true);
-
-        // $pagination = $this->paginator($listing, 1, 10);
-        // $data['pagination'] = $pagination;
-        // $data['data'] = $pagination->getItems();
-
-        $data['count'] = $listing->count();
-        $data['data'] = $listing->getData();
+        $data['data'] = $items;
 
         return $this->view($data);
     }
@@ -49,7 +100,15 @@ class DocumentController extends BaseController
         $item = Document::getById($id);
 
         if (!$item) {
-            return null;
+            return $this->goView('document-pages');
+        }
+
+        // only Page or Snippet
+        if (!(
+            $item instanceof Document\Page ||
+            $item instanceof Document\Snippet
+        )) {
+            return $this->goView('document-pages');
         }
 
         $method = $this->request->getMethod();
@@ -57,7 +116,7 @@ class DocumentController extends BaseController
             $controller = $item->getController();
             $controllerMethod = explode('::', $controller);
             list($class, $function) = $controllerMethod;
-            $data = EditableBaseController::getEditablesFromClass($class, $function);
+            $data = \Starfruit\BuilderBundle\Controller\Document\EditableBaseController::getEditablesFromClass($class, $function);
 
             $data['item'] = $item;
 

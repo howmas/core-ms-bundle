@@ -45,6 +45,7 @@ class AssetController extends BaseController
         $listing->setOrder(["DESC", "ASC", "ASC", "ASC"]);
 
         $listing = $listing->getData();
+
         $folders = array_filter($listing, fn($e) => $e instanceof Folder);
         $files = array_filter($listing, fn($e) => !($e instanceof Folder));
 
