@@ -140,11 +140,6 @@ class DocumentService
 
     public static function getName($document)
     {
-
-        if (!$document->getId() == 1) {
-            return $document->getKey();
-        }
-
-        return $document->getProperties()['navigation_name']->getData();
+        return $document->getId() !== 1 ? $document->getKey() : $document->getProperties()['navigation_name']->getData();
     }
 }

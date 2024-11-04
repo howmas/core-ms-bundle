@@ -5,9 +5,10 @@
 
 {% block tbody %}
 {% for item in data %}
+  {% set published = item.published %}
   {% set detailLink = hcore_layout_path('object-detail', {classId: classId, id: item.id}) %}
 
-  <tr class="{{ item.published ? 'text-primary font-weight-bold' : 'text-secondary' }}">
+  <tr class="{{ published ? 'text-primary font-weight-bold' : 'text-secondary' }}">
     <td class="table-column-pr-0">
       <div class="custom-control custom-checkbox">
         <input type="checkbox" class="custom-control-input" id="datatableCheck{{ loop.index }}">
@@ -19,7 +20,7 @@
     <td class="{{ loop.first ? 'table-column-pl-0' : '' }}">
       {% set value = attribute(item, header.name) is defined ? attribute(item, header.name) : '' %}
       {% if loop.first %}
-        <a class="{{ item.published ? 'text-primary' : 'text-secondary' }}" href="{{ detailLink }}">{{ value }}</a>
+        <a class="{{ published ? 'text-primary' : 'text-secondary' }}" href="{{ detailLink }}">{{ value }}</a>
       {% else %}
         {{ value }}
       {% endif %}
