@@ -65,19 +65,19 @@ class BaseController extends FrontendController
         if ($statusCode == Response::HTTP_INTERNAL_SERVER_ERROR) {
             
         } else {
-            if (is_array($error)) {
+            if (!is_array($error)) {
                 $error = [
                     "error" => $error
                 ];
             }
 
-            if (is_string($error)) {
-                $error = [
-                    "error" => [
-                        "message" => $this->translator->trans($error)
-                    ]
-                ];
-            }
+            // if (is_string($error)) {
+            //     $error = [
+            //         "error" => [
+            //             "message" => $this->translator->trans($error)
+            //         ]
+            //     ];
+            // }
         }
 
         return new JsonResponse($error, $statusCode);

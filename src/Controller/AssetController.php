@@ -66,8 +66,10 @@ class AssetController extends BaseController
         $isCkeditor = (bool) $this->request->get('isCkeditor');
 
         if ($this->isXmlHttpRequest) {
+            $redirect = $this->redirectToRoute('hcore-asset-listing', compact('parentId'));
+            $libraryUrl = $redirect->getTargetUrl();
 
-            return $this->view(compact('parent', 'folders', 'files', 'folderCount', 'fileCount', 'breadcrumbs', 'selectedAsset', 'type', 'isCkeditor'), '/asset/modal-content.html.twig');
+            return $this->view(compact('parent', 'folders', 'files', 'folderCount', 'fileCount', 'breadcrumbs', 'selectedAsset', 'type', 'isCkeditor', 'libraryUrl'), '/asset/modal-content.html.twig');
         }
 
         $showSetting = true;

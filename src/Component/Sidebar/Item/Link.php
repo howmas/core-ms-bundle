@@ -3,6 +3,7 @@
 namespace HowMAS\CoreMSBundle\Component\Sidebar\Item;
 
 use HowMAS\CoreMSBundle\Component\Sidebar\Item;
+use HowMAS\CoreMSBundle\EventListener\ControllerListener;
 
 class Link extends Item
 {
@@ -40,15 +41,15 @@ class Link extends Item
     public function render(): string
     {
         $html = '<li class="nav-item ">
-            <a class="js-nav-tooltip-link nav-link " href="$link" title="$name" data-placement="left">
+            <a class="js-nav-tooltip-link nav-link $loadingClass" href="$link" title="$name" data-placement="left">
                 <$iconTag class="$iconName $iconClass mr-1"></$iconTag>
                 <span class="$className">$name</span>
             </a>
         </li>';
 
         $html = str_replace(
-            ['$name', '$link', '$iconName', '$iconTag', '$iconClass', '$className'],
-            [$this->name, $this->link, $this->icon, $this->getIconTag(), $this->getIconClass(), $this->getNameClass()],
+            ['$loadingClass', '$name', '$link', '$iconName', '$iconTag', '$iconClass', '$className'],
+            [ControllerListener::LOADING_CLASS, $this->name, $this->link, $this->icon, $this->getIconTag(), $this->getIconClass(), $this->getNameClass()],
             $html
         );
 

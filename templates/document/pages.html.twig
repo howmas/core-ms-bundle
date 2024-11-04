@@ -1,8 +1,10 @@
+{% set newType = 'document' %}
+
 {% extends '/layout/layout-listing.html.twig'|hcore_fullpath %}
 
 {% block tbody %}
 {% for item in data %}
-  <tr>
+  <tr class="{{ item.published ? 'text-primary font-weight-bold' : '' }}">
     <td class="table-column-pr-0">
       <div class="custom-control custom-checkbox">
         <input type="checkbox" class="custom-control-input" id="datatableCheck{{ loop.index }}">

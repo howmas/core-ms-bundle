@@ -1,5 +1,47 @@
 $(document).ready(function() {
   const url = window.location.pathname;
+
+  // delete
+  $(hcoreBtnDeleteId).on('click', function() {
+    showLoading();
+    
+    callAjax(
+      url,
+      "DELETE",
+      {},
+      function (response) {
+        showLoading();
+        toastSuccess();
+        location.href = $(hcoreBtnDeleteId).data('url');
+      },
+      function (response) {
+        showLoading();
+        location.reload(true);
+      },
+    );
+  });
+
+  // change publish
+  $(hcoreBtnChangePublishId).on('click', function() {
+    showLoading();
+    
+    callAjax(
+      url,
+      "PUT",
+      {},
+      function (response) {
+        showLoading();
+        toastSuccess();
+        location.reload(true);
+      },
+      function (response) {
+        showLoading();
+        location.reload(true);
+      },
+    );
+  });
+
+  // post data
   $(hcoreBtnSaveId).on('click', function() {
     showLoading();
     post();
@@ -146,6 +188,15 @@ $(document).ready(function() {
     data['fieldCollection'] = constructData;
     console.log(data);
 
-    var response = callAjax(url, 'POST', {'data': JSON.stringify(data)});
+    var response = callAjax(
+      url,
+      'POST',
+      {
+        'data': JSON.stringify(data)
+      },
+      function (response) {
+        toastSuccess();
+      }
+    );
   }
 })

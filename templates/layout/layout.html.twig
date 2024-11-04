@@ -21,8 +21,9 @@
 
     {{ include('/layout/component/sidebar.html.twig'|hcore_fullpath) }}
 
-    <main id="content" role="main" class="main">
+    {{ include('/layout/toast-alert.html.twig'|hcore_fullpath) }}
 
+    <main id="content" role="main" class="main">
       <div class="content container-fluid">
         <div class="page-header">
             {{ block('header') }}
@@ -36,11 +37,13 @@
 
     {# {{ include('/layout/component/modals.html.twig' |hcore_fullpath) }} #}
 
+    {{ include('/layout/modal-message.html.twig'|hcore_fullpath) }}
+
     {{ include('/asset/modal.html.twig'|hcore_fullpath) }}
 
-    <a class="js-go-to go-to position-fixed avatar avatar-xl avatar-centered avatar-circle avatar-border-dashed border-primary" href="javascript:;" style="visibility: hidden;" title="Lên đầu"
+    <a class="js-go-to go-to position-fixed avatar avatar-xl avatar-centered avatar-circle avatar-border-dashed border-howmas" href="javascript:;" style="visibility: hidden;" title="Lên đầu"
       data-hs-go-to-options='{
-         "offsetTop": 500,
+         "offsetTop": 50,
          "position": {
            "init": {
              "right": 10

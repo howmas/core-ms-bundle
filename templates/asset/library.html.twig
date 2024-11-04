@@ -1,7 +1,8 @@
-{% set parentRowCls = 'row row-cols-1 row-cols-sm-3 row-cols-md-4 row-cols-lg-4' %}
+{% set parentFolderRowCls = 'row row-cols-1 row-cols-sm-3 row-cols-md-4 row-cols-lg-4' %}
+{% set parentFileRowCls = 'row row-cols-1 row-cols-sm-4 row-cols-md-6 row-cols-lg-6' %}
 
 {% if folderCount > 0 %}
-  <div class="{{ parentRowCls }}" id="cardFolders">
+  <div class="{{ parentFolderRowCls }}" id="cardFolders">
     {% for item in folders %}
       {{ include('/asset/component/folder.html.twig'|hcore_fullpath) }}
     {% endfor %}
@@ -28,7 +29,7 @@
     </div>
   </div>
 
-  <div class="{{ parentRowCls }}" id="cardFiles">
+  <div class="{{ parentFileRowCls }}" id="cardFiles">
     {% for item in files %}
       {{ include('/asset/component/file.html.twig'|hcore_fullpath) }}
     {% endfor %}

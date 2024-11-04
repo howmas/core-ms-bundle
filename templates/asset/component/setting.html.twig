@@ -25,19 +25,21 @@
     </a>
     {% endif %}
 
-    <a class="dropdown-item" href="#">
+    {# <a class="dropdown-item" href="#">
       <i class="tio-folder-add dropdown-item-icon mr-1"></i>Chuyển tới
     </a>
     <a class="dropdown-item" href="#">
       <i class="tio-edit dropdown-item-icon mr-1"></i>Đổi tên
-    </a>
+    </a> #}
+    {% if not isFolder %}
     <a class="dropdown-item" href="{{ item.fullpath }}" download="">
       <i class="tio-download-to dropdown-item-icon mr-1"></i>Tải xuống
     </a>
+    {% endif %}
 
     <div class="dropdown-divider"></div>
 
-    <a class="dropdown-item text-danger asset-listing-delete" href="javascript:;">
+    <a class="dropdown-item text-danger asset-listing-delete" href="javascript:;" data-name="{{ name }}">
       <i class="tio-delete-outlined dropdown-item-icon text-danger mr-1"></i>Xóa
     </a>
   </div>

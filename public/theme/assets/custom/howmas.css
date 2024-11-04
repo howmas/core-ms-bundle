@@ -61,3 +61,33 @@ a.text-howmas:hover, a.text-howmas:focus {
 .alert-howmas .alert-link {
   color: var(--howmas-txt);
 }
+
+.border-howmas {
+  border-color: var(--howmas) !important;
+}
+
+.bg-howmas {
+  background-color: var(--howmas) !important;
+}
+/*a.bg-howmas:focus,
+a.bg-howmas:hover,
+button.bg-howmas:focus,
+button.bg-howmas:hover {
+  background-color: #045cff !important;
+}
+
+.bg-howmas ::-moz-selection {
+  color: #377dff;
+  background-color: #fff;
+}
+.bg-howmas ::selection {
+  color: #377dff;
+  background-color: #fff;
+}*/
+
+/* change default */
+.go-to.border-howmas:focus:hover,.go-to.border-howmas:hover {
+  color: #fff;
+  background-color: var(--howmas) !important;
+  opacity: 1
+}

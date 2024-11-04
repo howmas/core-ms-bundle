@@ -1,10 +1,15 @@
+{% set newButton =
+  newType is defined and newType is not empty
+  and newUrl is defined and newUrl is not empty
+%}
+
 {% extends HCoreLayout %}
 
 {% block header %}
 <div class="row align-items-center mb-3">
   <div class="col-sm mb-2 mb-sm-0">
     <h1 class="page-header-title">{{ title }}
-      {%if count is defined%}<span class="badge badge-soft-dark ml-2">{{ count }}</span>{%endif%}
+      {%if count is defined%}<span class="badge badge-soft-dark ml-1">{{ count }}</span>{%endif%}
     </h1>
 
     {# <div class="mt-2">
@@ -17,15 +22,19 @@
     </div> #}
   </div>
 
-  {# <div class="col-sm-auto">
-    <a class="btn btn-primary" href="./ecommerce-add-product.html">Add product</a>
-  </div>
+  {% if newButton is defined %}
   <div class="col-sm-auto">
+    <a class="btn btn-howmas" data-toggle="modal" data-target="#addNewModal">
+      <i class="tio-add mr-1"></i>Thêm mới
+    </a>
+  </div>
+  {% endif %}
+  {# <div class="col-sm-auto">
     <a class="btn btn-primary" href="./ecommerce-add-product.html">Add product</a>
   </div> #}
 </div>
 
-<div class="js-nav-scroller hs-nav-scroller-horizontal">
+{# <div class="js-nav-scroller hs-nav-scroller-horizontal">
   <span class="hs-nav-scroller-arrow-prev" style="display: none;">
     <a class="hs-nav-scroller-arrow-link" href="javascript:;">
       <i class="tio-chevron-left"></i>
@@ -52,7 +61,7 @@
       <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Unpublish</a>
     </li>
   </ul>
-</div>
+</div> #}
 {% endblock %}
 
 {% block content %}
@@ -64,17 +73,14 @@
           <span id="datatableCounter">0</span>
           đã chọn
         </span>
-        <a class="btn btn-sm btn-outline-danger mb-2 mb-sm-0 mr-2" href="javascript:;">
-          <i class="tio-delete-outlined"></i> Delete
+        <a class="btn btn-sm btn-danger mb-2 mb-sm-0 mr-2" href="javascript:;">
+          <i class="tio-delete"></i> Xóa
         </a>
-        <a class="btn btn-sm btn-white mb-2 mb-sm-0 mr-2" href="javascript:;">
-          <i class="tio-archive"></i> Archive
+        <a class="btn btn-sm btn-primary mb-2 mb-sm-0 mr-2" href="javascript:;">
+          <i class="tio-visible"></i> Hiện ra
         </a>
-        <a class="btn btn-sm btn-white mb-2 mb-sm-0 mr-2" href="javascript:;">
-          <i class="tio-publish"></i> Publish
-        </a>
-        <a class="btn btn-sm btn-white mb-2 mb-sm-0" href="javascript:;">
-          <i class="tio-clear"></i> Unpublish
+        <a class="btn btn-sm btn-secondary mb-2 mb-sm-0" href="javascript:;">
+          <i class="tio-hidden"></i> Ẩn đi
         </a>
       </div>
     </div>
@@ -97,7 +103,7 @@
         </form>
       </div>
 
-      <div class="col-auto">
+      {# <div class="col-auto">
         <div class="hs-unfold mr-2">
           <a class="js-hs-unfold-invoker btn btn-white" href="javascript:;"
              data-hs-unfold-options='{
@@ -231,7 +237,7 @@
             </div>
           </div>
         </div>
-      </div>
+      </div> #}
     </div>
   </div>
 
@@ -312,4 +318,43 @@
     </div>
   </div>
 </div>
+
+{% if newButton %}
+<div class="modal fade" id="addNewModal" tabindex="-1" role="dialog" aria-labelledby="addNewModalTitle" aria-hidden="true" data-url="{{ newUrl }}">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 id="addNewModalTitle" class="modal-title">Nhập tên gợi nhớ <i class="tio-help-outlined" data-toggle="tooltip" data-placement="top" data-html="true" title="Tên gợi nhớ là tên người dùng đặt tự do để phân biệt các bản ghi dữ liệu trong hệ thống, không hiển thị ra bên ngoài."></i></h4>
+        <button type="button" class="btn btn-icon btn-sm btn-ghost-secondary" data-dismiss="modal" aria-label="Close">
+          <i class="tio-clear tio-lg"></i>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        {# <input type="text" class="js-masked-input form-control" placeholder="Tên thư mục"
+          data-hs-mask-options='{
+            "template": "0#",
+            "translation": {
+              "#": {"pattern": "[A-Za-z0-9-_.]"}
+            },
+            "reverse": "true"
+          }'> #}
+
+        <input type="text" class="form-control" placeholder="Tên gợi nhớ" id="listing-add-new-input">
+        <input type="hidden" id="listing-add-new-type" val="{{ newType }}">
+      </div>
+
+      <div class="modal-footer d-flex justify-content-between">
+        <button type="button" class="btn btn-white" data-dismiss="modal">Hủy</button>
+        <div>
+          <button disabled type="button" class="btn btn-howmas" id="listing-add-new">Tạo mới</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endif %}
+
+{% do pimcore_head_script().appendFile(asset('/js/listing.js'|hcore_asset), 'text/javascript') %}
+
 {% endblock %}

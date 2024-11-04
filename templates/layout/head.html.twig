@@ -32,4 +32,20 @@
         max-height: 200px;
         overflow-y: auto;
     }
+
+    /* add placeholder for contenteditable=true */
+    [contenteditable=true]:empty:before {
+        content: attr(placeholder);
+        color: #aaa8a8;
+        pointer-events: none;
+    }
+
+    [contenteditable=true] {
+        border: 1px dashed var(--howmas);
+    }
+
+    /* custom toast */
+    .toast {
+        background-color: #fff !important;
+    }
 </style>

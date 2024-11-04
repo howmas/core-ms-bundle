@@ -10,8 +10,9 @@
   {{ include('/asset/library.html.twig'|hcore_fullpath) }}
 </div>
 
-{% if fileCount > 0 %}
-  <div class="modal-footer">
-    <button type="button" class="btn btn-primary asset-modal-select-button">Chọn</button>
+<div class="modal-footer d-flex justify-content-between">
+  <a href="{{ libraryUrl }}" class="btn btn-howmas" target="_blank">Xem tại thư viện <i class="tio-open-in-new"></i></a>
+  <div>
+    <button {%if fileCount==0%}disabled{%endif%} type="button" class="btn btn-primary asset-modal-select-button">Chọn</button>
   </div>
-{% endif %}
+</div>

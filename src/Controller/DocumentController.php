@@ -67,6 +67,7 @@ class DocumentController extends BaseController
                 'name' => DocumentService::getName($hompage),
                 'language' => $language,
                 'languageName' => $languageName,
+                'published' => $hompage->getPublished(),
             ];
 
             $documentOfLangs = $langDocument->getChildren();
@@ -84,10 +85,12 @@ class DocumentController extends BaseController
                     'name' => DocumentService::getName($documentOfLang),
                     'language' => $language,
                     'languageName' => $languageName,
+                    'published' => $documentOfLang->getPublished(),
                 ];
             }
         }
         $data['data'] = $items;
+        $data['count'] = count($items);
 
         return $this->view($data);
     }

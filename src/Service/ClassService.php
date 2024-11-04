@@ -7,6 +7,7 @@ use Pimcore\Model\DataObject\ClassDefinition\Data\Localizedfields;
 use Pimcore\Model\DataObject\ClassDefinition;
 use Pimcore\Model\DataObject\Fieldcollection\Definition;
 use HowMAS\CoreMSBundle\Model\HClass;
+use Pimcore\Model\DataObject;
 
 class ClassService
 {
@@ -26,6 +27,29 @@ class ClassService
     {
         $className = '\\Pimcore\\Model\\DataObject\\' . ucfirst($hClass->getName());
         return call_user_func_array($className . '::getById', [(int) $id]);
+    }
+
+    public static function getByKey($hClass, $key)
+    {
+        $className = '\\Pimcore\\Model\\DataObject\\' . ucfirst($hClass->getName());
+        return call_user_func_array($className . '::getByKey', [$key, ['limit' => 1,'unpublished' => true]]);
+    }
+
+    public static function create($hClass, $key)
+    {
+        $hClassName = $hClass->getName();
+        $className = '\\Pimcore\\Model\\DataObject\\' . ucfirst($hClassName);
+        $object = new $className;
+
+        $object->setKey(\Pimcore\Model\Element\Service::getValidKey($key, 'object'));
+
+        $path = '/' . $hClassName;
+        $parent = DataObject::getByPath($path) ?? DataObject\Service::createFolderByPath($path);
+        $object->setParent($parent);
+
+        $object->save();
+
+        return $object;
     }
 
     public static function getLayout($classDefinition, $isFieldCollection = false)

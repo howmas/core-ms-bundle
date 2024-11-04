@@ -1,7 +1,12 @@
 {% set item = item is defined ? item : null %}
 
 {% if item %}
-  <div class="col mb-2 mb-lg-3" id="cardAsset{{ item.id }}">
+  {% set fileSize = item.getFileSize(true) %}
+  {% set size = item.customSettings.imageWidth is defined and item.customSettings.imageHeight is defined
+    ? item.customSettings.imageWidth ~ ' x ' ~ item.customSettings.imageHeight
+    : '' %}
+
+  <div class="col mb-2" id="cardAsset{{ item.id }}">
     {% set name = item.key %}
     {% set id = item.id %}
     {% set fileKey = 'assetFile' ~ id %}
@@ -19,24 +24,23 @@
         <label class="custom-checkbox-card-label custom-checkbox-card-label-stretched" for="checkboxCardFile{{ id }}"></label>
       {% endif %}
 
-        <small>{{ item.getFileSize(true) }}</small>
+        <small>{{ size }}</small>
 
         {% if showSetting %}
           {{ include('/asset/component/setting.html.twig'|hcore_fullpath) }}
         {% endif %}
       </div>
 
-      <div class="card-body">
+      <div class="card-body js-fancybox" title="{{ name }} - {{ fileSize }} - {{ size }}" data-src="{{ item.fullpath }}" data-caption="{{ name }} - {{ fileSize }} - {{ size }}">
         <img id="{{ fileKey }}" data-id={{ id }} data-type="{{ item|hcore_asset_type }}" data-src="{{ item.fullpath }}" class="avatar avatar-xl avatar-4by3" src="{{ item|hcore_asset_preview }}" alt="{{ name }}" title="{{ name }}">
 
         {% if showSetting %}
           <a class="stretched-link" href="#"></a>
         {% endif %}
-      </div>
 
-      <div class="card-body">
-        <h5 class="card-title">{{ name }}</h5>
-        <p class="small">{{ item.creationDate | date('Y/m/d H:i') }}</p>
+        {# <h5 class="card-title">{{ name }}</h5> #}
+        <p class="small mt-2">{{ item.creationDate | date('Y/m/d H:i') }}</p>
+        <p class="small">{{ fileSize }}</p>
       </div>
     </div>
   </div>

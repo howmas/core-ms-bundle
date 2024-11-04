@@ -3,13 +3,14 @@
 {% if item %}
   <div class="col mb-2 mb-lg-3" id="cardAsset{{ item.id }}">
     {% set showSetting = showSetting is defined ? showSetting : false %}
-    {% set name = item.key ~ ' (' ~ item.children|length ~ ')' %}
+    {% set name = item.key %}
     <div class="card card-sm card-hover-shadow h-100" title="{{ name }}">
       <div class="card-body">
         <div class="d-flex align-items-center">
 
           <i class="tio-folders text-body mr-2"></i>
           <h5 class="card-title text-truncate mr-2">{{ name }}</h5>
+          <span class="btn-status btn-status-secondary"><small>{{ item.children|length }}</small></span>
 
           {% if showSetting %}
             {{ include('/asset/component/setting.html.twig'|hcore_fullpath, {isFolder:true}) }}

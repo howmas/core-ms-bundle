@@ -25,6 +25,8 @@ $(document).ready(function() {
       data,
       function (response) {
         $('#cardFolders').append(response);
+        $('#create-new-folder-input').val('');
+        $('#assetCreateNewFolder').modal('hide');
       },
       function (response) {
         showLoading();
@@ -115,12 +117,17 @@ $(document).ready(function() {
   // ------------------------------------------------
 
   $('body').delegate('.asset-listing-delete', 'click', function() {
-    showLoading();
     var url = $(this).parent().data('url');
+    var name = $(this).data('name');
+    var message = `Bạn chắc chắn muốn xóa <b class="text-danger">${name}</b>?`;
 
-    callAjax(url, "DELETE", null, function (response) {
-      $('#cardAsset' + response.id).remove();
-    });
+    messageShow(message, function () {
+      showLoading();
+      callAjax(url, "DELETE", {}, function (response) {
+        $('#cardAsset' + response.id).remove();
+      });
+    })
+    
   });
 
   $('#reloadButton').on('click', function() {

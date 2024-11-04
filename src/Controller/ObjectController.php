@@ -6,6 +6,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use HowMAS\CoreMSBundle\Service\ClassService;
 use HowMAS\CoreMSBundle\Component\Form;
 use HowMAS\CoreMSBundle\Model\HClass;
+use HowMAS\CoreMSBundle\Service\RecyclebinService;
 
 /**
  * @Route("/object", name="object-")
@@ -18,14 +19,13 @@ class ObjectController extends BaseController
     public function listing($classId)
     {
         $hClass = HClass::getById($classId);
-
         if (!$hClass?->getActive()) {
             return null;
         }
 
         $data['classId'] = $classId;
         $data['title'] = $hClass->getTitle();
-        $data['headers'] = json_decode($hClass->getGridFields(), true);
+        $data['headers'] = array_merge([['title' => 'Key', 'name' => 'key']], json_decode($hClass->getGridFields(), true));
 
         $listing = ClassService::getList($hClass);
         // $listing->setLocale($request->get('_locale', \Pimcore\Tool::getDefaultLanguage()));
@@ -47,13 +47,11 @@ class ObjectController extends BaseController
     public function detail($classId, $id)
     {
         $hClass = HClass::getById($classId);
-
         if (!$hClass?->getActive()) {
             return $this->goView('object-listing', compact('classId'));
         }
 
         $item = ClassService::getById($hClass, $id);
-
         if (!$item) {
             return $this->goView('object-listing', compact('classId'));
         }
@@ -75,7 +73,6 @@ class ObjectController extends BaseController
         } elseif ($method == $this->request::METHOD_POST) {
             $data = $this->request->get('data');
             $data = json_decode($data, true);
-
             if (!empty($data)) {
                 foreach ($data as $type => $params) {
                     if (!empty($params)) {
@@ -103,11 +100,47 @@ class ObjectController extends BaseController
             $item->setPublished(!$item->getPublished());
             $item->save();
 
-            return $this->goView('object-detail', compact('classId', 'id'));
+            return $this->sendResponse();
         } elseif ($method == $this->request::METHOD_DELETE) {
+            RecyclebinService::pushToBin($id, 'object');
             $item->delete();
 
             return $this->goView('object-listing', compact('classId'));
         }
+    }
+
+    /**
+     * @Route("/create/{classId}", name="create", methods={"POST"})
+     */
+    public function create($classId)
+    {
+        $hClass = HClass::getById($classId);
+        if (!$hClass?->getActive()) {
+            $redirect = $this->redirectToRoute('hcore-index');
+            $url = $redirect->getTargetUrl();
+
+            return $this->sendResponse(compact('url'));
+        }
+
+        $key = $this->request->get('key');
+        if (!$key) {
+            return $this->sendError('Tên gợi nhớ không hợp lệ');
+        }
+
+        $existKey = ClassService::getByKey($hClass, $key);
+        if ($existKey) {
+            return $this->sendError('Tên gợi nhớ đã tồn tại');
+        }
+
+        $item = ClassService::create($hClass, $key);
+        if ($item) {
+            $id = $item->getId();
+            $redirect = $this->redirectToRoute('hcore-object-detail', compact('classId', 'id'));
+            $url = $redirect->getTargetUrl();
+
+            return $this->sendResponse(compact('url'));
+        }
+
+        return $this->sendError('Không thể tạo mới, hãy thử lại!');
     }
 }

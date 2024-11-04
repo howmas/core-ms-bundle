@@ -4,11 +4,15 @@ namespace HowMAS\CoreMSBundle\EventListener;
 
 use Symfony\Component\HttpKernel\Event\ControllerEvent;
 use Twig\Environment;
+use Pimcore\Bundle\AdminBundle\Security\CsrfProtectionHandler;
 
 class ControllerListener
 {
+    const LOADING_CLASS = 'hcore-loading-click';
+
     public function __construct(
-        protected Environment $twig
+        protected Environment $twig,
+        protected CsrfProtectionHandler $csrfProtection
     ) {
     }
 
@@ -24,8 +28,11 @@ class ControllerListener
             return;
         }
 
+        $request = $event->getRequest();
         $hcoreUser = \Pimcore\Tool\Admin::getCurrentUser();
         $this->twig->addGlobal('hcoreUser', $hcoreUser);
+        $hcoreUserToken = $this->csrfProtection->getCsrfToken($request->getSession());
+        $this->twig->addGlobal('hcoreUserToken', $hcoreUserToken);
 
         $this->twig->addGlobal('HCoreLayout', "@HowMASCoreMS/layout/layout.html.twig");
         $this->twig->addGlobal('HCoreFormLayout', "@HowMASCoreMS/layout/form/layout.html.twig");
@@ -65,7 +72,7 @@ class ControllerListener
             $this->twig->addGlobal($key, $value);
         }
 
-        $formClassScript = '';
+        $formClassScript = "const hcoreUserToken = '$hcoreUserToken'; ";
         $formClass = [
             'hcoreMultiLangCls' => 'hcore-localizedfields',
             'hcoreInputCls' => 'hcore-input',
@@ -85,6 +92,7 @@ class ControllerListener
             'hcoreRelationCls' => 'hcore-relation',
             'hcoreRelationsCls' => 'hcore-relations',
             'hcoreFieldCollectionCls' => 'hcore-field-collection',
+            'hcoreLoadingCls' => self::LOADING_CLASS,
         ];
 
         foreach ($formClass as $key => $value) {
@@ -92,13 +100,20 @@ class ControllerListener
             $formClassScript .= "var $key = '.$value'; ";
         }
 
-        $this->twig->addGlobal('hcoreBtnSaveId', 'hcore-save');
+        $this->twig->addGlobal('hcoreBtnSaveId', 'hcore-btn-save');
+        $this->twig->addGlobal('hcoreBtnChangePublishId', 'hcore-btn-change-publish');
+        $this->twig->addGlobal('hcoreBtnDeleteId', 'hcore-btn-delete');
+
         // field collection: delimiter of FC `name` and name of each field in FC
         // dấu phân cách giữ tên trường FC và các trường con bên trong nó
         $fcDelimiter = '-';
         $this->twig->addGlobal('hcoreFieldCollectionDelimiter', $fcDelimiter);
 
-        $formClassScript .= "var hcoreWysiwygContent = []; var hcoreBtnSaveId = '#hcore-save'; var hcoreFieldCollectionDelimiter = '$fcDelimiter'";
+        $formClassScript .= "var hcoreWysiwygContent = [];
+            var hcoreBtnSaveId = '#hcore-btn-save';
+            var hcoreBtnChangePublishId = '#hcore-btn-change-publish';
+            var hcoreBtnDeleteId = '#hcore-btn-delete';
+            var hcoreFieldCollectionDelimiter = '$fcDelimiter'";
         $this->twig->addGlobal('formClassScript', $formClassScript);
     }
 }

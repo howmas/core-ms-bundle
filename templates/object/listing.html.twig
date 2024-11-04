@@ -1,8 +1,13 @@
+{% set newType = classId %}
+{% set newUrl = hcore_layout_path('object-create', {classId: classId}) %}
+
 {% extends '/layout/layout-listing.html.twig'|hcore_fullpath %}
 
 {% block tbody %}
 {% for item in data %}
-  <tr>
+  {% set detailLink = hcore_layout_path('object-detail', {classId: classId, id: item.id}) %}
+
+  <tr class="{{ item.published ? 'text-primary font-weight-bold' : 'text-secondary' }}">
     <td class="table-column-pr-0">
       <div class="custom-control custom-checkbox">
         <input type="checkbox" class="custom-control-input" id="datatableCheck{{ loop.index }}">
@@ -13,16 +18,20 @@
     {% for header in headers %}
     <td class="{{ loop.first ? 'table-column-pl-0' : '' }}">
       {% set value = attribute(item, header.name) is defined ? attribute(item, header.name) : '' %}
-      {{ value }}
+      {% if loop.first %}
+        <a class="{{ item.published ? 'text-primary' : 'text-secondary' }}" href="{{ detailLink }}">{{ value }}</a>
+      {% else %}
+        {{ value }}
+      {% endif %}
     </td>
     {% endfor %}
     <td>
       <div class="btn-group" role="group">
-        <a class="btn btn-sm btn-white" href="{{ hcore_layout_path('object-detail', {classId: classId, id: item.id}) }}">
+        <a class="btn btn-sm btn-white {{ hcoreLoadingCls }}" href="{{ detailLink }}">
           <i class="tio-edit"></i>
         </a>
         
-        <div class="hs-unfold btn-group">
+        {# <div class="hs-unfold btn-group">
           <a class="js-hs-unfold-invoker btn btn-icon btn-sm btn-white dropdown-toggle dropdown-toggle-empty" href="javascript:;"
              data-hs-unfold-options='{
                "target": "#productsEditDropdown1",
@@ -44,7 +53,7 @@
               <i class="tio-clear dropdown-item-icon"></i> Unpublish
             </a>
           </div>
-        </div>
+        </div> #}
       </div>
     </td>
   </tr>
