@@ -1,3 +1,6 @@
+imports:
+    - { resource: how_mas_core_ms.yaml }
+
 pimcore_admin:
     admin_csp_header:
         enabled: false

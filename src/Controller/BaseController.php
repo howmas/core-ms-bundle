@@ -132,4 +132,9 @@ class BaseController extends FrontendController
     {
         return $this->redirectToRoute(CoreService::getRoute($routePart), $params);
     }
+
+    public function getConfig()
+    {
+        return \Pimcore::getContainer()->getParameter('how_mas_core_ms');
+    }
 }

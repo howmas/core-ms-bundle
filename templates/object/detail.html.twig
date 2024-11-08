@@ -116,11 +116,17 @@
         <div class="card-body">
           <div class="row justify-content-center justify-content-sm-between">
             <div class="col">
-              <button id="{{ hcoreBtnDeleteId }}" data-url="{{ listingPath }}" type="button" class="btn btn-danger">Xóa</button>
+              <button id="{{ hcoreBtnDeleteId }}" data-url="{{ listingPath }}" type="button" class="btn btn-danger">
+                <i class="tio-delete mr-1"></i>Xóa
+              </button>
             </div>
             <div class="col-auto">
-              <button id="{{ hcoreBtnChangePublishId }}" type="button" class="btn btn-{{ published ? 'secondary' : 'primary' }} mr-2">{{ published ? 'Ẩn đi' : 'Hiện ra' }}</button>
-              <button id="{{ hcoreBtnSaveId }}" class="btn btn-success">Lưu</button>
+              <button id="{{ hcoreBtnChangePublishId }}" type="button" class="btn btn-{{ published ? 'secondary' : 'primary' }} mr-2">
+                <i class="tio-{{ published ? 'hidden' : 'visible' }} mr-1"></i>{{ published ? 'Ẩn đi' : 'Hiện ra' }}
+              </button>
+              <button id="{{ hcoreBtnSaveId }}" class="btn btn-success">
+                <i class="tio-save mr-1"></i>Lưu
+              </button>
             </div>
           </div>
         </div>

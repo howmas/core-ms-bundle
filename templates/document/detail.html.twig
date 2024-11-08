@@ -1,4 +1,5 @@
 {% set useScrollspy = true %}
+{% set published = item.published %}
 {% extends HCoreLayout %}
 
 {% block header %}
@@ -11,7 +12,9 @@
       </ol>
     </nav>
 
-    <h1 class="page-header-title">{{ adminLayoutTitle }}</h1>
+    <h1 class="page-header-title {{ published ? 'text-primary font-weight-bold' : '' }}">
+      <span>{{ adminLayoutTitle }}</span><i class="tio-{{ published ? 'visible' : 'hidden' }} ml-2" data-toggle="tooltip" data-placement="top" title="{{ published ? 'Đang hiện' : 'Đang ẩn' }}"></i>
+    </h1>
     
     {# <div class="mt-2">
       <a class="text-body mr-3" href="javascript:;">
@@ -112,11 +115,17 @@
         <div class="card-body">
           <div class="row justify-content-center justify-content-sm-between">
             <div class="col">
-              <button type="button" class="btn btn-ghost-danger">Xóa</button>
+              <button type="button" class="btn btn-danger" disabled>
+                <i class="tio-delete mr-1"></i>Xóa
+              </button>
             </div>
             <div class="col-auto">
-              <button type="button" class="btn btn-ghost-primary mr-2">Ẩn</button>
-              <button id="{{ hcoreBtnSaveId }}" class="btn btn-success">Lưu</button>
+              <button id="{{ hcoreBtnChangePublishId }}" type="button" class="btn btn-{{ published ? 'secondary' : 'primary' }} mr-2">
+                <i class="tio-{{ published ? 'hidden' : 'visible' }} mr-1"></i>{{ published ? 'Ẩn đi' : 'Hiện ra' }}
+              </button>
+              <button id="{{ hcoreBtnSaveId }}" class="btn btn-success">
+                <i class="tio-save mr-1"></i>Lưu
+              </button>
             </div>
           </div>
         </div>

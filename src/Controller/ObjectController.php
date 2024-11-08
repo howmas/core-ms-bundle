@@ -28,6 +28,23 @@ class ObjectController extends BaseController
         $data['headers'] = array_merge([['title' => 'Key', 'name' => 'key']], json_decode($hClass->getGridFields(), true));
 
         $listing = ClassService::getList($hClass);
+
+        // config
+        $config = $this->getConfig();
+        $queryString =
+        isset($config['object']['listing']['condition'][$classId]['query_string'])
+            ? $config['object']['listing']['condition'][$classId]['query_string']
+            : null;
+
+        if (!empty($queryString)) {
+            $conditionArray =
+            isset($config['object']['listing']['condition'][$classId]['condition_array'])
+                ? $config['object']['listing']['condition'][$classId]['condition_array']
+                : [];
+
+            $listing->setCondition($queryString, $conditionArray);
+        }
+            
         // $listing->setLocale($request->get('_locale', \Pimcore\Tool::getDefaultLanguage()));
         $listing->setUnpublished(true);
 

@@ -25,6 +25,6 @@ class HowMASCoreMSExtension extends Extension
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../../config'));
         $loader->load('services.yaml');
 
-        $container->setParameter('howmas_corems', $config ?? null);
+        $container->setParameter('how_mas_core_ms', $config ?? null);
     }
 }

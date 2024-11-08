@@ -1,0 +1,11 @@
+how_mas_core_ms:
+    document:
+        listing:
+            showRoots: true # hide or show document root while listing data
+    # object:
+    #     listing:
+    #         condition: # add condition while listing data
+    #             blog:
+    #                 query_string: 'image != :image'
+    #                 condition_array:
+    #                     'image': 0 

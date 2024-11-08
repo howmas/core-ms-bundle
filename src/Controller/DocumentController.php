@@ -31,6 +31,10 @@ class DocumentController extends BaseController
         $root = Document::getById(1);
         $langDocuments = $root->getChildren();
 
+        // config
+        $config = $this->getConfig();
+        $showRoots = isset($config['document']['showRoots']) ? $config['document']['showRoots'] : true;
+
         $items = [];
         foreach ($langDocuments as $langDocument) {
             // only Page or Link
@@ -62,13 +66,15 @@ class DocumentController extends BaseController
             $language = $langDocument->getProperties()['language']->getData();
             $languageName = \Locale::getDisplayName($language, $userLocale);
 
-            $items[] = [
-                'id' => $hompage->getId(),
-                'name' => DocumentService::getName($hompage),
-                'language' => $language,
-                'languageName' => $languageName,
-                'published' => $hompage->getPublished(),
-            ];
+            if ($showRoots) {
+                $items[] = [
+                    'id' => $hompage->getId(),
+                    'name' => DocumentService::getName($hompage),
+                    'language' => $language,
+                    'languageName' => $languageName,
+                    'published' => $hompage->getPublished(),
+                ];
+            }
 
             $documentOfLangs = $langDocument->getChildren();
             foreach ($documentOfLangs as $documentOfLang) {
