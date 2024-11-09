@@ -185,6 +185,16 @@ $(document).ready(function() {
         } 
       });
     });
+
+    // check if field-collection (block) is empty -> set empty
+    $(hcoreFieldCollectionCls).each(function() {
+      var fcField = $(this).data('name');
+
+      if (!constructData.hasOwnProperty(fcField)) {
+        constructData[fcField] = {};
+      }
+    });
+
     data['fieldCollection'] = constructData;
     console.log(data);
 

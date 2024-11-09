@@ -41,4 +41,10 @@ class DatabaseService
         $listing = Db::get()->fetchAllAssociative($query, [1]);
         return $listing;
     }
+
+    public static function clearDocumentBlockData($blockField)
+    {
+        $query = "DELETE FROM `documents_editables` WHERE `name` LIKE ?";
+        Db::get()->fetchOne($query, ['%' . $blockField . ':%']);
+    }
 }

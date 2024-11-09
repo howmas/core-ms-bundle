@@ -5,6 +5,7 @@ namespace HowMAS\CoreMSBundle\Controller;
 use Symfony\Component\Routing\Annotation\Route;
 use Pimcore\Model\Document;
 use HowMAS\CoreMSBundle\Service\DocumentService;
+use HowMAS\CoreMSBundle\Service\DatabaseService;
 
 /**
  * @Route("/document", name="document-")
@@ -139,22 +140,26 @@ class DocumentController extends BaseController
             $block = !empty($data['fieldCollection']) ? $data['fieldCollection'] : [];
             if (!empty($block)) {
                 foreach ($block as $blockField => $typeValues) {
+                    // clear block old data
+                    DatabaseService::clearDocumentBlockData($blockField);
+
                     $blockData = [];
+                    if (!empty($typeValues)) {
+                        $fieldName = $typeValues['allowType'];
+                        $itemCount = $typeValues['itemCount'];
+                        unset($typeValues['allowType']);
+                        unset($typeValues['itemCount']);
 
-                    $fieldName = $typeValues['allowType'];
-                    $itemCount = $typeValues['itemCount'];
-                    unset($typeValues['allowType']);
-                    unset($typeValues['itemCount']);
-
-                    for ($i = 0; $i < $itemCount; $i++) {
-                        $key = $i + 1;
-                        $blockData[] = (string) $key;
-                        foreach ($typeValues as $type => $fieldValues) {
-                            foreach ($fieldValues as $field => $values) {
-                                $data[$type][$blockField .':'. $key .'.'. $field] = $values[$i];
+                        for ($i = 0; $i < $itemCount; $i++) {
+                            $key = $i + 1;
+                            $blockData[] = (string) $key;
+                            foreach ($typeValues as $type => $fieldValues) {
+                                foreach ($fieldValues as $field => $values) {
+                                    $data[$type][$blockField .':'. $key .'.'. $field] = $values[$i];
+                                }
                             }
                         }
-                    }
+                    } 
 
                     $dataOfBlock[$blockField] = $blockData;
                 }

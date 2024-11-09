@@ -26,7 +26,6 @@ class ClassListener
 
     public function postUpdateField(FieldcollectionDefinitionEvent $event): void
     {
-        dd($event);
     }
 
     public function postDeleteField(FieldcollectionDefinitionEvent $event): void
