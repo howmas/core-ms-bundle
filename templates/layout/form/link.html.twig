@@ -6,17 +6,18 @@
 {% extends HCoreFormSelectLayout %}
 
 {% block options %}
-  {% set defaultOption = {name: 'Để trống', value: ''} %}
+  {% set defaultOption = {id: -1, name: 'Để trống', value: ''} %}
   {% set optionLinks = hcore_form_link_document_options(item) %}
   {% set optionLinks = [defaultOption]|merge(optionLinks) %}
   {% set linktype = value.linktype is defined ? value.linktype : '' %}
-  {% set value = value.path is defined ? value.path : '' %}
+  {% set selectedValue = value.path is defined ? value.path : '' %}
+  {% set selectedId = value.internalId is defined ? value.internalId : (selectedValue ? 0 : -1) %}
 
   {% if linktype == 'direct' %}
-    <option value="{{ value }}" selected>{{ value }}</option>
+    {% set optionLinks = [{id: 0, name: selectedValue, value: selectedValue}]|merge(optionLinks) %}
   {% endif %}
 
   {% for option in optionLinks %}
-    <option value="{{ option.value }}" {%if option.value == value%}selected{%endif%}>{{ option.name }}</option>
+    <option value="{{ option.value }}" {%if option.id == selectedId%}selected{%endif%}>{{ option.name }}</option>
   {% endfor %}
 {% endblock %}

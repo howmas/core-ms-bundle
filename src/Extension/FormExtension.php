@@ -159,6 +159,7 @@ class FormExtension extends AbstractExtension
                 $link = $hompage->getFullPath();
 
                 $options[] = [
+                    'id' => $hompage->getId(),
                     'name' => $link . " ($name)",
                     'value' => $link,
                 ];
@@ -176,6 +177,7 @@ class FormExtension extends AbstractExtension
                     $link = $documentOfLang->getPrettyUrl() ?: $documentOfLang->getFullPath();
 
                     $options[] = [
+                        'id' => $documentOfLang->getId(),
                         'name' => $link . " ($name)",
                         'value' => $link,
                     ];
