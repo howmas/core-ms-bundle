@@ -4,7 +4,7 @@
   {% set multiple = multiple is defined ? multiple : false %}
   {% set class = class is defined ? class : (multiple ? hcoreMultiSelectCls : hcoreSelectCls) %}
 
-  {% set select2Options = multiple
+  {% set select2Options = select2Options is defined ? select2Options : (multiple
     ? {
         "language": "vi",
         "minimumResultsForSearch": "Infinity",
@@ -15,7 +15,7 @@
         "language": "vi",
         "allowClear": "true",
         "placeholder": placeholder
-      }
+      })
   %}
 
   <select class="js-select2-custom custom-select {{ class }}" {%if multiple%}multiple{%endif%} id="{{ labelId }}" {%if noteditable%}disabled{%else%}name="{{ name }}"{%endif%} size="1" style="opacity: 0;"

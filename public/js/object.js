@@ -68,7 +68,8 @@ $(document).ready(function() {
       imageGallery: hcoreImageGalleryCls,
       video: hcoreVideoCls,
       manyToOneRelation: hcoreRelationCls,
-      manyToManyObjectRelation: hcoreRelationsCls
+      manyToManyObjectRelation: hcoreRelationsCls,
+      link: hcoreLinkCls,
     };
     $.each(construct, function(type, cls) {
       constructData = {};

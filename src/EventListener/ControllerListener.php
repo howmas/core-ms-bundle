@@ -92,6 +92,7 @@ class ControllerListener
             'hcoreRelationCls' => 'hcore-relation',
             'hcoreRelationsCls' => 'hcore-relations',
             'hcoreFieldCollectionCls' => 'hcore-field-collection',
+            'hcoreLinkCls' => 'hcore-link',
             'hcoreLoadingCls' => self::LOADING_CLASS,
         ];
 

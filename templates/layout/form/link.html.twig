@@ -1,5 +1,22 @@
-{% extends HCoreFormLayout %}
+{% set class = hcoreLinkCls %}
+{% set select2Options = {
+  "searchInputPlaceholder": "Nhập đường dẫn hoặc chọn từ danh sách",
+  "tags": true
+} %}
+{% extends HCoreFormSelectLayout %}
 
-{% block content %}
-  {# {{ include(inputBasePath, {class: ''}) }} #}
+{% block options %}
+  {% set defaultOption = {name: 'Để trống', value: ''} %}
+  {% set optionLinks = hcore_form_link_document_options(item) %}
+  {% set optionLinks = [defaultOption]|merge(optionLinks) %}
+  {% set linktype = value.linktype is defined ? value.linktype : '' %}
+  {% set value = value.path is defined ? value.path : '' %}
+
+  {% if linktype == 'direct' %}
+    <option value="{{ value }}" selected>{{ value }}</option>
+  {% endif %}
+
+  {% for option in optionLinks %}
+    <option value="{{ option.value }}" {%if option.value == value%}selected{%endif%}>{{ option.name }}</option>
+  {% endfor %}
 {% endblock %}

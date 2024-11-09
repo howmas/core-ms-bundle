@@ -5,7 +5,9 @@ namespace HowMAS\CoreMSBundle\Extension;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 use HowMAS\CoreMSBundle\Service\ClassService;
+use HowMAS\CoreMSBundle\Service\DocumentService;
 use HowMAS\CoreMSBundle\Model\HClass;
+use Pimcore\Model\Document;
 use Pimcore\Model\Document\Editable;
 use Pimcore\Model\DataObject;
 
@@ -24,6 +26,7 @@ class FormExtension extends AbstractExtension
             new TwigFunction('hcore_form_fieldcollection', [$this, 'getFieldCollectionLayout']),
             new TwigFunction('hcore_form_fieldcollection_init', [$this, 'getFieldCollectionItemInit']),
             new TwigFunction('hcore_form_check_type', [$this, 'checkType']),
+            new TwigFunction('hcore_form_link_document_options', [$this, 'getDocumentOptionForLink']),
         ];
     }
 
@@ -141,5 +144,45 @@ class FormExtension extends AbstractExtension
         $field = new $class;
 
         return $field;
+    }
+
+    public function getDocumentOptionForLink($document)
+    {
+        $language = $document->getProperties()['language']->getData();
+        $langDocument = Document::getByPath("/$language");
+
+        $options = [];
+        if ($langDocument) {
+            $hompage = $langDocument instanceof Document\Link ? Document::getByPath($langDocument->getHref()) : $langDocument;
+            if ($hompage) {
+                $name = DocumentService::getName($hompage);
+                $link = $hompage->getFullPath();
+
+                $options[] = [
+                    'name' => $link . " ($name)",
+                    'value' => $link,
+                ];
+
+                $documentOfLangs = $langDocument->getChildren();
+                foreach ($documentOfLangs as $documentOfLang) {
+                    // only Page or Snippet
+                    if (!(
+                        $documentOfLang instanceof Document\Page
+                    )) {
+                        continue;
+                    }
+
+                    $name = DocumentService::getName($documentOfLang);
+                    $link = $documentOfLang->getPrettyUrl() ?: $documentOfLang->getFullPath();
+
+                    $options[] = [
+                        'name' => $link . " ($name)",
+                        'value' => $link,
+                    ];
+                }
+            }
+        }
+
+        return $options;
     }
 }
