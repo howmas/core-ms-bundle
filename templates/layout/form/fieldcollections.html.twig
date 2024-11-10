@@ -21,7 +21,8 @@
           "handle": ".move-button"
         }'>
         {% for fieldKey, fieldItem in fieldItems %}
-          {% set collapseKey = namePrefix ~ (loop.last ? '' : loop.index) %}
+          {% set fcItemKey = loop.last ? hcoreReplaceIndex : loop.index %}
+          {% set collapseKey = namePrefix ~ fcItemKey %}
           <div class="{{ loop.last ? 'd-none' : 'field-collection-items' }}">
             <div class="card">
               <a class="card-header card-btn btn-block bg-primary justify-content-center" data-toggle="collapse" href="#collapse{{ collapseKey }}" aria-expanded="true" aria-controls="collapse{{ collapseKey }}">
@@ -45,7 +46,7 @@
                         placeholder: null,
                         namePrefix: namePrefix,
                         isFC: true,
-                        fcItemKey: fieldKey
+                        fcItemKey: fcItemKey
                       }) }}
                     {% endfor %}
                   </div>

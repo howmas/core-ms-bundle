@@ -110,11 +110,18 @@ class ControllerListener
         $fcDelimiter = '-';
         $this->twig->addGlobal('hcoreFieldCollectionDelimiter', $fcDelimiter);
 
+        // using for fieldcollection while add new item
+        // dùng để thay thế index khi thêm item mới trong fieldcollection
+        $fcReplaceIndex = 'hcore-need-replace-index';
+        $this->twig->addGlobal('hcoreReplaceIndex', $fcReplaceIndex); 
+
         $formClassScript .= "var hcoreWysiwygContent = [];
             var hcoreBtnSaveId = '#hcore-btn-save';
             var hcoreBtnChangePublishId = '#hcore-btn-change-publish';
             var hcoreBtnDeleteId = '#hcore-btn-delete';
-            var hcoreFieldCollectionDelimiter = '$fcDelimiter'";
+            var hcoreFieldCollectionDelimiter = '$fcDelimiter';
+            var hcoreReplaceIndex = '$fcReplaceIndex';
+        ";
         $this->twig->addGlobal('formClassScript', $formClassScript);
     }
 }
