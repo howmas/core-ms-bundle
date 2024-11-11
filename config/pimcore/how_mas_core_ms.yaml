@@ -8,4 +8,10 @@ how_mas_core_ms:
     #             blog:
     #                 query_string: 'image != :image'
     #                 condition_array:
-    #                     'image': 0 
+    #                     'image': 0
+    ecommerce:
+        enable: true
+        classes:
+            category: Category
+            products:
+                - Product

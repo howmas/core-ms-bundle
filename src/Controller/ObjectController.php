@@ -7,6 +7,7 @@ use HowMAS\CoreMSBundle\Service\ClassService;
 use HowMAS\CoreMSBundle\Component\Form;
 use HowMAS\CoreMSBundle\Model\HClass;
 use HowMAS\CoreMSBundle\Service\RecyclebinService;
+use HowMAS\CoreMSBundle\Service\EcommerceService;
 
 /**
  * @Route("/object", name="object-")
@@ -25,6 +26,24 @@ class ObjectController extends BaseController
 
         $data['classId'] = $classId;
         $data['title'] = $hClass->getTitle();
+
+        // check ecommerce layout: Category
+        $category = EcommerceService::getCategoryClassName();
+        if ($category && $hClass->getName() == $category) {
+            $data['categoryFolder'] = EcommerceService::getCategoryFolder();
+
+            if ($this->request->getMethod() == $this->request::METHOD_POST) {
+                $treeData = $this->request->get('data');
+                foreach ($treeData as $treeItem) {
+                    EcommerceService::updateCategoryTree($treeItem['child'], $treeItem['parent']);
+                }
+
+                return $this->sendResponse();
+            }
+
+            return $this->view($data, "/ecommerce/category/listing.html.twig");
+        }
+
         $data['headers'] = array_merge([['title' => 'Key', 'name' => 'key']], json_decode($hClass->getGridFields(), true));
 
         $listing = ClassService::getList($hClass);

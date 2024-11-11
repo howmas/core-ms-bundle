@@ -7,13 +7,15 @@ class Menu extends Link
     public function __construct(
         string $name,
         protected array $items,
-        ?string $icon = null
+        ?string $icon = null,
+        bool $iconImage = false,
     )
     {
         parent::__construct(
             $name,
             null,
-            $icon
+            $icon,
+            $iconImage,
         );
 
         $this->items = $items;
@@ -22,9 +24,11 @@ class Menu extends Link
     public function render(): string
     {
         $html = '<li class="navbar-vertical-aside-has-menu ">
-            <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle " href="javascript:;" title="$name">
-                <$iconTag class="$iconName $iconClass mr-1"></$iconTag>
-                <span class="$className">$name</span>
+            <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle " href="javascript:;" title="$name">'.
+                ($this->iconImage
+                ? '<img src="$iconName" class="mr-1" width="20px" />'
+                : '<$iconTag class="$iconName $iconClass mr-1"></$iconTag>')
+                . '<span class="$className">$name</span>
             </a>
             <ul class="js-navbar-vertical-aside-submenu nav nav-sub">
                 $itemContent

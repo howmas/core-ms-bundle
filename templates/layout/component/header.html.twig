@@ -150,10 +150,10 @@
       </div>
     </div>
 
-    {# <div class="navbar-nav-wrap-content-right">
+    <div class="navbar-nav-wrap-content-right">
       <!-- Navbar -->
       <ul class="navbar-nav align-items-center flex-row">
-        <li class="nav-item d-md-none">
+        {# <li class="nav-item d-md-none">
           <!-- Search Trigger -->
           <div class="hs-unfold">
             <a class="js-hs-unfold-invoker btn btn-icon btn-ghost-secondary rounded-circle" href="javascript:;"
@@ -638,7 +638,7 @@
           </div>
           <!-- Activity -->
         </li>
-
+ #}
         <li class="nav-item">
           <!-- Account -->
           <div class="hs-unfold">
@@ -648,7 +648,7 @@
                  "type": "css-animation"
                }'>
               <div class="avatar avatar-sm avatar-circle">
-                <img class="avatar-img" src="{{ HCoreAssets }}/img/160x160/img1.jpg" alt="Image Description">
+                <img class="avatar-img" src="{{ HCoreAssets }}/img/160x160/img1.jpg" alt="">
                 <span class="avatar-status avatar-sm-status avatar-status-success"></span>
               </div>
             </a>
@@ -660,15 +660,14 @@
                     <img class="avatar-img" src="{{ HCoreAssets }}/img/160x160/img1.jpg" alt="Image Description">
                   </div>
                   <div class="media-body">
-                    <span class="card-title h5">Mark Williams</span>
-                    <span class="card-text">mark@example.com</span>
+                    <span class="card-title h5">{{ hcoreUser.name }}</span>
+                    <span class="card-text">{{ hcoreUser.email }}</span>
                   </div>
                 </div>
               </div>
 
-              <div class="dropdown-divider"></div>
+              {# <div class="dropdown-divider"></div>
 
-              <!-- Unfold -->
               <div class="hs-unfold w-100">
                 <a class="js-hs-unfold-invoker navbar-dropdown-submenu-item dropdown-item d-flex align-items-center" href="javascript:;"
                    data-hs-unfold-options='{
@@ -698,7 +697,6 @@
                   </a>
                 </div>
               </div>
-              <!-- End Unfold -->
 
               <a class="dropdown-item" href="#">
                 <span class="text-truncate pr-2" title="Profile &amp; account">Profile &amp; account</span>
@@ -724,7 +722,6 @@
 
               <div class="dropdown-divider"></div>
 
-              <!-- Unfold -->
               <div class="hs-unfold w-100">
                 <a class="js-hs-unfold-invoker navbar-dropdown-submenu-item dropdown-item d-flex align-items-center" href="javascript:;"
                    data-hs-unfold-options='{
@@ -749,23 +746,26 @@
                   </a>
                 </div>
               </div>
-              <!-- End Unfold -->
 
               <a class="dropdown-item" href="#">
                 <span class="text-truncate pr-2" title="Manage team">Manage team</span>
-              </a>
+              </a> #}
 
               <div class="dropdown-divider"></div>
 
-              <a class="dropdown-item" href="#">
-                <span class="text-truncate pr-2" title="Sign out">Sign out</span>
-              </a>
+              <form id="logout_form" method="post" action="{{ path('pimcore_admin_logout') }}">
+                <input type="hidden" name="csrfToken" value="{{ hcoreUserToken }}">
+
+                <a class="dropdown-item text-danger font-weight-bold" id="logout" href="#">
+                  <span class="text-truncate pr-2" title="Đăng xuất">
+                    <i class="tio-sign-out mr-1"></i>Đăng xuất
+                  </span>
+                </a>
+            </form>
             </div>
           </div>
-          <!-- End Account -->
         </li>
       </ul>
-      <!-- End Navbar -->
-    </div> #}
+    </div>
   </div>
 </header>

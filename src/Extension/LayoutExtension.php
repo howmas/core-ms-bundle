@@ -11,6 +11,7 @@ use HowMAS\CoreMSBundle\Component\Sidebar\Form;
 use HowMAS\CoreMSBundle\Service\ClassService;
 use HowMAS\CoreMSBundle\Service\CoreService;
 use HowMAS\CoreMSBundle\Service\DocumentService;
+use HowMAS\CoreMSBundle\Service\EcommerceService;
 
 class LayoutExtension extends AbstractExtension
 {
@@ -38,21 +39,40 @@ class LayoutExtension extends AbstractExtension
             new Item\Link('Tổng quan', $this->getRoute('index'), 'tio-home-vs-1-outlined'),
             new Item\Title('Quản trị dữ liệu'),
             $documentMenu,
-            new Item\Link('Thư viện', $this->getRoute('asset-listing'), 'tio-folders-outlined'),
+            new Item\Link('Thư viện', $this->getRoute('asset-listing'), '/bundles/pimcoreadmin/img/flat-color-icons/asset.svg', true),
         ];
 
         $classItems = [];
+        $ecommerceClasses = EcommerceService::getClassnames();
+        $ecomerceItems = [];
         $listing = ClassService::listing();
         foreach ($listing as $item) {
-            $classItems[] = new Item\SubLink(
+            if (in_array($item['name'], $ecommerceClasses)) {
+                $itemLink = new Item\Link(
+                    $item['title'],
+                    $this->getRoute('object-listing', ['classId' => $item['id']]),
+                    $item['icon'] ?: 'tio-cube',
+                    (bool) $item['icon'],
+                );
+                $ecomerceItems[] = $itemLink;
+                continue;
+            }
+
+            $itemLink = new Item\SubLink(
                 $item['title'],
                 $this->getRoute('object-listing', ['classId' => $item['id']]),
-                'tio-cube'
+                $item['icon'] ?: 'tio-cube',
+                (bool) $item['icon'],
             );
+            $classItems[] = $itemLink;
         }
-        $sidebarMenu[] = new Item\Menu('Dữ liệu', $classItems, 'tio-cube');
+        $sidebarMenu[] = new Item\Menu('Dữ liệu', $classItems, '/bundles/pimcoreadmin/img/flat-color-icons/object.svg', true);
 
-        $sidebarMenu[] = new Item\Title();
+        if (!empty($ecomerceItems)) {
+            $sidebarMenu[] = new Item\Title('Cửa hàng');
+            $sidebarMenu = array_merge($sidebarMenu, $ecomerceItems);
+        }
+
 
         return $sidebarMenu;
     }

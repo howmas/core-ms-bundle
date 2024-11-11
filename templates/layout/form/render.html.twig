@@ -1,7 +1,7 @@
 {% set type = definition.fieldtype %}
 {% set type = type ?: hcore_form_check_type(definition) %}
 
-{% if type %}
+{% if type and not definition.invisible %}
   {% set typePath = ('/layout/form/' ~ (type|lower) ~ '.html.twig')|hcore_fullpath %}
 
   {# {% if include(typePath) is defined %} #}

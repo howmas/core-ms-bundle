@@ -135,6 +135,6 @@ class BaseController extends FrontendController
 
     public function getConfig()
     {
-        return \Pimcore::getContainer()->getParameter('how_mas_core_ms');
+        return CoreService::getConfig();
     }
 }

@@ -1,0 +1,131 @@
+{% set newButton = true %}
+{% extends HCoreLayout %}
+
+{% block header %}
+<div class="row align-items-center mb-3">
+  <div class="col-sm mb-2 mb-sm-0">
+    <h1 class="page-header-title">{{ title }}</h1>
+
+    {# <div class="mt-2">
+      <a class="text-body mr-3" href="javascript:;" data-toggle="modal" data-target="#exportProductsModal">
+        <i class="tio-download-to mr-1"></i> Export
+      </a>
+      <a class="text-body" href="javascript:;" data-toggle="modal" data-target="#importProductsModal">
+        <i class="tio-publish mr-1"></i> Import
+      </a>
+    </div> #}
+  </div>
+
+  {% if newButton %}
+  <div class="col-sm-auto">
+    <a class="btn btn-howmas" data-toggle="modal" data-target="#addNewModal">
+      <i class="tio-add mr-1"></i>Thêm mới
+    </a>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}
+
+{% macro recursiveTree(parent, depth, classId) %}
+  {% for item in parent.children %}
+    {% set published = item.published %}
+    {% set detailLink = hcore_layout_path('object-detail', {classId: classId, id: item.id}) %}
+    {% set hasChildren = item.hasChildren %}
+    {% set color = published ? 'primary' : 'secondary' %}
+
+    <div class="list-group-item" style="border: unset;" data-id="{{ item.id }}" data-depth="{{ depth }}">
+      <div class="card card-border-left border-top border-{{ color }}">
+          <a class="btn btn-sm" href="{{ detailLink }}" target="_blank">
+            <h5 class="card-header-title text-left text-{{ color }}">
+              {{ depth }}. {{ item.name }} <i class="tio-open-in-new"></i>
+            </h5>
+          </a>
+      </div>
+
+      <div class="js-sortable list-group" data-parent="{{ item.id }}"
+        data-hs-sortable-options='{
+          "animation": 150,
+          "group": "listGroup"
+        }'>
+        {% if hasChildren %}
+          {{ _self.recursiveTree(item, depth + 1, classId) }}
+        {% endif %}
+      </div>
+    </div>
+  {% endfor %}
+{% endmacro %}
+
+{% block content %}
+{% set depth = 1 %}
+{% if categoryFolder %}
+
+<div id="cardFullScreenEg" class="card">
+  <div class="card-header">
+    <h4 class="card-header-title" data-toggle="tooltip" data-placement="top" data-html="true" title='Giữ chuột ở mỗi mục và kéo thả để di chuyển sang vị trí phù hợp, sau đó bấm <b class="text-primary"><i class="tio-publish mr-1"></i>Cập nhật</b> để lưu thay đổi.'>
+      <i class="tio-category mr-1"></i>Cây phân cấp danh mục sản phẩm
+      <a href="javascript:;" id="update-btn" class="btn btn-ghost-primary font-weight-bold ml-5">
+        <i class="tio-publish mr-1"></i>Cập nhật
+      </a>
+    </h4>
+
+    <a class="js-fullscreen-invoker btn btn-icon btn-no-focus btn-danger rounded-circle" href="javascript:;"
+       data-hs-fullscreen-options='{
+         "targetEl": "#cardFullScreenEg"
+       }'>
+      <i class="tio-fullscreen-1-1 hs-fullscreen-icon-default" data-toggle="tooltip" data-placement="top" title="Xem toàn màn hình"></i>
+      <i class="tio-exit-fullscreen-1-1 hs-fullscreen-icon-active" data-toggle="tooltip" data-placement="top" title="Thoát"></i>
+    </a>
+  </div>
+
+  <div class="card-body" style="overflow-y: auto;">
+    <div class="js-sortable list-group" data-parent="{{ categoryFolder.id }}"
+      data-hs-sortable-options='{
+        "animation": 150,
+        "group": "listGroup",
+        "fallbackOnBody": true
+      }'>
+      {{ _self.recursiveTree(categoryFolder, depth, classId) }}
+    </div>
+  </div>
+</div>
+
+{% endif %}
+
+{% if newButton %}
+<div class="modal fade" id="addNewModal" tabindex="-1" role="dialog" aria-labelledby="addNewModalTitle" aria-hidden="true" data-url="">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 id="addNewModalTitle" class="modal-title">Nhập tên gợi nhớ <i class="tio-help-outlined" data-toggle="tooltip" data-placement="top" data-html="true" title="Tên gợi nhớ là tên người dùng đặt tự do để phân biệt các bản ghi dữ liệu trong hệ thống, không hiển thị ra bên ngoài."></i></h4>
+        <button type="button" class="btn btn-icon btn-sm btn-ghost-secondary" data-dismiss="modal" aria-label="Close">
+          <i class="tio-clear tio-lg"></i>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        {# <input type="text" class="js-masked-input form-control" placeholder="Tên thư mục"
+          data-hs-mask-options='{
+            "template": "0#",
+            "translation": {
+              "#": {"pattern": "[A-Za-z0-9-_.]"}
+            },
+            "reverse": "true"
+          }'> #}
+
+        <input type="text" class="form-control" placeholder="Tên gợi nhớ" id="listing-add-new-input">
+        <input type="hidden" id="listing-add-new-type" val="">
+      </div>
+
+      <div class="modal-footer d-flex justify-content-between">
+        <button type="button" class="btn btn-white" data-dismiss="modal">Hủy</button>
+        <div>
+          <button disabled type="button" class="btn btn-howmas" id="listing-add-new">Tạo mới</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endif %}
+
+{% do pimcore_head_script().appendFile(asset('/js/ecommerce/category-listing.js'|hcore_asset), 'text/javascript') %}
+{% endblock %}

@@ -9,7 +9,6 @@ use Pimcore\Model\Document;
 
 class DocumentService
 {
-    const DEFAULT_ICON = 'tio-pages-outlined';
     const DEFAULT_ROUTE_PART = 'document-detail';
     const DEFAULT_TITLE = 'Trang';
 
@@ -22,7 +21,8 @@ class DocumentService
         $subMenus[] = new Item\SubLink(
             'Tất cả trang',
             $router->generate(CoreService::getRoute('document-pages')),
-            self::DEFAULT_ICON
+            '/bundles/pimcoreadmin/img/flat-color-icons/file.svg',
+            true,
         );
 
         foreach ($langDocuments as $langDocument) {
@@ -57,11 +57,12 @@ class DocumentService
             $subMenus[] = new Item\SubLink(
                 $languageName,
                 $router->generate(CoreService::getRoute('document-pages'), ['lang' => $language]),
-                self::DEFAULT_ICON
+                CoreService::getFlag($language),
+                true,
             );
         }
 
-        $menu = new Item\Menu(self::DEFAULT_TITLE, $subMenus, self::DEFAULT_ICON);
+        $menu = new Item\Menu(self::DEFAULT_TITLE, $subMenus, '/bundles/pimcoreadmin/img/flat-color-icons/text.svg', true);
 
         return $menu;
     }

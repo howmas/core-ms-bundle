@@ -31,6 +31,7 @@
 <script src="{{ HCoreAssets }}/vendor/hs-count-characters/dist/js/hs-count-characters.js"></script>
 <script src="{{ HCoreAssets }}/vendor/sortablejs/dist/sortable.umd.js"></script>
 <script src="{{ HCoreAssets }}/vendor/hs-go-to/dist/hs-go-to.min.js"></script>
+<script src="{{ HCoreAssets }}/vendor/hs-fullscreen/dist/hs-fullscreen.min.js"></script>
 
 {% if useScrollspy %}
 <script src="{{ HCoreAssets }}/vendor/hs-scrollspy/dist/hs-scrollspy.min.js"></script>
@@ -58,6 +59,12 @@
 <script>
   $(document).on('ready', function () {
     // =======================================================
+
+    // INITIALIZATION OF FULLSCREEN
+    // =======================================================
+    $('.js-fullscreen-invoker').each(function () {
+      var fullscreen = new HSFullscreen($(this)).init();
+    });
 
     // INITIALIZATION OF SORTABLE
     // =======================================================

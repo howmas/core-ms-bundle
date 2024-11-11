@@ -5,6 +5,14 @@ $(document).ready(function() {
   $('body').delegate(hcoreLoadingCls, 'click', function() {
     showLoading();
   });
+
+  // logout
+  $('#logout').click(function() {
+    messageShow("Bạn chắc chắn muốn <b class='text-danger'>Đăng xuất</b> khỏi hệ thống?", function() {
+      showLoading();
+      $('#logout_form').submit();
+    });
+  });
 });
 
 function callAjax(url, method, data, succesFunc = null, errorFunc = null) {

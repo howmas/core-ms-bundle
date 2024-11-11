@@ -7,13 +7,15 @@ class SubMenu extends Menu
     public function __construct(
         string $name,
         array $items,
-        ?string $icon = null
+        ?string $icon = null,
+        bool $iconImage = false,
     )
     {
         parent::__construct(
             $name,
             $items,
-            $icon
+            $icon,
+            $iconImage,
         );
     }
 

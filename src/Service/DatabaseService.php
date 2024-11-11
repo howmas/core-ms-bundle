@@ -33,7 +33,7 @@ class DatabaseService
 
     public static function listingClass()
     {
-        $query = "SELECT `id`, `title`
+        $query = "SELECT `id`, `title`, `name`, `icon`
             FROM " . self::CLASS_TABLE . "
             WHERE `active` = ?
             ORDER BY `title` ASC";
