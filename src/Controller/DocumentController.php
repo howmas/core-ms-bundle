@@ -46,10 +46,10 @@ class DocumentController extends BaseController
                 continue;
             }
 
-            // publish
-            if (!$langDocument->getPublished()) {
-                continue;
-            }
+            // // publish
+            // if (!$langDocument->getPublished()) {
+            //     continue;
+            // }
 
             // has children
             if (!$langDocument->hasChildren()) {

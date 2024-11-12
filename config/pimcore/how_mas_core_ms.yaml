@@ -15,3 +15,9 @@ how_mas_core_ms:
             category: Category
             products:
                 - Product
+    template:
+        form:
+            numeric:
+                js_masked:
+                    enable: true
+                    template: "#,##0"

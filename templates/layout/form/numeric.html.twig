@@ -1,9 +1,15 @@
 {% extends HCoreFormLayout %}
 
 {% block content %}
-  <input type="text" {%if noteditable%}disabled{%else%}name="{{ name }}"{%endif%} id="{{ labelId }}" class="js-masked-input form-control {{ hcoreNumberCls }}" placeholder="{{ placeholder }}" value="{{ value }}"
-  data-hs-mask-options='{
-    "template": "#,##0",
-    "reverse": "true"
-  }'>
+  {% if typeConfig.js_masked.enable is defined and not typeConfig.js_masked.enable %}
+    <input type="number" {%if noteditable%}disabled{%else%}name="{{ name }}"{%endif%} id="{{ labelId }}" class="form-control {{ hcoreNumberCls }}" placeholder="{{ placeholder }}" value="{{ value }}">
+  {% else %}
+    {% set maskTemplate = typeConfig.js_masked.template is defined ? typeConfig.js_masked.template : "#,##0" %}
+
+    <input type="text" {%if noteditable%}disabled{%else%}name="{{ name }}"{%endif%} id="{{ labelId }}" class="js-masked-input form-control {{ hcoreNumberCls }}" placeholder="{{ placeholder }}" value="{{ value }}"
+    data-hs-mask-options='{
+      "template": "{{ maskTemplate }}",
+      "reverse": "true"
+    }'>
+  {% endif %}
 {% endblock %}

@@ -34,10 +34,10 @@ class DocumentService
                 continue;
             }
 
-            // publish
-            if (!$langDocument->getPublished()) {
-                continue;
-            }
+            // // publish
+            // if (!$langDocument->getPublished()) {
+            //     continue;
+            // }
 
             // has children
             if (!$langDocument->hasChildren()) {
@@ -62,7 +62,21 @@ class DocumentService
             );
         }
 
-        $menu = new Item\Menu(self::DEFAULT_TITLE, $subMenus, '/bundles/pimcoreadmin/img/flat-color-icons/text.svg', true);
+        if (count($subMenus) > 2) {
+            $menu = new Item\Menu(
+                self::DEFAULT_TITLE,
+                $subMenus,
+                '/bundles/pimcoreadmin/img/flat-color-icons/text.svg',
+                true,
+            );
+        } else {
+            $menu = new Item\Link(
+                self::DEFAULT_TITLE,
+                $router->generate(CoreService::getRoute('document-pages')),
+                '/bundles/pimcoreadmin/img/flat-color-icons/file.svg',
+                true,
+            );
+        }
 
         return $menu;
     }

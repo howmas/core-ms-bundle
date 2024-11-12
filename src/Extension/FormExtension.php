@@ -5,6 +5,7 @@ namespace HowMAS\CoreMSBundle\Extension;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 use HowMAS\CoreMSBundle\Service\ClassService;
+use HowMAS\CoreMSBundle\Service\CoreService;
 use HowMAS\CoreMSBundle\Service\DocumentService;
 use HowMAS\CoreMSBundle\Model\HClass;
 use Pimcore\Model\Document;
@@ -27,6 +28,7 @@ class FormExtension extends AbstractExtension
             new TwigFunction('hcore_form_fieldcollection_init', [$this, 'getFieldCollectionItemInit']),
             new TwigFunction('hcore_form_check_type', [$this, 'checkType']),
             new TwigFunction('hcore_form_link_document_options', [$this, 'getDocumentOptionForLink']),
+            new TwigFunction('hcore_form_type_config', [$this, 'getTypeCustomConfig']),
         ];
     }
 
@@ -186,5 +188,20 @@ class FormExtension extends AbstractExtension
         }
 
         return $options;
+    }
+
+    public function getTypeCustomConfig($type)
+    {
+        if (empty($type)) {
+            return null;
+        }
+
+        $config = CoreService::getConfig();
+
+        if (isset($config['template']['form'][$type])) {
+            return $config['template']['form'][$type];
+        }
+
+        return null;
     }
 }

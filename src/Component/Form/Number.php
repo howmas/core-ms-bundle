@@ -10,7 +10,7 @@ class Number extends Input
             return null;
         }
 
-        return (int) str_replace(",", "", $this->value);
+        return str_replace(",", "", $this->value);
     }
 
     public function formatEditable()

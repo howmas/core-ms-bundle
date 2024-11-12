@@ -5,6 +5,7 @@
   {% set typePath = ('/layout/form/' ~ (type|lower) ~ '.html.twig')|hcore_fullpath %}
 
   {# {% if include(typePath) is defined %} #}
-    {{ include(typePath, {item: item, definition: definition}) }}
+    {% set typeConfig = hcore_form_type_config(type) %}
+    {{ include(typePath, {item: item, definition: definition, typeConfig: typeConfig}) }}
   {# {% endif %} #}
 {% endif %}
