@@ -1,0 +1,5 @@
+{% extends HCoreFormLayout %}
+
+{% block content %}
+<input type="email" {%if noteditable%}disabled{%else%}name="{{ name }}" placeholder="{{ placeholder }}"{%endif%} id="{{ labelId }}" class="form-control {{ hcoreEmailCls }}" value="{{ value }}">
+{% endblock %}

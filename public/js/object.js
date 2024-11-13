@@ -70,6 +70,7 @@ $(document).ready(function() {
       manyToOneRelation: hcoreRelationCls,
       manyToManyObjectRelation: hcoreRelationsCls,
       link: hcoreLinkCls,
+      email: hcoreEmailCls,
     };
     $.each(construct, function(type, cls) {
       constructData = {};
