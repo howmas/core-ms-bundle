@@ -16,7 +16,7 @@
   {% set noteditable = definition.noteditable %}
 {% elseif config is defined %}
   {# value + name: render from render-editable.html.twig #}
-  {% set label = config.params.title is defined ? config.params.title : name %}
+  {% set label = config.params.title is defined ? config.params.title : (config.listTitle is defined ? config.listTitle : name) %}
   {% set labelId = name %}
   {% set placeholder = config.params.placeholder is defined ? config.params.placeholder : label %}
 
