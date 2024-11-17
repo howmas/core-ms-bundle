@@ -59,7 +59,7 @@ class FormExtension extends AbstractExtension
                     $listing = ClassService::getList($hClass);
                     $listing->setUnpublished(true);
                     $data = $listing->getData();
-                    
+
                     $options[] = [
                         'class' => $hClass,
                         'data' => $data,

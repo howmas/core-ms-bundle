@@ -16,7 +16,10 @@
     {% set options = optionClass.data %}
     <optgroup label="{{ label }}">
       {% for option in options %}
-        <option value="{{ option.id }}" {%if value and option.id == value.id%}selected{%endif%}>{{ option.key }}</option>
+        {% set tag = option.published ? 'span' : 's' %}
+        <option value="{{ option.id }}" {%if value and option.id == value.id%}selected{%endif%} data-option-template='<{{ tag }} class="">{{ option.key }}</{{ tag }}>'>
+          {{ option.key }}
+        </option>
       {% endfor %}
     </optgroup>
   {% endfor %}

@@ -18,12 +18,20 @@
 
     {% for header in headers %}
     <td class="{{ loop.first ? 'table-column-pl-0' : '' }}">
-      {% set value = attribute(item, header.name) is defined ? attribute(item, header.name) : '' %}
-      {% if loop.first %}
-        <a class="{{ published ? 'text-primary' : 'text-secondary' }}" href="{{ detailLink }}">{{ value }}</a>
-      {% else %}
-        {{ value }}
-      {% endif %}
+      {% set value = hcore_layout_render_table_value(item, header.name) %}
+
+      <a class="{{ published ? 'text-primary' : 'text-secondary' }}" href="{{ detailLink }}">
+        {% if value is iterable %}
+          {% if value.type == 'image' %}
+            {# <img src="{{ value.path }}"> #}
+            <div class="avatar avatar-xl">
+                <img class="avatar-img" src="{{ value.path }}" alt="">
+              </div>
+          {% endif %}
+        {% else %}
+          {{ value }}
+        {% endif %}
+      </a>
     </td>
     {% endfor %}
     <td>
