@@ -1,0 +1,57 @@
+{% set paginator = pagination.getPaginationData() %}
+{% if paginator.pageCount > 1 %}
+  {% set paginationRoute = pagination.route %}
+  {% set pathParams = pathParams is defined ? pathParams : {} %}
+  <nav aria-label="">
+    <ul class="pagination">
+        {% if paginator.previous is defined %}
+            {% set page = paginator.previous %}
+            {% set params = pathParams | merge({page: page}) %}
+            {% set pagePath = path(paginationRoute, params) %}
+
+            <li class="page-item">
+                <a class="page-link" href="{{ pagePath }}">
+                    <span aria-hidden="true">«</span>
+                    <span class="sr-only">Previous</span>
+                </a>
+            </li>
+        {% else %}
+            <li class="page-item disabled">
+                <a class="page-link" href="#">
+                  <span aria-hidden="true">«</span>
+                  <span class="sr-only">Previous</span>
+                </a>
+            </li>
+        {% endif %}
+
+        {% for page in paginator.pagesInRange %}
+            {% set isActive = paginator.current == page %}
+            {% set params = pathParams | merge({page: page}) %}
+            {% set pagePath = path(paginationRoute, params) %}
+            <li class="page-item {{ isActive ? 'active' : '' }}">
+                <a class="page-link" {%if not isActive%}href="{{ pagePath }}"{%endif%}>{{ page > 9 ? page : '0' ~ page }}</a>
+            </li>
+        {% endfor %}
+
+        {% if paginator.next is defined %}
+            {% set page = paginator.next %}
+            {% set params = pathParams | merge({page: page}) %}
+            {% set pagePath = path(paginationRoute, params) %}
+
+            <li class="page-item">
+                <a class="page-link" href="{{ pagePath }}">
+                  <span aria-hidden="true">»</span>
+                  <span class="sr-only">Next</span>
+                </a>
+            </li>
+        {% else %}
+            <li class="page-item disabled">
+                <a class="page-link" href="#">
+                  <span aria-hidden="true">»</span>
+                  <span class="sr-only">Next</span>
+                </a>
+            </li>
+        {% endif %}
+    </ul>
+  </nav>
+{% endif %}

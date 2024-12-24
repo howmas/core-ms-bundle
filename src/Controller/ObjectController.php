@@ -67,12 +67,12 @@ class ObjectController extends BaseController
         // $listing->setLocale($request->get('_locale', \Pimcore\Tool::getDefaultLanguage()));
         $listing->setUnpublished(true);
 
-        // $pagination = $this->paginator($listing, 1, 10);
-        // $data['pagination'] = $pagination;
-        // $data['data'] = $pagination->getItems();
+        $pagination = $this->paginator($listing, $this->request->get('page', 1), $this->request->get('limit', 10));
+        $data['pagination'] = $pagination;
+        $data['data'] = $pagination->getItems();
 
         $data['count'] = $listing->count();
-        $data['data'] = $listing->getData();
+        // $data['data'] = $listing->getData();
 
         return $this->view($data);
     }

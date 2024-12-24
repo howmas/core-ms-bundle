@@ -5,6 +5,7 @@ namespace HowMAS\CoreMSBundle\Extension;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Pimcore\Model\DataObject;
 use Pimcore\Model\DataObject\ClassDefinition\Data;
 use Pimcore\Model\Asset\Image;
 use HowMAS\CoreMSBundle\Component\Sidebar\Item;
@@ -91,8 +92,16 @@ class LayoutExtension extends AbstractExtension
         if (!method_exists($element, $function)) {
             return '';
         }
-
         $value = $element->{$function}();
+
+        $fieldDefinition = $element->getClass()->getFieldDefinition($field);
+        if ($fieldDefinition && !empty($value)) {
+            if ($fieldDefinition instanceof Data\Select) {
+                $fieldOptions = DataObject\Service::getOptionsForSelectField($element, $field);
+                $value = $fieldOptions[$value];
+            }
+        }
+
         if (is_string($value) || is_numeric($value)) {
             return $value;
         }

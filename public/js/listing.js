@@ -34,4 +34,8 @@ $(document).ready(function() {
   });
 
   // ------------------------------------------------
+
+  $('#datatableEntries.need-reload').change(function() {
+    location.href = $(this).val();
+  });
 });
