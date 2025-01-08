@@ -18,4 +18,10 @@ class Input
     {
         return $this->format();
     }
+
+    // lowercase class name
+    public function getEditableType()
+    {
+        return strtolower(substr(strrchr(get_class($this), "\\"), 1));
+    }
 }

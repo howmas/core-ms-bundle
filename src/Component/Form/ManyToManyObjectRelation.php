@@ -39,4 +39,9 @@ class ManyToManyObjectRelation extends Input
 
         return $newValues;
     }
+
+    public function getEditableType()
+    {
+        return "relations";
+    }
 }

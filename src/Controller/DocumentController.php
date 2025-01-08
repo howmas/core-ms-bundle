@@ -176,7 +176,7 @@ class DocumentController extends BaseController
                             if (class_exists($component)) {
                                 $editable = $item->getEditable($field);
                                 $form = new $component($value);
-                                $item->setRawEditable($field, $type, $form->formatEditable($editable));
+                                $item->setRawEditable($field, $form->getEditableType(), $form->formatEditable($editable));
                             }
                         }
                     }

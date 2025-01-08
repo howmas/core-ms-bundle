@@ -26,7 +26,12 @@ class ManyToOneRelation extends Input
         return [
             'id' => $value->getId(),
             'type' => $value->getType(),
-            'subtype' => $value->getClassName()
+            'subtype' => $value->getType()
         ];
+    }
+
+    public function getEditableType()
+    {
+        return "relation";
     }
 }
