@@ -3,7 +3,6 @@
 namespace HowMAS\CoreMSBundle\Controller;
 
 use Symfony\Component\Routing\Annotation\Route;
-
 use HowMAS\CoreMSBundle\Service\ClassService;
 
 class DefaultController extends BaseController
@@ -14,11 +13,8 @@ class DefaultController extends BaseController
     public function indexAction()
     {
         $listing = ClassService::listing();
-        return $this->view();
-    }
-
-    public function redirectAction()
-    {
-        return $this->redirectToRoute('hcore-index');
+        return $this->view([
+            'layoutPageTitle' => 'Quản trị'
+        ]);
     }
 }

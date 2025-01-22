@@ -73,7 +73,8 @@ class AssetController extends BaseController
         }
 
         $showSetting = true;
-        return $this->view(compact('parent', 'folders', 'files', 'folderCount', 'fileCount', 'breadcrumbs', 'showSetting', 'isCkeditor'));
+        $layoutPageTitle = "Thư viện";
+        return $this->view(compact('parent', 'folders', 'files', 'folderCount', 'fileCount', 'breadcrumbs', 'showSetting', 'isCkeditor', 'layoutPageTitle'));
     }
 
     private function getBreadcrumb($folder, $breadcrumb = [])

@@ -3,7 +3,24 @@
   <head>
     {{ include('/layout/default-head.html.twig'|hcore_fullpath) }}
 
+    {% if layoutPageTitle is defined %}
+      {% do pimcore_head_title().set(layoutPageTitle) %}
+    {% endif %}
+
     {{ block('layout_head') }}
+
+    {% apply spaceless %}
+      {% do pimcore_head_title().append('HowMAS') %}
+      {% do pimcore_head_title().setSeparator(' | ') %}
+    {% endapply %}
+
+    {% block layout_head_meta deferred %}
+      {{ pimcore_head_title() }}
+    {% endblock %}
+
+    {% block head_stylesheets deferred %}
+      {{ pimcore_head_link() }}
+    {% endblock %}
   </head>
 
   {% do pimcore_inline_script().appendScript("

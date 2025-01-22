@@ -3,8 +3,24 @@
 {% block content %}
 {% set wordCountId = labelId ~ 'WordCount' %}
 
-{# <div id="{{ wordCountId }}"></div> #}
-<div class="{{ hcoreWysiwygCls }}" id="{{ labelId }}" data-wordcount="{{ wordCountId }}" {%if noteditable%}disabled{%else%}name="{{ name }}"{%endif%}>
-  {{ value | raw }}
+<div id="cardFullScreen{{ labelId }}" class="card">
+  <div class="card-header">
+    <div class="wysiwyg-word-count font-weight-bold" id="{{ wordCountId }}"></div>
+
+    <a class="js-fullscreen-invoker btn btn-sm btn-icon btn-no-focus btn-danger rounded-circle" href="javascript:;"
+       data-hs-fullscreen-options='{
+         "targetEl": "#cardFullScreen{{ labelId }}"
+       }'>
+      <i class="tio-fullscreen-1-1 hs-fullscreen-icon-default" data-toggle="tooltip" data-placement="top" title="Toàn màn hình"></i>
+      <i class="tio-exit-fullscreen-1-1 hs-fullscreen-icon-active" data-toggle="tooltip" data-placement="top" title="Thoát"></i>
+    </a>
+  </div>
+
+  <div class="card-body text-center" style="overflow-y: auto;">
+    <div class="{{ hcoreWysiwygCls }}" id="{{ labelId }}" data-wordcount="{{ wordCountId }}" {%if noteditable%}disabled{%else%}name="{{ name }}"{%endif%}>
+      {{ value | raw }}
+    </div>
+  </div>
 </div>
+
 {% endblock %}

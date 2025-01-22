@@ -21,3 +21,8 @@ how_mas_core_ms:
                 js_masked:
                     enable: true
                     template: "#,##0"
+
+    # system:
+    #     admin:
+    #         access_core_names:
+    #             - admin

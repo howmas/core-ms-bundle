@@ -17,7 +17,9 @@ class DocumentController extends BaseController
      */
     public function pages()
     {
-        $data['title'] = 'Trang';
+        $title = 'Trang';
+        $data['title'] = $title;
+        $data['layoutPageTitle'] = $title;
         $data['headers'] = [
             [
                 'title' => 'Name',

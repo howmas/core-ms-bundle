@@ -34,6 +34,10 @@ services:
         tags:
             - { name: kernel.event_listener, event: kernel.controller }
 
+    HowMAS\CoreMSBundle\EventListener\AdminListener:
+        tags:
+            - { name: kernel.event_listener, event: pimcore.admin.indexAction.settings, method: settings }
+
     HowMAS\CoreMSBundle\EventListener\ClassListener:
         tags:
             - { name: kernel.event_listener, event: pimcore.class.postUpdate, method: postUpdate }

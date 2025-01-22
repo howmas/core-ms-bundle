@@ -25,7 +25,9 @@ class ObjectController extends BaseController
         }
 
         $data['classId'] = $classId;
-        $data['title'] = $hClass->getTitle();
+        $title = $hClass->getTitle();
+        $data['title'] = $title;
+        $data['layoutPageTitle'] = $title;
 
         // check ecommerce layout: Category
         $category = EcommerceService::getCategoryClassName();
@@ -93,7 +95,9 @@ class ObjectController extends BaseController
         }
 
         $data['classId'] = $classId;
-        $data['title'] = $hClass->getTitle();
+        $title = $hClass->getTitle();
+        // $data['layoutPageTitle'] = $key;
+        $data['title'] = $title;
         $data['item'] = $item;
 
         $method = $this->request->getMethod();
