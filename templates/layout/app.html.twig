@@ -14,11 +14,11 @@
       {% do pimcore_head_title().setSeparator(' | ') %}
     {% endapply %}
 
-    {% block layout_head_meta deferred %}
+    {% block layout_head_meta %}
       {{ pimcore_head_title() }}
     {% endblock %}
 
-    {% block head_stylesheets deferred %}
+    {% block head_stylesheets %}
       {{ pimcore_head_link() }}
     {% endblock %}
   </head>
