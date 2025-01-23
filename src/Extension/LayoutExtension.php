@@ -4,6 +4,7 @@ namespace HowMAS\CoreMSBundle\Extension;
 
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
+use Carbon\Carbon;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Pimcore\Model\DataObject;
 use Pimcore\Model\DataObject\ClassDefinition\Data;
@@ -99,7 +100,18 @@ class LayoutExtension extends AbstractExtension
             if ($fieldDefinition instanceof Data\Select) {
                 $fieldOptions = DataObject\Service::getOptionsForSelectField($element, $field);
                 $value = $fieldOptions[$value];
+            } elseif ($fieldDefinition instanceof Data\Datetime) {
+                $value = $value->format('Y-m-d H:i');
+            } elseif ($fieldDefinition instanceof Data\Date) {
+                $value = $value->format('Y-m-d');
             }
+        }
+
+        if ($fieldDefinition instanceof Data\Checkbox) {
+            return [
+                'type' => 'checkbox',
+                'data' => (bool) $value,
+            ];
         }
 
         if (is_string($value) || is_numeric($value)) {
@@ -109,7 +121,7 @@ class LayoutExtension extends AbstractExtension
         if ($value instanceof Image) {
             return [
                 'type' => 'image',
-                'path' => $this->getPreviewImagePath($value),
+                'data' => $this->getPreviewImagePath($value),
             ];
         }
 

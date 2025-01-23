@@ -8,13 +8,14 @@
   <div class="col-sm mb-2 mb-sm-0">
     <nav aria-label="breadcrumb">
       <ol class="breadcrumb breadcrumb-no-gutter">
-        <li class="breadcrumb-item"><a class="breadcrumb-link" href="{{ listingPath }}">{{ title }}</a></li>
-        <li class="breadcrumb-item active" aria-current="page">{{ key }}</li>
+        <li class="breadcrumb-item"><a class="breadcrumb-link" href="{{ listingPath }}"><i class="tio-arrow-large-backward mr-1"></i>{{ title }}</a></li>
+        {# <li class="breadcrumb-item active" aria-current="page">{{ key }}</li> #}
       </ol>
     </nav>
 
     <h1 class="page-header-title {{ published ? 'text-primary font-weight-bold' : '' }}">
-      <span contenteditable="true" placeholder="{{ key }}">{{ key }}</span><i class="tio-{{ published ? 'visible' : 'hidden' }} ml-2" data-toggle="tooltip" data-placement="top" title="{{ published ? 'Đang hiện' : 'Đang ẩn' }}"></i>
+      {{ key }}
+      {# <i class="tio-{{ published ? 'visible' : 'hidden' }} ml-2" data-toggle="tooltip" data-placement="top" title="{{ published ? 'Đang hiện' : 'Đang ẩn' }}"></i> #}
     </h1>
     
     {# <div class="mt-2">

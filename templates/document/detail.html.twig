@@ -1,5 +1,6 @@
 {% set useScrollspy = true %}
 {% set published = item.published %}
+{% set layoutPageTitle = adminLayoutTitle %}
 {% extends HCoreLayout %}
 
 {% block header %}
@@ -7,8 +8,8 @@
   <div class="col-sm mb-2 mb-sm-0">
     <nav aria-label="breadcrumb">
       <ol class="breadcrumb breadcrumb-no-gutter">
-        <li class="breadcrumb-item"><a class="breadcrumb-link" href="{{ hcore_layout_path('document-pages') }}">Trang</a></li>
-        <li class="breadcrumb-item active" aria-current="page">{{ adminLayoutTitle }}</li>
+        <li class="breadcrumb-item"><a class="breadcrumb-link" href="{{ hcore_layout_path('document-pages') }}"><i class="tio-arrow-large-backward mr-1"></i>Trang</a></li>
+        {# <li class="breadcrumb-item active" aria-current="page">{{ adminLayoutTitle }}</li> #}
       </ol>
     </nav>
 

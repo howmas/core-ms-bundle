@@ -100,7 +100,12 @@
                 <i class="tio-search"></i>
               </div>
             </div>
-            <input id="datatableSearch" type="search" class="form-control" placeholder="Tìm kiếm nhanh" aria-label="Tìm kiếm nhanh">
+            <input id="datatableSearch" type="search" name="search" class="form-control" placeholder="Tìm kiếm" aria-label="Tìm kiếm" value="{{ search }}">
+            <div class="input-group-append">
+              <button type="submit" class="btn btn-icon btn-primary">
+                <i class="tio-search"></i>
+              </button>
+            </div>
           </div>
         </form>
       </div>
@@ -262,15 +267,15 @@
       <thead class="thead-light">
         <tr>
           <th scope="col" class="table-column-pr-0">
-            <div class="custom-control custom-checkbox">
+            {# <div class="custom-control custom-checkbox">
               <input id="datatableCheckAll" type="checkbox" class="custom-control-input">
               <label class="custom-control-label" for="datatableCheckAll"></label>
-            </div>
+            </div> #}
           </th>
           {% for header in headers %}
             <th class="{{ loop.first ? 'table-column-pl-0' : '' }}">{{ header.title is defined ? header.title : header }}</th>
           {% endfor %}
-          <th></th>
+          <th><i class="tio-edit tio-lg"></i></th>
         </tr>
       </thead>
 
@@ -281,23 +286,44 @@
 
           <tr class="{{ published ? 'text-primary font-weight-bold' : 'text-secondary' }}">
             <td class="table-column-pr-0">
-              <div class="custom-control custom-checkbox">
+              {# <div class="custom-control custom-checkbox">
                 <input type="checkbox" class="custom-control-input" id="datatableCheck{{ loop.index }}">
                 <label class="custom-control-label" for="datatableCheck{{ loop.index }}"></label>
-              </div>
+              </div> #}
             </td>
 
             {% for header in headers %}
             <td class="{{ loop.first ? 'table-column-pl-0' : '' }} text-wrap">
-              {% set value = hcore_layout_render_table_value(item, header.name) %}
+              {% set field = header.name %}
+              {% set value = hcore_layout_render_table_value(item, field) %}
+              {% set textColor = published ? 'text-primary' : 'text-secondary' %}
 
-              <a class="{{ published ? 'text-primary' : 'text-secondary' }}" href="{{ detailLink }}">
+              <a class="{{ textColor }}" href="{{ detailLink }}">
                 {% if value is iterable %}
                   {% if value.type == 'image' %}
                     {# <img src="{{ value.path }}"> #}
                     <div class="avatar avatar-xl">
-                        <img class="avatar-img" src="{{ value.path }}" alt="">
+                        <img class="avatar-img" src="{{ value.data }}" alt="">
                       </div>
+                  {% elseif value.type == 'checkbox' %}
+                    {% set checkboxId = 'checkbox-bookmark' ~ field ~ loop.index %}
+                    <div class="custom-control custom-checkbox-bookmark">
+                      <input type="checkbox" id="{{ checkboxId }}" class="custom-control-input custom-checkbox-bookmark-input" disabled {%if value.data%}checked{%endif%}>
+                      <label class="custom-checkbox-bookmark-label" for="{{ checkboxId }}">
+                        <span class="custom-checkbox-bookmark-default">
+                          <i class="tio-checkmark-circle-outlined"></i>
+                        </span>
+                        <span class="custom-checkbox-bookmark-active {{ textColor }}">
+                          <i class="tio-checkmark-circle"></i>
+                        </span>
+                      </label>
+                    </div>
+                    {# <label class="toggle-switch toggle-switch-sm d-flex align-items-center mb-3">
+                      <input type="checkbox" class="toggle-switch-input" disabled {%if value.data%}checked{%endif%}>
+                      <span class="toggle-switch-label">
+                        <span class="toggle-switch-indicator"></span>
+                      </span>
+                    </label> #}
                   {% endif %}
                 {% else %}
                   {{ value }}

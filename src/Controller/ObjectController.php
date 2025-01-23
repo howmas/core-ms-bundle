@@ -46,7 +46,7 @@ class ObjectController extends BaseController
             return $this->view($data, "/ecommerce/category/listing.html.twig");
         }
 
-        $data['headers'] = array_merge([['title' => 'Key', 'name' => 'key']], json_decode($hClass->getGridFields(), true));
+        $data['headers'] = array_merge([['title' => 'Tên gợi nhớ', 'name' => 'key']], json_decode($hClass->getGridFields(), true));
 
         $listing = ClassService::getList($hClass);
 
@@ -57,11 +57,23 @@ class ObjectController extends BaseController
             ? $config['object']['listing']['condition'][$classId]['query_string']
             : null;
 
+        // search
+        $search = $this->request->get('search');
+        $data['search'] = $search;
+        if ($search) {
+            $queryString = ($queryString ? $queryString . " AND " : "") . "searchData LIKE :search";
+        }
+
         if (!empty($queryString)) {
             $conditionArray =
             isset($config['object']['listing']['condition'][$classId]['condition_array'])
                 ? $config['object']['listing']['condition'][$classId]['condition_array']
                 : [];
+
+            // search
+            if ($search) {
+                $conditionArray['search'] = "%" . $search . "%";
+            }
 
             $listing->setCondition($queryString, $conditionArray);
         }
@@ -96,7 +108,6 @@ class ObjectController extends BaseController
 
         $data['classId'] = $classId;
         $title = $hClass->getTitle();
-        // $data['layoutPageTitle'] = $key;
         $data['title'] = $title;
         $data['item'] = $item;
 
@@ -105,6 +116,7 @@ class ObjectController extends BaseController
             $keyField = $hClass->getKeyField();
             $key = $item->{'get' . ucfirst($keyField)}();
             $data['key'] = $key;
+            $data['layoutPageTitle'] = "[$title] $key";
 
             $layout = json_decode($hClass->getLayout(), true);
             $data['layout'] = $layout;
