@@ -71,7 +71,10 @@ class LayoutExtension extends AbstractExtension
             );
             $classItems[] = $itemLink;
         }
-        $sidebarMenu[] = new Item\Menu('Dữ liệu', $classItems, '/bundles/pimcoreadmin/img/flat-color-icons/object.svg', true);
+
+        if (!empty($classItems)) {
+            $sidebarMenu[] = new Item\Menu('Dữ liệu', $classItems, '/bundles/pimcoreadmin/img/flat-color-icons/object.svg', true);
+        }
         // $sidebarMenu[] = new Item\Title('Dữ liệu');
         // $sidebarMenu = array_merge($sidebarMenu, $classItems);
 

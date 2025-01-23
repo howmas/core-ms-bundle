@@ -16,6 +16,8 @@ how_mas_core_ms:
             products:
                 - Product
             order: OnlineShopOrder
+            # others:
+            #     - Customer
     template:
         form:
             numeric:
