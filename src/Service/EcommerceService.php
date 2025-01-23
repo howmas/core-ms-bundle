@@ -33,8 +33,9 @@ class EcommerceService extends CoreService
 
         $category = isset($config['ecommerce']['classes']['category']) && $config['ecommerce']['classes']['category'] ? [$config['ecommerce']['classes']['category']] : [];
         $products = isset($config['ecommerce']['classes']['products']) && $config['ecommerce']['classes']['products'] ? $config['ecommerce']['classes']['products'] : [];
+        $order = isset($config['ecommerce']['classes']['order']) && $config['ecommerce']['classes']['order'] ? [$config['ecommerce']['classes']['order']] : [];
 
-        return array_merge($category, $products);
+        return array_merge($category, $products, $order);
     }
 
     public static function getCategoryFolder()

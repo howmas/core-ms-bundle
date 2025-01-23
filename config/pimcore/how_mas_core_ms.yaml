@@ -15,6 +15,7 @@ how_mas_core_ms:
             category: Category
             products:
                 - Product
+            order: OnlineShopOrder
     template:
         form:
             numeric:
