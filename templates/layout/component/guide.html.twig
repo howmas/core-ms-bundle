@@ -1,0 +1,160 @@
+<div id="globalGuideSidebar" class="hs-unfold-content sidebar sidebar-bordered sidebar-box-shadow">
+  <div class="card card-lg sidebar-card">
+    <div class="card-header">
+      <h4 class="card-header-title"><i class="tio-mouse-cursor mr-1"></i>Biểu tượng - thao tác</h4>
+
+      <a class="js-hs-unfold-invoker btn btn-icon btn-xs btn-ghost-dark ml-2" href="javascript:;"
+         data-hs-unfold-options='{
+            "target": "#globalGuideSidebar",
+            "type": "css-animation",
+            "animationIn": "fadeInRight",
+            "animationOut": "fadeOutRight",
+            "hasOverlay": true,
+            "smartPositionOff": true
+           }'>
+        <i class="tio-clear tio-lg"></i>
+      </a>
+    </div>
+
+    <div class="card-body sidebar-body sidebar-scrollbar">
+      <div class="list-group list-group-sm list-group-flush list-group-no-gutters mb-5">
+        {# <div class="list-group-item">
+          <h5 class="mb-1">Biểu tượng</h5>
+        </div> #}
+
+        {% set functions = [
+          {
+            name: 'Tìm kiếm',
+            icon: 'tio-search'
+          },
+          {
+            name: 'Di chuyển lên đầu trang',
+            icon: 'tio-navigate'
+          },
+          {
+            name: 'Xem chi tiết | Chỉnh sửa',
+            icon: 'tio-edit'
+          },
+          {
+            name: 'Hiển thị thông tin trợ giúp',
+            icon: 'tio-help'
+          },
+          {
+            name: 'Thêm mới',
+            icon: 'tio-add'
+          },
+          {
+            name: 'Thêm ảnh | Thêm mục để nhập ảnh',
+            icon: 'tio-add-photo'
+          },
+          {
+            name: 'Xóa | Đưa vào thùng rác',
+            icon: 'tio-delete'
+          },
+          {
+            name: 'Hoàn tác',
+            icon: 'tio-undo'
+          },
+          {
+            name: 'Kéo thả để thay đổi vị trí',
+            icon: 'tio-move-page'
+          },
+          {
+            name: 'Quay lại danh sách',
+            icon: 'tio-arrow-large-backward'
+          },
+          {
+            name: 'Thu gọn',
+            icon: ['tio-up-ui', 'tio-first-page']
+          },
+          {
+            name: 'Mở rộng',
+            icon: ['tio-down-ui', 'tio-last-page']
+          },
+          {
+            name: 'Xem toàn màn hình',
+            icon: 'tio-fullscreen-1-1'
+          },
+          {
+            name: 'Thoát toàn màn hình',
+            icon: 'tio-exit-fullscreen-1-1'
+          },
+          {
+            name: 'Không được sửa | Khóa dữ liệu',
+            icon: 'tio-lock'
+          },
+          {
+            name: 'Mở khóa dữ liệu',
+            icon: 'tio-lock-opened'
+          },
+          {
+            name: 'Hiện ra',
+            icon: 'tio-visible'
+          },
+          {
+            name: 'Ẩn đi',
+            icon: 'tio-hidden'
+          },
+          {
+            name: 'Lưu lại',
+            icon: 'tio-save'
+          },
+          {
+            name: 'Mở trong tab mới',
+            icon: 'tio-open-in-new'
+          },
+          {
+            name: 'Tải lại trang',
+            icon: 'tio-refresh'
+          },
+          {
+            name: 'Bấm để xem thêm',
+            icon: 'tio-more-vertical'
+          },
+          {
+            name: 'Sao chép',
+            icon: 'tio-copy'
+          },
+          {
+            name: 'Tải xuống',
+            icon: 'tio-download-to'
+          },
+          {
+            name: 'Tải lên',
+            icon: 'tio-upload-on-cloud'
+          },
+          {
+            name: 'Tạo thư mục mới',
+            icon: 'tio-folder-add'
+          },
+          {
+            name: 'Tải tệp lên',
+            icon: 'tio-file-add'
+          },
+          {
+            name: 'Tải tệp từ đường dẫn',
+            icon: 'tio-link'
+          }
+        ] %}
+
+        {% for item in functions %}
+          <div class="list-group-item">
+            <div class="row align-items-center">
+              <div class="col-4">
+                {% set icon = item.icon %}
+                {% set icons = icon is iterable ? icon : [icon] %}
+                {% for icon in icons %}
+                  <kbd class="d-inline-block mb-1"><i class="{{ icon }}"></i></kbd>
+                {% endfor %}
+              </div>
+              <div class="col-8 text-right">
+                {% set text = item.name %}
+                <span>{{ text }}</span>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>

@@ -7,6 +7,7 @@ class SubLink extends Link
     public function __construct(
         string $name,
         ?string $link = null,
+        bool $active = false,
         ?string $icon = null,
         bool $iconImage = false,
     )
@@ -14,6 +15,7 @@ class SubLink extends Link
         parent::__construct(
             $name,
             $link,
+            $active,
             $icon,
             $iconImage
         );

@@ -69,7 +69,7 @@
           {% for panel in layout %}
           <li class="nav-item">
             <a class="nav-link {{ loop.first ? 'active' : '' }}" href="#{{ loop.first ? 'content' : 'content' ~ loop.index }}">
-              <i class="tio-chevron-right nav-icon"></i> {{ panel.title }}
+              <i class="tio-circle-outlined nav-icon"></i> {{ panel.title }}
             </a>
           </li>
           {% endfor %}
@@ -117,9 +117,35 @@
         <div class="card-body">
           <div class="row justify-content-center justify-content-sm-between">
             <div class="col">
-              <button id="{{ hcoreBtnDeleteId }}" data-url="{{ listingPath }}" type="button" class="btn btn-danger">
+              {# <button id="{{ hcoreBtnDeleteId }}" data-url="{{ listingPath }}" type="button" class="btn btn-danger">
                 <i class="tio-delete mr-1"></i>Xóa
-              </button>
+              </button> #}
+              <div class="dropdown dropup">
+                <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Thao tác
+                </button>
+                <div class="dropdown-menu">
+                  {% if item.locked %}
+                    <a id="{{ hcoreBtnUnlockId }}" data-url="{{ listingPath }}" class="dropdown-item text-warning">
+                      <i class="tio-lock-opened mr-1"></i>Mở khóa
+                    </a>
+                  {% else %}
+                    <a id="{{ hcoreBtnLockId }}" data-url="{{ listingPath }}" class="dropdown-item text-success">
+                      <i class="tio-lock mr-1"></i>Khóa
+                    </a>
+                  {% endif %}
+                  <div class="dropdown-divider"></div>
+                  {% if item.locked %}
+                    <a class="dropdown-item disabled text-secondary">
+                      <i class="tio-delete mr-1"></i>Xóa
+                    </a>
+                  {% else %}
+                    <a id="{{ hcoreBtnDeleteId }}" data-url="{{ listingPath }}" class="dropdown-item text-danger">
+                      <i class="tio-delete mr-1"></i>Xóa
+                    </a>
+                  {% endif %}
+                </div>
+              </div>
             </div>
             <div class="col-auto">
               <button id="{{ hcoreBtnChangePublishId }}" type="button" class="btn btn-{{ published ? 'secondary' : 'primary' }} mr-2">

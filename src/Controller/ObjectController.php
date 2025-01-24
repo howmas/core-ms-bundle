@@ -168,15 +168,32 @@ class ObjectController extends BaseController
             // return $this->goView('object-detail', compact('classId', 'id'));
             return $this->sendResponse();
         } elseif ($method == $this->request::METHOD_PUT) {
-            $item->setPublished(!$item->getPublished());
+            $action = $this->request->get('action');
+
+            if (!$action) {
+                $item->setPublished(!$item->getPublished());
+            } else {
+                if ($action == 'lock') {
+                    $item->setLocked(true);
+                } else if ($action == 'unlock') {
+                    $item->setLocked(false);
+                } else {
+                    return $this->sendResponse();
+                }
+            }
+
             $item->save();
 
             return $this->sendResponse();
         } elseif ($method == $this->request::METHOD_DELETE) {
+            if ($item->getLocked()) {
+                return $this->sendError('Không thể xóa');
+            }
+
             RecyclebinService::pushToBin($id, 'object');
             $item->delete();
 
-            return $this->goView('object-listing', compact('classId'));
+            return $this->sendResponse();
         }
     }
 

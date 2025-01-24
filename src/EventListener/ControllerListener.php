@@ -105,6 +105,8 @@ class ControllerListener
         $this->twig->addGlobal('hcoreBtnSaveId', 'hcore-btn-save');
         $this->twig->addGlobal('hcoreBtnChangePublishId', 'hcore-btn-change-publish');
         $this->twig->addGlobal('hcoreBtnDeleteId', 'hcore-btn-delete');
+        $this->twig->addGlobal('hcoreBtnLockId', 'hcore-btn-lock');
+        $this->twig->addGlobal('hcoreBtnUnlockId', 'hcore-btn-unlock');
 
         // field collection: delimiter of FC `name` and name of each field in FC
         // dấu phân cách giữ tên trường FC và các trường con bên trong nó
@@ -120,6 +122,8 @@ class ControllerListener
             var hcoreBtnSaveId = '#hcore-btn-save';
             var hcoreBtnChangePublishId = '#hcore-btn-change-publish';
             var hcoreBtnDeleteId = '#hcore-btn-delete';
+            var hcoreBtnLockId = '#hcore-btn-lock';
+            var hcoreBtnUnlockId = '#hcore-btn-unlock';
             var hcoreFieldCollectionDelimiter = '$fcDelimiter';
             var hcoreReplaceIndex = '$fcReplaceIndex';
         ";

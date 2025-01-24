@@ -20,8 +20,8 @@ class BaseController extends FrontendController
     protected $isXmlHttpRequest;
 
     public function __construct(
-        RequestStack $requestStack, 
-        Translator $translator, 
+        RequestStack $requestStack,
+        Translator $translator,
         ValidatorInterface $validator,
         PaginatorInterface $paginator
         )

@@ -3,22 +3,69 @@ $(document).ready(function() {
 
   // delete
   $(hcoreBtnDeleteId).on('click', function() {
-    showLoading();
-    
-    callAjax(
-      url,
-      "DELETE",
-      {},
-      function (response) {
-        showLoading();
-        toastSuccess();
-        location.href = $(hcoreBtnDeleteId).data('url');
-      },
-      function (response) {
-        showLoading();
-        location.reload(true);
-      },
-    );
+    messageShow("Bạn chắc chắn muốn <b class='text-danger'>xóa</b> dữ liệu này?", function() {
+      showLoading();
+      callAjax(
+        url,
+        "DELETE",
+        {},
+        function (response) {
+          showLoading();
+          toastSuccess();
+          location.href = $(hcoreBtnDeleteId).data('url');
+        },
+        function (response) {
+          showLoading();
+          location.reload(true);
+        },
+      );
+    });
+  });
+
+  // lock
+  $(hcoreBtnLockId).on('click', function() {
+    messageShow("Bạn chắc chắn muốn <b class='text-success'>khóa</b> dữ liệu này?", function() {
+      showLoading();
+      callAjax(
+        url,
+        "PUT",
+        {
+          'action': 'lock'
+        },
+        function (response) {
+          showLoading();
+          toastSuccess();
+          location.reload(true);
+        },
+        function (response) {
+          showLoading();
+          location.reload(true);
+        },
+      );
+    });
+  });
+
+  // unlock
+  $(hcoreBtnUnlockId).on('click', function() {
+    messageShow("Bạn chắc chắn muốn <b class='text-warning'>mở khóa</b> dữ liệu này?", function() {
+      showLoading();
+      callAjax(
+        url,
+        "PUT",
+        {
+          'action': 'unlock'
+        },
+        function (response) {
+          showLoading();
+          toastSuccess();
+          location.reload(true);
+        },
+        function (response) {
+          showLoading();
+          location.reload(true);
+        },
+      );
+    });
   });
 
   // change publish

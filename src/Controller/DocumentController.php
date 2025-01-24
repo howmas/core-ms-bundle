@@ -191,11 +191,11 @@ class DocumentController extends BaseController
             $item->setPublished(!$item->getPublished());
             $item->save();
 
-            return $this->goView('object-detail', compact('classId', 'id'));
+            return $this->sendResponse();
         } elseif ($method == $this->request::METHOD_DELETE) {
-            $item->delete();
+            // $item->delete();
 
-            return $this->goView('object-listing', compact('classId'));
+            return $this->sendResponse();
         }
     }
 }

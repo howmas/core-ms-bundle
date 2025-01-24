@@ -10,12 +10,14 @@ class Link extends Item
     public function __construct(
         protected string $name,
         protected ?string $link = null,
+        protected bool $active = false,
         protected ?string $icon = null,
         protected bool $iconImage = false,
     )
     {
         $this->name = $name;
         $this->link = $link;
+        $this->active = $active;
         $this->icon = $icon ?: $this->getIcon();
         $this->iconImage = $iconImage;
     }
@@ -42,7 +44,7 @@ class Link extends Item
 
     public function render(): string
     {
-        $html = '<li class="nav-item ">
+        $html = '<li class="nav-item $activeClass">
             <a class="js-nav-tooltip-link nav-link $loadingClass" href="$link" title="$name" data-placement="left">' .
                 ($this->iconImage
                 ? '<img src="$iconName" class="mr-1" width="20px" />'
@@ -52,8 +54,8 @@ class Link extends Item
         </li>';
 
         $html = str_replace(
-            ['$loadingClass', '$name', '$link', '$iconName', '$iconTag', '$iconClass', '$className'],
-            [ControllerListener::LOADING_CLASS, $this->name, $this->link, $this->icon, $this->getIconTag(), $this->getIconClass(), $this->getNameClass()],
+            ['$activeClass', '$loadingClass', '$name', '$link', '$iconName', '$iconTag', '$iconClass', '$className'],
+            [$this->active ? 'active font-weight-bold' : '', ControllerListener::LOADING_CLASS, $this->name, $this->link, $this->icon, $this->getIconTag(), $this->getIconClass(), $this->getNameClass()],
             $html
         );
 

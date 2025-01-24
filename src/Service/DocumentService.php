@@ -12,15 +12,23 @@ class DocumentService
     const DEFAULT_ROUTE_PART = 'document-detail';
     const DEFAULT_TITLE = 'Trang';
 
-    public static function getSidebarMenu($router, $userLocale = 'vi')
+    private static function activeMenu($pathInfor)
+    {
+        return str_contains($pathInfor, '/hcore/document/');
+    }
+
+    public static function getSidebarMenu($router, $pathInfor, $userLocale = 'vi')
     {
         $root = Document::getById(1);
         $langDocuments = $root->getChildren();
 
+        $documentRoute = $router->generate(CoreService::getRoute('document-pages'));
+
         $subMenus = [];
         $subMenus[] = new Item\SubLink(
             'Tất cả trang',
-            $router->generate(CoreService::getRoute('document-pages')),
+            $documentRoute,
+            $documentRoute == $pathInfor,
             '/bundles/pimcoreadmin/img/flat-color-icons/file.svg',
             true,
         );
@@ -54,9 +62,12 @@ class DocumentService
             $language = $langDocument->getProperties()['language']->getData();
             $languageName = \Locale::getDisplayName($language, $userLocale);
 
+            $langRoute = $router->generate(CoreService::getRoute('document-pages'), ['lang' => $language]);
+
             $subMenus[] = new Item\SubLink(
                 $languageName,
-                $router->generate(CoreService::getRoute('document-pages'), ['lang' => $language]),
+                $langRoute,
+                $langRoute == $pathInfor,
                 CoreService::getFlag($language),
                 true,
             );
@@ -66,13 +77,15 @@ class DocumentService
             $menu = new Item\Menu(
                 self::DEFAULT_TITLE,
                 $subMenus,
+                self::activeMenu($pathInfor),
                 '/bundles/pimcoreadmin/img/flat-color-icons/text.svg',
                 true,
             );
         } else {
             $menu = new Item\Link(
                 self::DEFAULT_TITLE,
-                $router->generate(CoreService::getRoute('document-pages')),
+                $documentRoute,
+                $documentRoute == $pathInfor,
                 '/bundles/pimcoreadmin/img/flat-color-icons/file.svg',
                 true,
             );

@@ -22,58 +22,6 @@
             <small class="tio-more-horizontal nav-subtitle-replacer"></small>
           </li> #}
 
-          {# <li class="nav-item nav-footer-item ">
-            <a class="d-none d-md-flex js-hs-unfold-invoker nav-link nav-link-toggle" href="javascript:;"
-               data-hs-unfold-options='{
-                 "target": "#styleSwitcherDropdown",
-                 "type": "css-animation",
-                 "animationIn": "fadeInRight",
-                 "animationOut": "fadeOutRight",
-                 "hasOverlay": true,
-                 "smartPositionOff": true
-               }'>
-              <i class="tio-tune nav-icon"></i>
-            </a>
-            <a class="d-flex d-md-none nav-link nav-link-toggle" href="javascript:;">
-              <i class="tio-tune nav-icon"></i>
-            </a>
-          </li> #}
-
-          {# <li class="navbar-vertical-aside-has-menu nav-footer-item ">
-            <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle " href="javascript:;" title="Help">
-              <i class="tio-home-vs-1-outlined nav-icon"></i>
-              <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">Help</span>
-            </a>
-
-            <ul class="js-navbar-vertical-aside-submenu nav nav-sub">
-              <li class="nav-item">
-                <a class="nav-link" href="#" title="Resources &amp; tutorials">
-                  <i class="tio-book-outlined dropdown-item-icon"></i> Resources &amp; tutorials
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#" title="Keyboard shortcuts">
-                  <i class="tio-command-key dropdown-item-icon"></i> Keyboard shortcuts
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#" title="Connect other apps">
-                  <i class="tio-alt dropdown-item-icon"></i> Connect other apps
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#" title="What's new?">
-                  <i class="tio-gift dropdown-item-icon"></i> What's new?
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#" title="Contact support">
-                  <i class="tio-chat-outlined dropdown-item-icon"></i> Contact support
-                </a>
-              </li>
-            </ul>
-          </li> #}
-
           {# <li class="navbar-vertical-aside-has-menu nav-footer-item ">
             <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle " href="javascript:;" title="Ngôn ngữ">
               <img class="avatar avatar-xss avatar-circle" src="{{ HCoreAssets }}/vendor/flag-icon-css/flags/1x1/vn.svg" alt="Việt Nam">
@@ -102,59 +50,54 @@
         <ul class="navbar-vertical-footer-list">
           {# <li class="navbar-vertical-footer-list-item">
             <div class="hs-unfold">
-              <a class="js-hs-unfold-invoker btn btn-icon btn-ghost-secondary rounded-circle" href="javascript:;"
+              <a class="js-hs-unfold-invoker btn btn-icon btn-ghost-secondary rounded-circle" data-toggle="tooltip" data-placement="top" title="Biểu tượng" href="javascript:;"
                  data-hs-unfold-options='{
-                  "target": "#styleSwitcherDropdown",
+                  "target": "#globalGuideSidebar",
                   "type": "css-animation",
                   "animationIn": "fadeInRight",
                   "animationOut": "fadeOutRight",
                   "hasOverlay": true,
                   "smartPositionOff": true
                  }'>
-                <i class="tio-tune"></i>
+                <i class="tio-info-outined"></i>
               </a>
             </div>
           </li> #}
 
-          {# <li class="navbar-vertical-footer-list-item">
+          <li class="navbar-vertical-footer-list-item">
             <div class="hs-unfold">
               <a class="js-hs-unfold-invoker btn btn-icon btn-ghost-secondary rounded-circle" href="javascript:;"
                  data-hs-unfold-options='{
-                  "target": "#otherLinksDropdown",
+                  "target": "#globalInforSidebar",
                   "type": "css-animation",
                   "animationIn": "slideInDown",
-                  "hideOnScroll": true
+                  "hideOnScroll": true,
+                  "event": "hover"
                  }'>
                 <i class="tio-help-outlined"></i>
               </a>
 
-              <div id="otherLinksDropdown" class="hs-unfold-content dropdown-unfold dropdown-menu navbar-vertical-footer-dropdown">
-                <span class="dropdown-header">Help</span>
-                <a class="dropdown-item" href="#">
-                  <i class="tio-book-outlined dropdown-item-icon"></i>
-                  <span class="text-truncate pr-2" title="Resources &amp; tutorials">Resources &amp; tutorials</span>
+              <div id="globalInforSidebar" class="hs-unfold-content dropdown-unfold dropdown-menu navbar-vertical-footer-dropdown">
+                <span class="dropdown-header">Hướng dẫn</span>
+                <a class="dropdown-item js-hs-unfold-invoker" href="javascript:;"
+                 data-hs-unfold-options='{
+                  "target": "#globalGuideSidebar",
+                  "type": "css-animation",
+                  "animationIn": "fadeInRight",
+                  "animationOut": "fadeOutRight",
+                  "hasOverlay": true,
+                  "smartPositionOff": true
+                 }'>
+                  <i class="tio-mouse-cursor dropdown-item-icon"></i>
+                  <span class="text-truncate pr-2" title="Biểu tượng - thao tác">Biểu tượng - thao tác</span>
                 </a>
                 <a class="dropdown-item" href="#">
-                  <i class="tio-command-key dropdown-item-icon"></i>
-                  <span class="text-truncate pr-2" title="Keyboard shortcuts">Keyboard shortcuts</span>
-                </a>
-                <a class="dropdown-item" href="#">
-                  <i class="tio-alt dropdown-item-icon"></i>
-                  <span class="text-truncate pr-2" title="Connect other apps">Connect other apps</span>
-                </a>
-                <a class="dropdown-item" href="#">
-                  <i class="tio-gift dropdown-item-icon"></i>
-                  <span class="text-truncate pr-2" title="What's new?">What's new?</span>
-                </a>
-                <div class="dropdown-divider"></div>
-                <span class="dropdown-header">Contacts</span>
-                <a class="dropdown-item" href="#">
-                  <i class="tio-chat-outlined dropdown-item-icon"></i>
-                  <span class="text-truncate pr-2" title="Contact support">Contact support</span>
+                  <i class="tio-video-horizontal dropdown-item-icon"></i>
+                  <span class="text-truncate pr-2" title="Tour guide">Tour guide</span>
                 </a>
               </div>
             </div>
-          </li> #}
+          </li>
 
           {# <li class="navbar-vertical-footer-list-item">
             <div class="hs-unfold">

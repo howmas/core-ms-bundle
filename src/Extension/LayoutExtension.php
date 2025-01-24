@@ -6,6 +6,7 @@ use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 use Carbon\Carbon;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Pimcore\Model\DataObject;
 use Pimcore\Model\DataObject\ClassDefinition\Data;
 use Pimcore\Model\Asset\Image;
@@ -18,9 +19,13 @@ use HowMAS\CoreMSBundle\Service\EcommerceService;
 
 class LayoutExtension extends AbstractExtension
 {
+    protected $request;
+
     public function __construct(
         private UrlGeneratorInterface $router,
+        private RequestStack $requestStack, 
     ) {
+        $this->request = $requestStack->getCurrentRequest();
     }
 
     /**
@@ -38,13 +43,17 @@ class LayoutExtension extends AbstractExtension
 
     public function getSidebarMenu()
     {
-        $documentMenu = DocumentService::getSidebarMenu($this->router);
+        $pathInfor = $this->request->getPathInfo();
+        $documentMenu = DocumentService::getSidebarMenu($this->router, $pathInfor);
+
+        $indexRoute = $this->getRoute('index');
+        $assetRoute = $this->getRoute('asset-listing');
 
         $sidebarMenu = [
-            new Item\Link('Tổng quan', $this->getRoute('index'), 'tio-home-vs-1-outlined'),
+            new Item\Link('Tổng quan', $indexRoute, $indexRoute == $pathInfor, 'tio-home-vs-1-outlined'),
             new Item\Title('Quản trị dữ liệu'),
             $documentMenu,
-            new Item\Link('Thư viện', $this->getRoute('asset-listing'), '/bundles/pimcoreadmin/img/flat-color-icons/asset.svg', true),
+            new Item\Link('Thư viện', $assetRoute, $assetRoute == $pathInfor, '/bundles/pimcoreadmin/img/flat-color-icons/asset.svg', true),
         ];
 
         $classItems = [];
@@ -52,10 +61,13 @@ class LayoutExtension extends AbstractExtension
         $ecomerceItems = [];
         $listing = ClassService::listing();
         foreach ($listing as $item) {
+            $route = $this->getRoute('object-listing', ['classId' => $item['id']]);
+
             if (in_array($item['name'], $ecommerceClasses)) {
                 $itemLink = new Item\Link(
                     $item['title'],
-                    $this->getRoute('object-listing', ['classId' => $item['id']]),
+                    $route,
+                    $route == $pathInfor,
                     $item['icon'] ?: 'tio-cube',
                     (bool) $item['icon'],
                 );
@@ -65,7 +77,8 @@ class LayoutExtension extends AbstractExtension
 
             $itemLink = new Item\SubLink(
                 $item['title'],
-                $this->getRoute('object-listing', ['classId' => $item['id']]),
+                $route,
+                $route == $pathInfor,
                 $item['icon'] ?: 'tio-cube',
                 (bool) $item['icon'],
             );
@@ -73,7 +86,12 @@ class LayoutExtension extends AbstractExtension
         }
 
         if (!empty($classItems)) {
-            $sidebarMenu[] = new Item\Menu('Dữ liệu', $classItems, '/bundles/pimcoreadmin/img/flat-color-icons/object.svg', true);
+            $sidebarMenu[] = new Item\Menu(
+                'Dữ liệu',
+                $classItems,
+                str_contains($pathInfor, '/hcore/object/'),
+                '/bundles/pimcoreadmin/img/flat-color-icons/object.svg',
+                true);
         }
         // $sidebarMenu[] = new Item\Title('Dữ liệu');
         // $sidebarMenu = array_merge($sidebarMenu, $classItems);

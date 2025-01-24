@@ -7,6 +7,7 @@ class Menu extends Link
     public function __construct(
         string $name,
         protected array $items,
+        bool $active = false,
         ?string $icon = null,
         bool $iconImage = false,
     )
@@ -14,6 +15,7 @@ class Menu extends Link
         parent::__construct(
             $name,
             null,
+            $active,
             $icon,
             $iconImage,
         );
@@ -23,7 +25,7 @@ class Menu extends Link
 
     public function render(): string
     {
-        $html = '<li class="navbar-vertical-aside-has-menu ">
+        $html = '<li class="navbar-vertical-aside-has-menu $activeClass">
             <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle " href="javascript:;" title="$name">'.
                 ($this->iconImage
                 ? '<img src="$iconName" class="mr-1" width="20px" />'
@@ -43,8 +45,8 @@ class Menu extends Link
         }
 
         $html = str_replace(
-            ['$name', '$iconName', '$iconTag', '$iconClass', '$className', '$itemContent'],
-            [$this->name, $this->icon, $this->getIconTag(), $this->getIconClass(), $this->getNameClass(), $itemContent],
+            ['$activeClass', '$name', '$iconName', '$iconTag', '$iconClass', '$className', '$itemContent'],
+            [$this->active ? 'show' : '', $this->name, $this->icon, $this->getIconTag(), $this->getIconClass(), $this->getNameClass(), $itemContent],
             $html
         );
 
