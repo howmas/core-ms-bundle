@@ -14,6 +14,9 @@ use HowMAS\CoreMSBundle\Service\EcommerceService;
  */
 class ObjectController extends BaseController
 {
+    const SORT_DEFAULT = 'desc';
+    const SORT_RAND = 'rand';
+
     /**
      * @Route("/listing/{classId}", name="listing", methods={"POST", "GET"})
      */
@@ -76,6 +79,22 @@ class ObjectController extends BaseController
             }
 
             $listing->setCondition($queryString, $conditionArray);
+        }
+
+        // sort
+        $order =
+        isset($config['object']['listing']['condition'][$classId]['order'])
+            ? $config['object']['listing']['condition'][$classId]['order']
+            : 'desc';
+        if ($order == self::SORT_RAND) {
+            $listing->setOrderKey("RAND()", false);
+        } else {
+            $orderKey =
+            isset($config['object']['listing']['condition'][$classId]['orderKey'])
+                ? $config['object']['listing']['condition'][$classId]['orderKey']
+                : 'id';
+            $listing->setOrderKey($orderKey);
+            $listing->setOrder($order);
         }
             
         // $listing->setLocale($request->get('_locale', \Pimcore\Tool::getDefaultLanguage()));

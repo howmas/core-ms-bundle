@@ -9,6 +9,9 @@ how_mas_core_ms:
     #                 query_string: 'image != :image'
     #                 condition_array:
     #                     'image': 0
+    #                 orderKey: id
+    #                 order: desc
+
     ecommerce:
         enable: true
         classes:
