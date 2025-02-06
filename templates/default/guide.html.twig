@@ -1,0 +1,97 @@
+{% set useScrollspy = true %}
+{% extends HCoreLayout %}
+
+{% block header %}
+<div class="row align-items-center">
+  <div class="col-sm mb-2 mb-sm-0">
+    <h1 class="page-header-title">Hướng dẫn sử dụng</b></h1>
+  </div>
+
+  {# <div class="col-sm-auto">
+    <a class="btn btn-primary" href="javascript:;" data-toggle="modal" data-target="#inviteUserModal">
+      <i class="tio-user-add mr-1"></i> Invite users
+    </a>
+  </div> #}
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="row">
+  <div class="col-lg-3">
+    <div class="navbar-vertical navbar-expand-lg mb-3 mb-lg-5">
+      <button type="button" class="navbar-toggler btn btn-block btn-white mb-3" aria-label="" aria-expanded="false" aria-controls="navbarVerticalNavMenu" data-toggle="collapse" data-target="#navbarVerticalNavMenu">
+        <span class="d-flex justify-content-between align-items-center">
+          <span class="h5 mb-0">Mục lục</span>
+
+          <span class="navbar-toggle-default">
+            <i class="tio-menu-hamburger"></i>
+          </span>
+
+          <span class="navbar-toggle-toggled">
+            <i class="tio-clear"></i>
+          </span>
+        </span>
+      </button>
+
+      <div id="navbarVerticalNavMenu" class="collapse navbar-collapse">
+
+            {# <div class="form-group">
+              <div class="input-group input-group-merge">
+                <input type="text" class="js-form-search form-control" id="guideSearchInput" placeholder="Tìm kiếm..."
+                       data-hs-form-search-options='{
+                         "clearIcon": "#guideSearchClearIcon"
+                       }'>
+                <a class="input-group-append" href="javascript:;">
+                  <span class="input-group-text">
+                    <i id="guideSearchClearIcon" class="tio-clear tio-lg" style="display: none;"></i>
+                  </span>
+                </a>
+              </div>
+            </div> #}
+        <ul id="navbarSettings" class="js-sticky-block js-scrollspy navbar-nav navbar-nav-lg nav-tabs card card-navbar-nav list"
+            data-hs-sticky-block-options='{
+             "parentSelector": "#navbarVerticalNavMenu",
+             "breakpoint": "lg",
+             "startPoint": "#navbarVerticalNavMenu",
+             "endPoint": "#stickyBlockEndPoint",
+             "stickyOffsetTop": 20
+           }'>
+            {% for item in guideContents %}
+              {% set sectionId = loop.first ? 'content' : 'guide-' ~ loop.index %}
+              <li class="nav-item">
+                <a class="nav-link {{ loop.first ? "active" : "" }}" href="#{{ sectionId }}">
+                  {{ item.metadata.name }}
+                </a>
+              </li>
+            {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg-9">
+    <div id="guideContentId">
+      {% for item in guideContents %}
+        {% set sectionId = 'guide-' ~ loop.index %}
+
+        <div id="{{ sectionId }}" class="card mb-5">
+          <div class="card-header">
+            <h3 class="card-title h4">{{ item.metadata.name }}</h3>
+
+            {{ include('/layout/tool/fullscreen.html.twig'|hcore_fullpath, {fullscreenId: sectionId}) }}
+          </div>
+          <div class="card-body" style="overflow-y: auto;">
+            {% apply markdown_to_html %}
+              {{ item.content }}
+            {% endapply %}
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+
+    <div id="stickyBlockEndPoint"></div>
+  </div>
+</div>
+
+{# {% do pimcore_head_script().appendFile(asset('/js/guide.js'|hcore_asset), 'text/javascript') %} #}
+{% endblock %}

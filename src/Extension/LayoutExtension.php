@@ -47,13 +47,15 @@ class LayoutExtension extends AbstractExtension
         $documentMenu = DocumentService::getSidebarMenu($this->router, $pathInfor);
 
         $indexRoute = $this->getRoute('index');
+        $guideRoute = $this->getRoute('guide');
         $assetRoute = $this->getRoute('asset-listing');
 
         $sidebarMenu = [
-            new Item\Link('Tổng quan', $indexRoute, $indexRoute == $pathInfor, 'tio-home-vs-1-outlined'),
+            new Item\Link('Tổng quan', $indexRoute, CoreService::isMatchRoute($pathInfor, $indexRoute), 'tio-home-vs-1-outlined'),
+            new Item\Link('Hướng dẫn', $guideRoute, CoreService::isMatchRoute($pathInfor, $guideRoute), 'tio-book-outlined'),
             new Item\Title('Quản trị dữ liệu'),
             $documentMenu,
-            new Item\Link('Thư viện', $assetRoute, $assetRoute == $pathInfor, '/bundles/pimcoreadmin/img/flat-color-icons/asset.svg', true),
+            new Item\Link('Thư viện', $assetRoute, CoreService::isMatchRoute($pathInfor, $assetRoute), '/bundles/pimcoreadmin/img/flat-color-icons/asset.svg', true),
         ];
 
         $classItems = [];
@@ -62,12 +64,13 @@ class LayoutExtension extends AbstractExtension
         $listing = ClassService::listing();
         foreach ($listing as $item) {
             $route = $this->getRoute('object-listing', ['classId' => $item['id']]);
+            $active = CoreService::isMatchRoute($pathInfor, $route);
 
             if (in_array($item['name'], $ecommerceClasses)) {
                 $itemLink = new Item\Link(
                     $item['title'],
                     $route,
-                    $route == $pathInfor,
+                    $active,
                     $item['icon'] ?: 'tio-cube',
                     (bool) $item['icon'],
                 );
@@ -78,7 +81,7 @@ class LayoutExtension extends AbstractExtension
             $itemLink = new Item\SubLink(
                 $item['title'],
                 $route,
-                $route == $pathInfor,
+                $active,
                 $item['icon'] ?: 'tio-cube',
                 (bool) $item['icon'],
             );

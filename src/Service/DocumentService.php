@@ -12,11 +12,6 @@ class DocumentService
     const DEFAULT_ROUTE_PART = 'document-detail';
     const DEFAULT_TITLE = 'Trang';
 
-    private static function activeMenu($pathInfor)
-    {
-        return str_contains($pathInfor, '/hcore/document/');
-    }
-
     public static function getSidebarMenu($router, $pathInfor, $userLocale = 'vi')
     {
         $root = Document::getById(1);
@@ -28,7 +23,7 @@ class DocumentService
         $subMenus[] = new Item\SubLink(
             'Tất cả trang',
             $documentRoute,
-            $documentRoute == $pathInfor,
+            CoreService::isMatchRoute($pathInfor, $documentRoute),
             '/bundles/pimcoreadmin/img/flat-color-icons/file.svg',
             true,
         );
@@ -67,7 +62,7 @@ class DocumentService
             $subMenus[] = new Item\SubLink(
                 $languageName,
                 $langRoute,
-                $langRoute == $pathInfor,
+                CoreService::isMatchRoute($pathInfor, $langRoute),
                 CoreService::getFlag($language),
                 true,
             );
@@ -77,7 +72,7 @@ class DocumentService
             $menu = new Item\Menu(
                 self::DEFAULT_TITLE,
                 $subMenus,
-                self::activeMenu($pathInfor),
+                CoreService::isMatchRoute($pathInfor, "/admin/hcore/document"),
                 '/bundles/pimcoreadmin/img/flat-color-icons/text.svg',
                 true,
             );
@@ -85,7 +80,7 @@ class DocumentService
             $menu = new Item\Link(
                 self::DEFAULT_TITLE,
                 $documentRoute,
-                $documentRoute == $pathInfor,
+                CoreService::isMatchRoute($pathInfor, $documentRoute),
                 '/bundles/pimcoreadmin/img/flat-color-icons/file.svg',
                 true,
             );

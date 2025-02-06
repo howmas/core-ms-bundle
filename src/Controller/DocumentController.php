@@ -22,11 +22,11 @@ class DocumentController extends BaseController
         $data['layoutPageTitle'] = $title;
         $data['headers'] = [
             [
-                'title' => 'Name',
+                'title' => 'Tên trang',
                 'name' => 'name',
             ],
             [
-                'title' => 'Language',
+                'title' => 'Ngôn ngữ',
                 'name' => 'language',
             ],
         ];
@@ -123,6 +123,8 @@ class DocumentController extends BaseController
             return $this->goView('document-pages');
         }
 
+        $isHomeOrLocked = $item->getId() !== 1 && !$item->getLocked();
+
         $method = $this->request->getMethod();
         if ($method == $this->request::METHOD_GET) {
             $controller = $item->getController();
@@ -131,6 +133,7 @@ class DocumentController extends BaseController
             $data = \Starfruit\BuilderBundle\Controller\Document\EditableBaseController::getEditablesFromClass($class, $function);
 
             $data['item'] = $item;
+            $data['isHomeOrLocked'] = $isHomeOrLocked;
 
             return $this->view($data);
         } elseif ($method == $this->request::METHOD_POST) {
@@ -188,8 +191,10 @@ class DocumentController extends BaseController
             $item->save();
             return $this->sendResponse();
         } elseif ($method == $this->request::METHOD_PUT) {
-            $item->setPublished(!$item->getPublished());
-            $item->save();
+            if ($isHomeOrLocked) {
+                $item->setPublished(!$item->getPublished());
+                $item->save();
+            }
 
             return $this->sendResponse();
         } elseif ($method == $this->request::METHOD_DELETE) {

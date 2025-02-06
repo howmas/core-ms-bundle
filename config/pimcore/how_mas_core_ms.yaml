@@ -32,3 +32,6 @@ how_mas_core_ms:
     #     admin:
     #         access_core_names:
     #             - admin
+
+    guide:
+        path: '%kernel.project_dir%/cms_docs'

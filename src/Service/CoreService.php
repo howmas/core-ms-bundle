@@ -4,6 +4,18 @@ namespace HowMAS\CoreMSBundle\Service;
 
 class CoreService
 {
+    public static function isMatchRoute($pathInfo, $route)
+    {
+        $splitPath = explode("/", $pathInfo);
+        $splitRoute = explode("/", $route);
+
+        if ($splitPath[3] == "object" && count($splitPath) >= 6 && count($splitRoute) >= 6) {
+            return $splitPath[5] == $splitRoute[5];
+        }
+
+        return $splitPath[3] == $splitRoute[3];
+    }
+
     public static function getRoute(string $routePart)
     {
         return 'hcore-' . $routePart;

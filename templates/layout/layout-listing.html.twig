@@ -265,10 +265,10 @@
       <thead class="thead-light">
         <tr>
           <th scope="col" class="table-column-pr-0">
-            <div class="custom-control custom-checkbox">
+            {# <div class="custom-control custom-checkbox">
               <input id="datatableCheckAll" type="checkbox" class="custom-control-input">
               <label class="custom-control-label" for="datatableCheckAll"></label>
-            </div>
+            </div> #}
           </th>
           {% for header in headers %}
             <th class="{{ loop.first ? 'table-column-pl-0' : '' }}">{{ header.title is defined ? header.title : header }}</th>
