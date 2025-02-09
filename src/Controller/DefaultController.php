@@ -26,7 +26,8 @@ class DefaultController extends BaseController
         $guideContents = [];
 
         $finder = new Finder();
-        $finder->files()->in(__DIR__ . "/../../cms_docs")->exclude('images');;
+        $finder->files()->in(__DIR__ . "/../../cms_docs")->exclude('images');
+        $finder->sortByName();
         if ($finder->hasResults()) {
             $frontMatterExtension = new FrontMatterExtension();
             $frontMatterParser = $frontMatterExtension->getFrontMatterParser();
