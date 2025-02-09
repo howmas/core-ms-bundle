@@ -2,6 +2,22 @@
 {% extends HCoreLayout %}
 
 {% block header %}
+<style type="text/css">
+  #guideContentId img {
+    max-height: 300px;
+    max-width: 500px;
+  }
+
+  .guide-image {
+    display: flex;
+    justify-content: center;
+  }
+
+  .guide-image img {
+    border: .5px dashed #000;
+  }
+</style>
+
 <div class="row align-items-center">
   <div class="col-sm mb-2 mb-sm-0">
     <h1 class="page-header-title">Hướng dẫn sử dụng</b></h1>
@@ -60,7 +76,7 @@
               {% set sectionId = loop.first ? 'content' : 'guide-' ~ loop.index %}
               <li class="nav-item">
                 <a class="nav-link {{ loop.first ? "active" : "" }}" href="#{{ sectionId }}">
-                  {{ item.metadata.name }}
+                  {{ item.metadata.name|raw }}
                 </a>
               </li>
             {% endfor %}
@@ -74,16 +90,14 @@
       {% for item in guideContents %}
         {% set sectionId = 'guide-' ~ loop.index %}
 
-        <div id="{{ sectionId }}" class="card mb-5">
+        <div id="{{ sectionId }}" class="card border-primary mb-5">
           <div class="card-header">
-            <h3 class="card-title h4">{{ item.metadata.name }}</h3>
+            <h3 class="card-title h4">{{ item.metadata.name|raw }}</h3>
 
             {{ include('/layout/tool/fullscreen.html.twig'|hcore_fullpath, {fullscreenId: sectionId}) }}
           </div>
-          <div class="card-body" style="overflow-y: auto;">
-            {% apply markdown_to_html %}
-              {{ item.content }}
-            {% endapply %}
+          <div class="card-body card-body-height" style="overflow-y: auto;">
+              {{ item.content|markdown_to_html|replace({"Biểu tượng - thao tác": "<a href='javascript:;' id='bieutuong_thaotac'>Biểu tượng - thao tác</a>"})|raw }}
           </div>
         </div>
       {% endfor %}
@@ -93,5 +107,5 @@
   </div>
 </div>
 
-{# {% do pimcore_head_script().appendFile(asset('/js/guide.js'|hcore_asset), 'text/javascript') %} #}
+{% do pimcore_head_script().appendFile(asset('/js/guide.js'|hcore_asset), 'text/javascript') %}
 {% endblock %}

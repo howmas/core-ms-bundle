@@ -25,6 +25,32 @@ class DefaultController extends BaseController
     {
         $guideContents = [];
 
+        $finder = new Finder();
+        $finder->files()->in(__DIR__ . "/../../cms_docs")->exclude('images');;
+        if ($finder->hasResults()) {
+            $frontMatterExtension = new FrontMatterExtension();
+            $frontMatterParser = $frontMatterExtension->getFrontMatterParser();
+
+            foreach ($finder as $file) {
+                $absoluteFilePath = $file->getRealPath();
+                $fileNameWithExtension = $file->getRelativePathname();
+
+                $content = file_get_contents($file);
+
+                if (!empty($content)) {
+                    $content = str_replace(['![]('], ['![](/bundles/howmascorems/img/cms_docs/'], $content);
+
+                    $result = $frontMatterParser->parse($content);
+                    $content = $result->getContent();
+                    $metadata = $result->getFrontMatter();
+
+                    if (!empty($metadata) && isset($metadata['name']) && !empty($content)) {
+                        $guideContents[] = compact('metadata', 'content');
+                    }
+                }
+            }
+        }
+
         $config = $this->getConfig();
         if (isset($config['guide']['path']) && is_dir($config['guide']['path'])) {
             $finder = new Finder();
