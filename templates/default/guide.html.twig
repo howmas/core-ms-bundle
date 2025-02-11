@@ -97,7 +97,7 @@
             {{ include('/layout/tool/fullscreen.html.twig'|hcore_fullpath, {fullscreenId: sectionId}) }}
           </div>
           <div class="card-body card-body-height" style="overflow-y: auto;">
-              {{ item.content|markdown_to_html|replace({"Biểu tượng - thao tác": "<a href='javascript:;' id='bieutuong_thaotac'>Biểu tượng - thao tác</a>"})|raw }}
+              {{ item.content|replace({"Biểu tượng - thao tác": "<a href='javascript:;' class='bieutuong_thaotac'>Biểu tượng - thao tác</a>"})|raw }}
           </div>
         </div>
       {% endfor %}

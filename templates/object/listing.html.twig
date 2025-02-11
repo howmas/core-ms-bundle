@@ -1,8 +1,8 @@
 {% set newType = classId %}
 {% set newUrl = hcore_layout_path('object-create', {classId: classId}) %}
-{% set newButton =
-  newType is defined and newType is not empty
-  and newUrl is defined and newUrl is not empty
+{% set newButton = enableCreate ?
+  (newType is defined and newType is not empty
+  and newUrl is defined and newUrl is not empty) : false
 %}
 
 {% extends HCoreLayout %}

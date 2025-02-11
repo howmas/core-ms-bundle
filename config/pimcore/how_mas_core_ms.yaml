@@ -2,7 +2,10 @@ how_mas_core_ms:
     document:
         listing:
             showRoots: true # hide or show document root while listing data
-    # object:
+    object:
+        disable_list:
+            create:
+                - OnlineShopOrder
     #     listing:
     #         condition: # add condition while listing data
     #             blog:

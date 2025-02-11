@@ -11,6 +11,16 @@ use Pimcore\Model\DataObject;
 
 class ClassService
 {
+    public static function checkEnableCreate($hClass)
+    {
+        $config = CoreService::getConfig();
+        $disableList = isset($config['object']['disable_list']['create'])
+            ? $config['object']['disable_list']['create']
+            : [];
+
+        return !in_array($hClass->getName(), $disableList);
+    }
+
     public static function listing()
     {
         $listing = DatabaseService::listingClass();

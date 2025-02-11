@@ -15,9 +15,13 @@ $(document).ready(function() {
         var fancybox = $.HSCore.components.HSFancyBox.init($(this));
     });
 
-    $('#bieutuong_thaotac').on('click', function() {
+    $('.bieutuong_thaotac').on('click', function() {
         setTimeout(function() {
             $('#globalGuideButton')[0].click();
         }, 100);
+    });
+
+    $('.bang_du_lieu table').each(function() {
+        $(this).addClass('table');
     });
 });

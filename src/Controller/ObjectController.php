@@ -107,6 +107,9 @@ class ObjectController extends BaseController
         $data['count'] = $listing->count();
         // $data['data'] = $listing->getData();
 
+        // check enable create button
+        $data['enableCreate'] = ClassService::checkEnableCreate($hClass);
+
         return $this->view($data);
     }
 
@@ -203,8 +206,18 @@ class ObjectController extends BaseController
     public function create($classId)
     {
         $hClass = HClass::getById($classId);
+
         if (!$hClass?->getActive()) {
             $redirect = $this->redirectToRoute('hcore-index');
+            $url = $redirect->getTargetUrl();
+
+            return $this->sendResponse(compact('url'));
+        }
+        
+        // check enable create button
+        $enableCreate = ClassService::checkEnableCreate($hClass);
+        if (!$enableCreate) {
+            $redirect = $this->redirectToRoute('hcore-object-listing', compact('classId'));
             $url = $redirect->getTargetUrl();
 
             return $this->sendResponse(compact('url'));
